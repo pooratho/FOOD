@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>481</width>
-    <height>587</height>
+    <width>563</width>
+    <height>680</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,10 +34,10 @@
    <widget class="QWidget" name="widget_2" native="true">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>90</y>
+      <x>205</x>
+      <y>50</y>
       <width>281</width>
-      <height>491</height>
+      <height>641</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -50,7 +50,7 @@ font: 12pt &quot;B Farnaz&quot;;</string>
      <property name="geometry">
       <rect>
        <x>100</x>
-       <y>100</y>
+       <y>85</y>
        <width>141</width>
        <height>20</height>
       </rect>
@@ -61,40 +61,40 @@ font: 12pt ;
 font: 12pt &quot;B Farnaz&quot;;</string>
      </property>
      <property name="text">
-      <string>  نام خود را وارد کنید:</string>
+      <string>  نام:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>220</y>
+       <y>195</y>
        <width>191</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>  نام خوانوادگی خود را وارد کنید:</string>
+      <string>  نام خوانوادگی:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>350</y>
+       <y>310</y>
        <width>191</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>  شماره موبایل خود را وارد کنید:</string>
+      <string>  شماره موبایل:</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit">
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>140</y>
+       <y>125</y>
        <width>201</width>
        <height>41</height>
       </rect>
@@ -107,7 +107,7 @@ font: 12pt &quot;B Farnaz&quot;;</string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>260</y>
+       <y>235</y>
        <width>201</width>
        <height>41</height>
       </rect>
@@ -117,7 +117,7 @@ font: 12pt &quot;B Farnaz&quot;;</string>
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>390</y>
+       <y>355</y>
        <width>201</width>
        <height>41</height>
       </rect>
@@ -135,8 +135,8 @@ font: 12pt &quot;B Farnaz&quot;;</string>
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>20</y>
+       <x>80</x>
+       <y>15</y>
        <width>171</width>
        <height>61</height>
       </rect>
@@ -148,18 +148,64 @@ font: 12pt &quot;B Farnaz&quot;;</string>
       <string>  عضویت</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>425</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>  رمز عبور:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>530</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>  تکرار رمز عبور:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_4">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>465</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_5">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>570</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="widget_3" native="true">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>-20</y>
-      <width>521</width>
-      <height>691</height>
+      <x>50</x>
+      <y>0</y>
+      <width>581</width>
+      <height>770</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(&quot;C:/Users/Taheri/OneDrive/دسکتاپ/foodSource/hg3 copy.jpg&quot;);
+     <string notr="true">background-image: url(&quot;C:/Users/Taheri/OneDrive/دسکتاپ/foodSource/hg4.jpg&quot;);
 background-repeat: no-repeat;
 background-position: center;
 </string>
