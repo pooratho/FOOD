@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>509</width>
-    <height>518</height>
+    <height>552</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -140,13 +140,29 @@ font: 12pt &quot;B Farnaz&quot;;</string>
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>520</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 85, 0);</string>
+    </property>
+    <property name="text">
+     <string>تایید</string>
+    </property>
+   </widget>
    <widget class="QWidget" name="widget_3" native="true">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>0</x>
       <y>0</y>
-      <width>581</width>
-      <height>770</height>
+      <width>611</width>
+      <height>621</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -158,6 +174,7 @@ background-position: center;
    </widget>
    <zorder>widget_3</zorder>
    <zorder>widget_2</zorder>
+   <zorder>pushButton</zorder>
   </widget>
  </widget>
  <resources/>
