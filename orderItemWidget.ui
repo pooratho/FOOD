@@ -85,7 +85,17 @@ font: 20pt &quot;Segoe UI&quot;;</string>
      </layout>
     </item>
     <item>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="name">
+      <property name="layoutDirection">
+       <enum>Qt::LayoutDirection::RightToLeft</enum>
+      </property>
+      <property name="text">
+       <string>  لذزبذبلذ</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="code">
       <property name="layoutDirection">
        <enum>Qt::LayoutDirection::RightToLeft</enum>
       </property>
