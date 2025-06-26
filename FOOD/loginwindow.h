@@ -4,7 +4,7 @@
 #include <QWidget>
 
 namespace Ui {
-class Form;  // تعریف کلاس UI که توسط uic تولید شده
+class Form;
 }
 
 class LoginWindow : public QWidget
@@ -14,13 +14,6 @@ class LoginWindow : public QWidget
 public:
     explicit LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
-
-private slots:
-    void on_pushButton_clicked();
-
-    void on_comboBox_currentIndexChanged(int index);
-
-    void on_pushButton_2_clicked();
 
 private:
     Ui::Form *ui;
