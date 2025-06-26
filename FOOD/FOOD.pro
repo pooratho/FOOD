@@ -15,18 +15,21 @@ SOURCES += \
     database.cpp \
     loginwindow.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    restaurantownersignupwindow.cpp
 
 HEADERS += \
     customersignupwindow.h \
     database.h \
     loginwindow.h \
-    mainwindow.h
+    mainwindow.h \
+    restaurantownersignupwindow.h
 
 FORMS += \
     mainwindow.ui \
     login.ui \
-    customerSignUp.ui
+    customerSignUp.ui \
+    restaurantOwnerSignUp.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
