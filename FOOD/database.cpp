@@ -24,9 +24,11 @@ bool DatabaseManager::connectToDatabase() {
     return true;
 }
 
-void DatabaseManager::createCustomerTable() {
+void DatabaseManager::createTables() {
     QSqlQuery query(db);
-    bool success = query.exec(
+
+    // جدول مشتری
+    bool successCustomer = query.exec(
         "CREATE TABLE IF NOT EXISTS customers ("
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "firstname TEXT NOT NULL, "
@@ -35,10 +37,44 @@ void DatabaseManager::createCustomerTable() {
         "password TEXT NOT NULL)"
         );
 
-    if (!success) {
-        qDebug() << "Create table error:" << query.lastError().text();
+    if (!successCustomer) {
+        qDebug() << "Create customers table error:" << query.lastError().text();
+    }
+
+    // جدول رستوران
+    bool successRestaurant = query.exec(
+        "CREATE TABLE IF NOT EXISTS restaurants ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "restaurant_name TEXT NOT NULL, "
+        "owner_firstname TEXT NOT NULL, "
+        "owner_lastname TEXT NOT NULL, "
+        "phone TEXT NOT NULL, "
+        "province TEXT NOT NULL, "
+        "city TEXT NOT NULL, "
+        "password TEXT NOT NULL)"
+        );
+
+    if (!successRestaurant) {
+        qDebug() << "Create restaurants table error:" << query.lastError().text();
     }
 }
+
+// void DatabaseManager::creatRestaurantTable() {
+//     QSqlQuery query(db);
+//     bool success = query.exec(
+//         "CREATE TABLE IF NOT EXISTS customers ("
+//         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+//         "firstname TEXT NOT NULL, "
+//         "lastname TEXT NOT NULL, "
+//         "phone TEXT NOT NULL, "
+//         "password TEXT NOT NULL)"
+//         );
+
+//     if (!success) {
+//         qDebug() << "Create table error:" << query.lastError().text();
+//     }
+// }
+
 
 bool DatabaseManager::insertCustomer(const QString& firstName, const QString& lastName, const QString& phone, const QString& password) {
     QSqlQuery query(db);
@@ -47,10 +83,35 @@ bool DatabaseManager::insertCustomer(const QString& firstName, const QString& la
     query.bindValue(":firstname", firstName);
     query.bindValue(":lastname", lastName);
     query.bindValue(":phone", phone);
-    query.bindValue(":password", hashPassword(password));  // هش پسورد
+    query.bindValue(":password", hashPassword(password));
 
     if (!query.exec()) {
-        QMessageBox::warning(nullptr, "Insert Error", query.lastError().text());
+        QMessageBox::warning(nullptr, "Insert Customer Error", query.lastError().text());
+        return false;
+    }
+    return true;
+}
+
+bool DatabaseManager::insertRestaurant(const QString& restaurantName,
+                                       const QString& ownerFirstName,
+                                       const QString& ownerLastName,
+                                       const QString& phone,
+                                       const QString& province,
+                                       const QString& city,
+                                       const QString& password) {
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO restaurants (restaurant_name, owner_firstname, owner_lastname, phone, province, city, password) "
+                  "VALUES (:restaurant_name, :owner_firstname, :owner_lastname, :phone, :province, :city, :password)");
+    query.bindValue(":restaurant_name", restaurantName);
+    query.bindValue(":owner_firstname", ownerFirstName);
+    query.bindValue(":owner_lastname", ownerLastName);
+    query.bindValue(":phone", phone);
+    query.bindValue(":province", province);
+    query.bindValue(":city", city);
+    query.bindValue(":password", hashPassword(password));
+
+    if (!query.exec()) {
+        QMessageBox::warning(nullptr, "Insert Restaurant Error", query.lastError().text());
         return false;
     }
     return true;
@@ -60,6 +121,9 @@ QString DatabaseManager::hashPassword(const QString& password) {
     QByteArray hashed = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256);
     return hashed.toHex();
 }
+
+
+
 
 // void DatabaseManager::createUsersTable() {
 //     QSqlQuery query;

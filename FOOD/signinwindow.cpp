@@ -12,3 +12,9 @@ SignInWindow::~SignInWindow()
 {
     delete ui;
 }
+
+void SignInWindow::on_pushButton_clicked()
+{
+
+}
+

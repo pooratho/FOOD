@@ -15,7 +15,13 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::on_comboBox_activated(int index)
 {
-    QString role = ui->comboBox->currentText();
+    QString role = ui->comboBoxProvince->currentText();
+
+}
+
+
+void LoginWindow::on_pushButton_clicked()
+{
 
 }
 

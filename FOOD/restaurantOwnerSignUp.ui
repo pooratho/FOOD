@@ -47,7 +47,7 @@ font: 12pt &quot;B Farnaz&quot;;
 background-color: rgb(70, 70, 70);
 </string>
     </property>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="lineEditRestaurantName">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -63,7 +63,7 @@ background-color: rgb(70, 70, 70);
       <string>  نام رستوران</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_2">
+    <widget class="QLineEdit" name="lineEditOwnerFirstName">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -76,7 +76,7 @@ background-color: rgb(70, 70, 70);
       <string>  نام مالک فروشگاه</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_3">
+    <widget class="QLineEdit" name="lineEditPhone">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -111,7 +111,7 @@ background-color: rgb(70, 70, 70);
       <string>  عضویت</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_4">
+    <widget class="QLineEdit" name="lineEditPassword">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -124,7 +124,7 @@ background-color: rgb(70, 70, 70);
       <string>  رمز عبور</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_5">
+    <widget class="QLineEdit" name="lineEditPasswordrepeat">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -137,7 +137,7 @@ background-color: rgb(70, 70, 70);
       <string>  تکرار رمز عبور</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_6">
+    <widget class="QLineEdit" name="lineEditOwnerLastName">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -150,7 +150,7 @@ background-color: rgb(70, 70, 70);
       <string>  نام خانوادگی مالک فروشگاه</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox">
+    <widget class="QComboBox" name="comboBoxProvince">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -162,8 +162,18 @@ background-color: rgb(70, 70, 70);
      <property name="placeholderText">
       <string>  انتخاب استان</string>
      </property>
+     <item>
+      <property name="text">
+       <string>تهران</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>اصفهان</string>
+      </property>
+     </item>
     </widget>
-    <widget class="QComboBox" name="comboBox_2">
+    <widget class="QComboBox" name="comboBoxCity">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -175,6 +185,16 @@ background-color: rgb(70, 70, 70);
      <property name="placeholderText">
       <string>  انتخاب شهر</string>
      </property>
+     <item>
+      <property name="text">
+       <string>تهران</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>اصفهان</string>
+      </property>
+     </item>
     </widget>
    </widget>
    <widget class="QPushButton" name="pushButton">
