@@ -29,10 +29,10 @@ HEADERS += \
 
 FORMS += \
     customersignup.ui \
+    loginwindow.ui \
     mainwindow.ui \
-    login.ui \
     restaurantownersignupwindow.ui \
-    signIn.ui
+    signinwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

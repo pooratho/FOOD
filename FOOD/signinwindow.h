@@ -6,7 +6,7 @@
 #include "database.h"
 #include "customersignup.h"
 namespace Ui {
-class Form;
+class SignInWindow;
 }
 
 class SignInWindow : public QWidget
@@ -21,7 +21,7 @@ private slots:
     void on_pushButton_clicked();
 
 private:
-    Ui::Form *ui;
+    Ui::SignInWindow *ui;
     DatabaseManager dbManager;
 };
 

@@ -1,13 +1,14 @@
 #include "loginwindow.h"
 #include "customersignup.h"
-#include "ui_login.h"
+#include "ui_loginwindow.h"  // توجه: دقیقا همون اسمی که فایل داره
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Form)
+    ui(new Ui::LoginWindow)  // اصلاح شده
 {
     ui->setupUi(this);
 }
+
 
 LoginWindow::~LoginWindow()
 {

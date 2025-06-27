@@ -7,7 +7,7 @@
 #include "restaurantownersignupwindow.h"
 #include "signinwindow.h"
 namespace Ui {
-class Form;
+class LoginWindow;
 }
 
 class LoginWindow : public QWidget
@@ -19,14 +19,11 @@ public:
     ~LoginWindow();
 
 private slots:
-
-
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
 
 private:
-    Ui::Form *ui;
+    Ui::LoginWindow *ui;
 };
 
 #endif // LOGINWINDOW_H

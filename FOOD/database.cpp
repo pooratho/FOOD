@@ -6,10 +6,16 @@
 #include <QDebug>
 
 DatabaseManager::DatabaseManager() {
-    // اتصال به دیتابیس در سازنده
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("mydatabase.db");
+    if (!db.open()) {
+        qDebug() << "Failed to open DB in constructor:" << db.lastError().text();
+    } else {
+        createTables();  // جدول‌ها رو اینجا بساز
+        qDebug() << "Database opened and tables created successfully.";
+    }
 }
+
 
 DatabaseManager::~DatabaseManager() {
     if (db.isOpen())
@@ -17,8 +23,15 @@ DatabaseManager::~DatabaseManager() {
 }
 
 bool DatabaseManager::connectToDatabase() {
+    if (QSqlDatabase::contains("qt_sql_default_connection")) {
+        db = QSqlDatabase::database("qt_sql_default_connection");
+    } else {
+        db = QSqlDatabase::addDatabase("QSQLITE");
+        db.setDatabaseName("mydatabase.db");
+    }
+
     if (!db.open()) {
-        QMessageBox::critical(nullptr, "Database Error", db.lastError().text());
+        qDebug() << "Failed to open DB:" << db.lastError().text();
         return false;
     }
     return true;
@@ -78,6 +91,8 @@ void DatabaseManager::createTables() {
 
 bool DatabaseManager::insertCustomer(const QString& firstName, const QString& lastName, const QString& phone, const QString& password) {
     QSqlQuery query(db);
+
+
     query.prepare("INSERT INTO customers (firstname, lastname, phone, password) "
                   "VALUES (:firstname, :lastname, :phone, :password)");
     query.bindValue(":firstname", firstName);

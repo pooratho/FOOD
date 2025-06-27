@@ -1,9 +1,9 @@
 #include "signinwindow.h"
-#include "ui_signIn.h"  // نام فایل هدر تولید شده توسط uic دقیقاً این است
+#include "ui_signinwindow.h"
 
 SignInWindow::SignInWindow(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Form)
+    ui(new Ui::SignInWindow)
 {
     ui->setupUi(this);
 }
