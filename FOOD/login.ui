@@ -46,7 +46,7 @@ color: rgb(255, 85, 0);</string>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(70, 70, 70);</string>
    </property>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="comboBoxRole">
     <property name="geometry">
      <rect>
       <x>80</x>

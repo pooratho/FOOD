@@ -5,7 +5,7 @@
 #include <QWidget>
 #include <QMessageBox>
 namespace Ui {
-class Form;
+class RestaurantOwnerSignUpWindow;
 }
 
 class RestaurantOwnerSignUpWindow : public QWidget
@@ -20,9 +20,9 @@ private slots:
     void on_pushButton_clicked();
 
 private:
-    Ui::Form *ui;
-private:
-   DatabaseManager dbManager;
+    Ui::RestaurantOwnerSignUpWindow *ui;
+    DatabaseManager dbManager;
 };
+
 
 #endif // RESTAURANTOWNERSIGNUPWINDOW_H

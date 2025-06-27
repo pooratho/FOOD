@@ -1,9 +1,9 @@
 #include "restaurantownersignupwindow.h"
-#include "ui_restaurantOwnerSignUp.h"  // توجه کن اسم فایل هدر uic همین است
+#include "ui_restaurantownersignupwindow.h"
 
-RestaurantOwnerSignUpWindow::RestaurantOwnerSignUpWindow(QWidget *parent) :
+    RestaurantOwnerSignUpWindow::RestaurantOwnerSignUpWindow(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Form)
+    ui(new Ui::RestaurantOwnerSignUpWindow)
 {
     ui->setupUi(this);
 }

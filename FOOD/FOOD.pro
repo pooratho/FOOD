@@ -31,7 +31,7 @@ FORMS += \
     customersignup.ui \
     mainwindow.ui \
     login.ui \
-    restaurantOwnerSignUp.ui \
+    restaurantownersignupwindow.ui \
     signIn.ui
 
 # Default rules for deployment.

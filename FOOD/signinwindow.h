@@ -2,7 +2,9 @@
 #define SIGNINWINDOW_H
 
 #include <QWidget>
-
+#include <QMessageBox>
+#include "database.h"
+#include "customersignup.h"
 namespace Ui {
 class Form;
 }
@@ -20,6 +22,7 @@ private slots:
 
 private:
     Ui::Form *ui;
+    DatabaseManager dbManager;
 };
 
 #endif // SIGNINWINDOW_H

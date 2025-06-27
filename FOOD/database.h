@@ -31,6 +31,16 @@ public:
                           const QString& city,
                           const QString& password);
 
+    enum class UserRole {
+        None,
+        Customer,
+        Restaurant,
+        Admin
+    };
+
+    UserRole checkUserLogin(const QString& firstName, const QString& lastName, const QString& password);
+
+
 private:
     QSqlDatabase db;
 

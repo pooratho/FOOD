@@ -3,6 +3,9 @@
 
 #include <QWidget>
 #include "database.h"
+#include "customersignup.h"
+#include "restaurantownersignupwindow.h"
+#include "signinwindow.h"
 namespace Ui {
 class Form;
 }
@@ -16,9 +19,11 @@ public:
     ~LoginWindow();
 
 private slots:
-    void on_comboBox_activated(int index);
+
 
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::Form *ui;

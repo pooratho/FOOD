@@ -123,6 +123,40 @@ QString DatabaseManager::hashPassword(const QString& password) {
 }
 
 
+DatabaseManager::UserRole DatabaseManager::checkUserLogin(const QString& firstName, const QString& lastName, const QString& password) {
+    QString hashed = hashPassword(password);
+
+    QSqlQuery query(db);
+
+    // بررسی مشتری
+    query.prepare("SELECT COUNT(*) FROM customers WHERE firstname = :first AND lastname = :last AND password = :pass");
+    query.bindValue(":first", firstName);
+    query.bindValue(":last", lastName);
+    query.bindValue(":pass", hashed);
+    if (query.exec() && query.next() && query.value(0).toInt() > 0) {
+        return UserRole::Customer;
+    }
+
+    // بررسی رستوران‌دار
+    query.prepare("SELECT COUNT(*) FROM restaurants WHERE owner_firstname = :first AND owner_lastname = :last AND password = :pass");
+    query.bindValue(":first", firstName);
+    query.bindValue(":last", lastName);
+    query.bindValue(":pass", hashed);
+    if (query.exec() && query.next() && query.value(0).toInt() > 0) {
+        return UserRole::Restaurant;
+    }
+
+    // بررسی مدیر
+    // query.prepare("SELECT COUNT(*) FROM admins WHERE firstname = :first AND lastname = :last AND password = :pass");
+    // query.bindValue(":first", firstName);
+    // query.bindValue(":last", lastName);
+    // query.bindValue(":pass", hashed);
+    // if (query.exec() && query.next() && query.value(0).toInt() > 0) {
+    //     return UserRole::Admin;
+    // }
+
+    return UserRole::None;
+}
 
 
 // void DatabaseManager::createUsersTable() {
