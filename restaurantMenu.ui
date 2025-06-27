@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>629</width>
-    <height>490</height>
+    <width>627</width>
+    <height>485</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,23 +17,25 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>89</y>
+     <y>79</y>
      <width>631</width>
-     <height>401</height>
+     <height>411</height>
     </rect>
    </property>
    <property name="layoutDirection">
     <enum>Qt::LayoutDirection::RightToLeft</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(60, 60, 60);</string>
+    <string notr="true">background-color: rgb(60, 60, 60);
+font: 13pt &quot;B Farnaz&quot;;
+color: rgb(255, 85, 0);</string>
    </property>
    <property name="currentIndex">
     <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
-     <string>hgfdfghj</string>
+     <string>          غذا          </string>
     </attribute>
     <widget class="QWidget" name="widget" native="true">
      <property name="geometry">
@@ -44,13 +46,13 @@
        <height>381</height>
       </rect>
      </property>
-     <widget class="QListWidget" name="listWidget">
+     <widget class="QListWidget" name="listWidget_6">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
         <width>621</width>
-        <height>381</height>
+        <height>371</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -59,14 +61,86 @@
      </widget>
     </widget>
    </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>          دسر          </string>
+    </attribute>
+    <widget class="QListWidget" name="listWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>625</width>
+       <height>371</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 126, 52);</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_3">
+    <attribute name="title">
+     <string>          نوشیدنی          </string>
+    </attribute>
+    <widget class="QListWidget" name="listWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>625</width>
+       <height>371</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 126, 52);</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_4">
+    <attribute name="title">
+     <string>         پیش غذا          </string>
+    </attribute>
+    <widget class="QListWidget" name="listWidget_4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>625</width>
+       <height>371</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 126, 52);</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_5">
+    <attribute name="title">
+     <string>          سایر          </string>
+    </attribute>
+    <widget class="QListWidget" name="listWidget_5">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>625</width>
+       <height>371</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 126, 52);</string>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
      <x>130</x>
      <y>5</y>
-     <width>501</width>
-     <height>101</height>
+     <width>480</width>
+     <height>70</height>
     </rect>
    </property>
    <property name="layoutDirection">
