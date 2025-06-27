@@ -2,7 +2,7 @@
 #define LOGINWINDOW_H
 
 #include <QWidget>
-
+#include "database.h"
 namespace Ui {
 class Form;
 }
@@ -14,6 +14,9 @@ class LoginWindow : public QWidget
 public:
     explicit LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
+
+private slots:
+    void on_comboBox_activated(int index);
 
 private:
     Ui::Form *ui;

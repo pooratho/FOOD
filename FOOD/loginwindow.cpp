@@ -12,3 +12,10 @@ LoginWindow::~LoginWindow()
 {
     delete ui;
 }
+
+void LoginWindow::on_comboBox_activated(int index)
+{
+    QString role = ui->comboBox->currentText();
+
+}
+

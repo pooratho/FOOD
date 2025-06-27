@@ -1,30 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>customersignup</class>
+ <widget class="QDialog" name="customersignup">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>563</width>
-    <height>754</height>
+    <width>596</width>
+    <height>814</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
-  </property>
-  <property name="layoutDirection">
-   <enum>Qt::LayoutDirection::RightToLeft</enum>
-  </property>
-  <property name="styleSheet">
-   <string notr="true"/>
+   <string>Dialog</string>
   </property>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>-70</x>
-     <y>-30</y>
-     <width>661</width>
+     <x>10</x>
+     <y>0</y>
+     <width>561</width>
      <height>711</height>
     </rect>
    </property>
@@ -34,8 +28,8 @@
    <widget class="QWidget" name="widget_2" native="true">
     <property name="geometry">
      <rect>
-      <x>205</x>
-      <y>50</y>
+      <x>130</x>
+      <y>60</y>
       <width>281</width>
       <height>651</height>
      </rect>
@@ -91,7 +85,7 @@ font: 12pt &quot;B Farnaz&quot;;</string>
       <string>  شماره موبایل:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="lineEditFirstName">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -104,7 +98,7 @@ font: 12pt &quot;B Farnaz&quot;;</string>
       <string notr="true"/>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_2">
+    <widget class="QLineEdit" name="lineEditLastName">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -114,7 +108,7 @@ font: 12pt &quot;B Farnaz&quot;;</string>
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_3">
+    <widget class="QLineEdit" name="lineEditPhone">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -175,7 +169,7 @@ font: 12pt &quot;B Farnaz&quot;;</string>
       <string>  تکرار رمز عبور:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_4">
+    <widget class="QLineEdit" name="lineEditPassword">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -185,7 +179,7 @@ font: 12pt &quot;B Farnaz&quot;;</string>
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_5">
+    <widget class="QLineEdit" name="lineEditPasswordRepeat">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -201,7 +195,7 @@ font: 12pt &quot;B Farnaz&quot;;</string>
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>690</y>
+     <y>750</y>
      <width>151</width>
      <height>31</height>
     </rect>
@@ -214,25 +208,6 @@ font: 12pt &quot;B Farnaz&quot;;</string>
     <string>تایید</string>
    </property>
   </widget>
-  <widget class="QWidget" name="widget_3" native="true">
-   <property name="geometry">
-    <rect>
-     <x>-10</x>
-     <y>-10</y>
-     <width>581</width>
-     <height>781</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(&quot;C:/Users/Taheri/OneDrive/دسکتاپ/foodSource/hg5.jpg&quot;);
-background-repeat: no-repeat;
-background-position: center;
-</string>
-   </property>
-  </widget>
-  <zorder>widget_3</zorder>
-  <zorder>widget</zorder>
-  <zorder>pushButton</zorder>
  </widget>
  <resources/>
  <connections/>
