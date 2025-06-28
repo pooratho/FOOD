@@ -19,14 +19,14 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>95</x>
      <y>25</y>
-     <width>391</width>
+     <width>451</width>
      <height>81</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 48pt &quot;AlphaFridgeMagnets &quot;;
+    <string notr="true">font: 45pt &quot;AlphaFridgeMagnets &quot;;
 
 color: rgb(255, 85, 0);</string>
    </property>
@@ -155,10 +155,7 @@ color: rgb(255, 85, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(&quot;C:/Users/Taheri/OneDrive/دسکتاپ/foodSource/hg3 copy.jpg&quot;);
-background-repeat: no-repeat;
-background-position: center;
-</string>
+    <string notr="true">background-image: url(:/images/Background1.jpg);</string>
    </property>
   </widget>
   <zorder>widget_2</zorder>

@@ -27,12 +27,10 @@ void LoginWindow::on_pushButton_clicked()
     if (role == "مشتری") {
         SignInWindow* SignInPage = new SignInWindow();
         SignInPage ->show();
-        this->close(); // یا این پنجره رو مخفی کن
     }
     else if (role == "رستوران دار") {
         SignInWindow* SignInPage = new SignInWindow();
         SignInPage ->show();
-        this->close();
     }
 
     else {
@@ -51,17 +49,14 @@ void LoginWindow::on_pushButton_2_clicked()
         if (role == "مشتری") {
             customersignup* customerPage = new customersignup();
             customerPage ->show();
-            this->close(); // یا این پنجره رو مخفی کن
         }
         // else if (role == "مدیر برنامه") {
         //     AdminPage* adminPage = new AdminPage();
         //     adminPage->show();
-        //     this->close();
         // }
         else if (role == "رستوران دار") {
             RestaurantOwnerSignUpWindow* restaurantPage = new RestaurantOwnerSignUpWindow();
             restaurantPage->show();
-            this->close();
         }
         else {
             QMessageBox::warning(this, "خطا", "لطفاً یک نقش انتخاب کنید.");

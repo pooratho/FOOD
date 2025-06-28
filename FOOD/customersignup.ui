@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
@@ -208,6 +211,22 @@ font: 12pt &quot;B Farnaz&quot;;</string>
     <string>تایید</string>
    </property>
   </widget>
+  <widget class="QWidget" name="widget_3" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>601</width>
+     <height>821</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/images/Background1.jpg);</string>
+   </property>
+  </widget>
+  <zorder>widget_3</zorder>
+  <zorder>widget</zorder>
+  <zorder>pushButton</zorder>
  </widget>
  <resources/>
  <connections/>
