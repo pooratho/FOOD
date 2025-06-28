@@ -217,11 +217,11 @@ font: 12pt &quot;B Farnaz&quot;;</string>
      <x>0</x>
      <y>0</y>
      <width>601</width>
-     <height>821</height>
+     <height>811</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/images/Background1.jpg);</string>
+    <string notr="true">background-image: url(:/background.jpg);</string>
    </property>
   </widget>
   <zorder>widget_3</zorder>

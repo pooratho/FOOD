@@ -12,27 +12,30 @@ CONFIG += c++17
 
 SOURCES += \
     clientsocketmanager.cpp \
+    customermainpage.cpp \
     customersignup.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
-    restaurantownersignupwindow.cpp \
+    restaurantownersignup.cpp \
     signinwindow.cpp
 
 HEADERS += \
     clientsocketmanager.h \
+    customermainpage.h \
     customersignup.h \
     loginwindow.h \
     mainwindow.h \
-    restaurantownersignupwindow.h \
+    restaurantownersignup.h \
     signinwindow.h
 
 FORMS += \
     customersignup.ui \
     loginwindow.ui \
     mainwindow.ui \
-    restaurantownersignupwindow.ui \
-    signinwindow.ui
+    restaurantownersignup.ui \
+    signinwindow.ui \
+    customerMainPage.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

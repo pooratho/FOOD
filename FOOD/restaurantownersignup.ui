@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RestaurantOwnerSignUpWindow
-</class>
- <widget class="QWidget" name="RestaurantOwnerSignUpWindow&#10;">
+ <class>RestaurantOwnerSignUp</class>
+ <widget class="QWidget" name="RestaurantOwnerSignUp">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -226,7 +225,7 @@ background-color: rgb(70, 70, 70);
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/images/Background1.jpg);</string>
+    <string notr="true">background-image: url(:/background.jpg);</string>
    </property>
   </widget>
   <zorder>widget_3</zorder>

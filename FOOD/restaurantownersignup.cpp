@@ -1,15 +1,16 @@
-#include "restaurantownersignupwindow.h"
-#include "ui_restaurantownersignupwindow.h"
+#include "restaurantownersignup.h"
+#include "ui_restaurantownersignup.h"
 
-RestaurantOwnerSignUpWindow::RestaurantOwnerSignUpWindow(QWidget *parent) :
+
+RestaurantOwnerSignUp::RestaurantOwnerSignUp(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::RestaurantOwnerSignUpWindow)
+    ui(new Ui::RestaurantOwnerSignUp)
 {
     ui->setupUi(this);
 
     // اتصال به سرور با استفاده از کلاس مدیریت سوکت
     clientSocket = new ClientSocketManager(this);
- clientSocket->connectToServer("127.0.0.1", 1234);
+    clientSocket->connectToServer("127.0.0.1", 1234);
     // وقتی پاسخی از سرور گرفتیم
     connect(clientSocket, &ClientSocketManager::messageReceived, this, [=](const QString& response) {
         if (response.startsWith("SIGNUP_OK")) {
@@ -21,12 +22,12 @@ RestaurantOwnerSignUpWindow::RestaurantOwnerSignUpWindow(QWidget *parent) :
     });
 }
 
-RestaurantOwnerSignUpWindow::~RestaurantOwnerSignUpWindow()
+RestaurantOwnerSignUp::~RestaurantOwnerSignUp()
 {
     delete ui;
 }
 
-void RestaurantOwnerSignUpWindow::on_pushButton_clicked()
+void RestaurantOwnerSignUp::on_pushButton_clicked()
 {
     QString restaurantName = ui->lineEditRestaurantName->text();
     QString ownerFirstName = ui->lineEditOwnerFirstName->text();
@@ -42,11 +43,28 @@ void RestaurantOwnerSignUpWindow::on_pushButton_clicked()
         return;
     }
 
-    if (restaurantName.isEmpty() || ownerFirstName.isEmpty() || ownerLastName.isEmpty() ||
-        phone.isEmpty() || province.isEmpty() || city.isEmpty() || password.isEmpty()) {
-        QMessageBox::warning(this, "خطا", "لطفاً تمام فیلدها را پر کنید.");
+    if (password != passwordRepeat) {
+        QMessageBox::warning(this, "Error", "رمز عبور و تکرار آن یکسان نیستند!");
         return;
     }
+
+        // چک خالی بودن فیلدها
+    if (restaurantName.isEmpty() || ownerFirstName.isEmpty() || ownerLastName.isEmpty() || phone.isEmpty()
+        || province.isEmpty() || city.isEmpty() || password.isEmpty()) {
+            QMessageBox::warning(this, "Error", "لطفا همه فیلدها را پر کنید.");
+            return;
+        }
+
+        if (!dbManager.insertRestaurant(restaurantName, ownerFirstName, ownerLastName, phone, province, city, password)) {
+            QMessageBox::warning(this, "Error", "ثبت اطلاعات انجام نشد.");
+        } else {
+            QMessageBox::information(this, "Success", "ثبت نام رستوران موفقیت‌آمیز بود!");
+            this->close();
+
+            if (this->parentWidget()) {
+                this->parentWidget()->close();
+            }
+        }
 
     // ساخت پیام برای ارسال به سرور
     QString msg = QString("SIGNUP_RESTAURANT:%1:%2:%3:%4:%5:%6:%7")

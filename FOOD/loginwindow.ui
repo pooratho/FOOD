@@ -155,7 +155,7 @@ color: rgb(255, 85, 0);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/images/Background1.jpg);</string>
+    <string notr="true">background-image: url(:/background.jpg);</string>
    </property>
   </widget>
   <zorder>widget_2</zorder>

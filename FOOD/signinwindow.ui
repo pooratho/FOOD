@@ -145,14 +145,12 @@ font: 12pt &quot;B Farnaz&quot;;</string>
      <rect>
       <x>260</x>
       <y>520</y>
-      <width>101</width>
-      <height>41</height>
+      <width>131</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 85, 0);
-color: rgb(255, 255, 255);
-font: 11pt &quot;B Farnaz&quot;;</string>
+     <string notr="true">background-color: rgb(255, 85, 0);</string>
     </property>
     <property name="text">
      <string>تایید</string>
@@ -163,12 +161,12 @@ font: 11pt &quot;B Farnaz&quot;;</string>
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>591</width>
-      <height>591</height>
+      <width>581</width>
+      <height>581</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(:/images/Background1.jpg);</string>
+     <string notr="true">background-image: url(:/background.jpg);</string>
     </property>
    </widget>
    <zorder>widget_3</zorder>

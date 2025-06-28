@@ -25,14 +25,15 @@ void LoginWindow::on_pushButton_clicked()
         QString role = ui->comboBoxRole->currentText();
 
     if (role == "مشتری") {
-        SignInWindow* SignInPage = new SignInWindow();
+        SignInWindow* SignInPage = new SignInWindow(this);
         SignInPage ->show();
     }
     else if (role == "رستوران دار") {
-        SignInWindow* SignInPage = new SignInWindow();
+        SignInWindow* SignInPage = new SignInWindow(this);
         SignInPage ->show();
     }
-
+    else if (role == "مدیر سیستم")
+    {}
     else {
         QMessageBox::warning(this, "خطا", "لطفاً یک نقش انتخاب کنید.");
     }
@@ -47,7 +48,7 @@ void LoginWindow::on_pushButton_2_clicked()
 
 
         if (role == "مشتری") {
-            customersignup* customerPage = new customersignup();
+            customersignup* customerPage = new customersignup(this);
             customerPage ->show();
         }
         // else if (role == "مدیر برنامه") {
@@ -55,7 +56,7 @@ void LoginWindow::on_pushButton_2_clicked()
         //     adminPage->show();
         // }
         else if (role == "رستوران دار") {
-            RestaurantOwnerSignUpWindow* restaurantPage = new RestaurantOwnerSignUpWindow();
+            RestaurantOwnerSignUp* restaurantPage = new RestaurantOwnerSignUp(this);
             restaurantPage->show();
         }
         else {
