@@ -1,9 +1,11 @@
 #include "customersignup.h"
 #include "ui_customersignup.h"
+#include "loginwindow.h"
 
-customersignup::customersignup(QWidget *parent)
+customersignup::customersignup(LoginWindow *loginWin, QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::customersignup)
+    , ui(new Ui::customersignup),
+    loginWindow(loginWin)
 {
     ui->setupUi(this);
 
@@ -11,15 +13,17 @@ customersignup::customersignup(QWidget *parent)
     clientSocket->connectToServer("127.0.0.1", 1234); // آدرس و پورت سرور
 
     connect(clientSocket, &ClientSocketManager::messageReceived, this, [=](const QString &msg) {
-        if (msg.startsWith("SIGNUP_OK:Customer")) {
+        if (msg.startsWith("SIGNUP_OK")) {
             QMessageBox::information(this, "موفقیت", "ثبت نام با موفقیت انجام شد.");
+
+            CustomerMainPage *page = new CustomerMainPage();  // بدون parent
+            page->setAttribute(Qt::WA_DeleteOnClose);         // با بستن آزاد شود
+            page->show();                                     // باز کن
+
+            loginWindow->close();  // فقط پنجره اصلی رو ببند
             this->close();
 
-            if (this->parentWidget()) {
-                this->parentWidget()->close();
-            }
-
-        } else if (msg.startsWith("SIGNUP_FAIL:Customer")) {
+        } else if (msg.startsWith("SIGNUP_FAIL")) {
             QMessageBox::warning(this, "خطا", "ثبت نام ناموفق بود، دوباره تلاش کنید.");
         }
     });
@@ -33,6 +37,7 @@ customersignup::~customersignup()
 {
     delete ui;
 }
+
 
 void customersignup::on_pushButton_clicked()
 {
@@ -53,7 +58,7 @@ void customersignup::on_pushButton_clicked()
     }
 
     // ساخت پیام ثبت‌نام طبق پروتکل سرور
-    QString msg = QString("SIGNUP:Customer:%1:%2:%3:%4")
+    QString msg = QString("SIGNUP_CUSTOMER:%1:%2:%3:%4")
                       .arg(firstName)
                       .arg(lastName)
                       .arg(phone)
@@ -61,3 +66,4 @@ void customersignup::on_pushButton_clicked()
 
     clientSocket->sendMessage(msg);
 }
+

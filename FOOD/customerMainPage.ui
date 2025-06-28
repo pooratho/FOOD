@@ -45,7 +45,7 @@ color: rgb(255, 85, 0);
      <string notr="true"/>
     </property>
     <attribute name="title">
-     <string>                    سفارش                    </string>
+     <string>                            سفارش                            </string>
     </attribute>
     <widget class="QWidget" name="widget" native="true">
      <property name="geometry">
@@ -73,14 +73,14 @@ border-color: rgb(255, 85, 0);</string>
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>670</x>
+        <x>640</x>
         <y>10</y>
-        <width>261</width>
+        <width>291</width>
         <height>20</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 11pt &quot;B Farnaz&quot;;
+       <string notr="true">font: 14pt &quot;B Farnaz&quot;;
 color: rgb(255, 145, 67);
 </string>
       </property>
@@ -112,12 +112,37 @@ color: rgb(60, 60, 60);</string>
       </property>
       <item>
        <property name="text">
-        <string>فست فود</string>
+        <string>                               نوع رستوران                    </string>
        </property>
       </item>
       <item>
        <property name="text">
         <string>ایرانی</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>فست فود</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>صبحانه</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>سالاد</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>دریایی</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>بین الملل</string>
        </property>
       </item>
      </widget>
@@ -176,7 +201,7 @@ color: rgb(60, 60, 60);</string>
       <widget class="QLabel" name="label_2">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>10</x>
          <y>0</y>
          <width>251</width>
          <height>111</height>
@@ -194,7 +219,7 @@ color: rgb(255, 85, 0);</string>
       <widget class="QLabel" name="label_3">
        <property name="geometry">
         <rect>
-         <x>230</x>
+         <x>200</x>
          <y>70</y>
          <width>231</width>
          <height>81</height>
@@ -220,7 +245,7 @@ color: rgb(255, 85, 0);</string>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
-     <string>                  سبد خرید                   </string>
+     <string>                          سبد خرید                              </string>
     </attribute>
     <widget class="QListWidget" name="listWidget_2">
      <property name="geometry">
@@ -269,7 +294,7 @@ color: rgb(255, 255, 255);</string>
    </widget>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
-     <string>                وضعیت سفارش                </string>
+     <string>                        وضعیت سفارش                        </string>
     </attribute>
     <widget class="QListWidget" name="listWidget_3">
      <property name="geometry">

@@ -1,10 +1,11 @@
 #include "signinwindow.h"
 #include "ui_signinwindow.h"
-#include "mainwindow.h"
+#include "loginwindow.h"
 
-SignInWindow::SignInWindow(QWidget *parent) :
+SignInWindow::SignInWindow(LoginWindow *loginWin, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::SignInWindow)
+    ui(new Ui::SignInWindow),
+    loginWindow(loginWin)
 {
     ui->setupUi(this);
 
@@ -18,12 +19,13 @@ SignInWindow::SignInWindow(QWidget *parent) :
 
             if (role == "Customer") {
                 QMessageBox::information(this, "ورود موفق", "خوش آمدید مشتری عزیز!");
-                // (new CustomerPage())->show();
-                this->close();
 
-                if (this->parentWidget()) {
-                    this->parentWidget()->close();
-                }
+                CustomerMainPage *page = new CustomerMainPage();  // بدون parent
+                page->setAttribute(Qt::WA_DeleteOnClose);         // با بستن آزاد شود
+                page->show();                                     // باز کن
+
+                loginWindow->close();  // فقط پنجره اصلی رو ببند
+                this->close();
             }
             else if (role == "Restaurant") {
                 QMessageBox::information(this, "ورود موفق", "خوش آمدید رستوران‌دار محترم!");
