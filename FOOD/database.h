@@ -42,7 +42,7 @@ public:
 
 
 private:
-  //  QSqlDatabase db;
+    QSqlDatabase db;
 
 
 };

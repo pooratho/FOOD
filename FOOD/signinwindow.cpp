@@ -1,11 +1,40 @@
 #include "signinwindow.h"
 #include "ui_signinwindow.h"
+#include "mainwindow.h"
 
 SignInWindow::SignInWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SignInWindow)
 {
     ui->setupUi(this);
+
+    clientSocket = new ClientSocketManager(this);
+    clientSocket->connectToServer("127.0.0.1", 1234);  // آدرس و پورت سرور
+
+    // اتصال به پیام دریافتی از سرور
+    connect(clientSocket, &ClientSocketManager::messageReceived, this, [=](const QString &msg) {
+        if (msg.startsWith("LOGIN_OK:")) {
+            QString role = msg.section(':', 1); // نقش رو جدا کن
+
+            if (role == "Customer") {
+                QMessageBox::information(this, "ورود موفق", "خوش آمدید مشتری عزیز!");
+                // (new CustomerPage())->show();
+                this->close();
+            }
+            else if (role == "Restaurant") {
+                QMessageBox::information(this, "ورود موفق", "خوش آمدید رستوران‌دار محترم!");
+                // (new RestaurantPage())->show();
+                this->close();
+            }
+        }
+        else if (msg.startsWith("LOGIN_FAIL")) {
+            QMessageBox::warning(this, "خطا", "ورود ناموفق! اطلاعات اشتباه است.");
+        }
+    });
+
+    connect(clientSocket, &ClientSocketManager::errorOccurred, this, [=](const QString &err) {
+        QMessageBox::critical(this, "خطای اتصال", err);
+    });
 }
 
 SignInWindow::~SignInWindow()
@@ -15,42 +44,16 @@ SignInWindow::~SignInWindow()
 
 void SignInWindow::on_pushButton_clicked()
 {
-        QString firstName = ui->lineEditFirstName->text();
-        QString lastName = ui->lineEditLastName->text();
-        QString password = ui->lineEditPassword->text();
+    QString firstName = ui->lineEditFirstName->text().trimmed();
+    QString lastName = ui->lineEditLastName->text().trimmed();
+    QString password = ui->lineEditPassword->text().trimmed();
 
-        if (firstName.isEmpty() || lastName.isEmpty() || password.isEmpty()) {
-            QMessageBox::warning(this, "خطا", "همه فیلدها را پر کنید.");
-            return;
-        }
+    if (firstName.isEmpty() || lastName.isEmpty() || password.isEmpty()) {
+        QMessageBox::warning(this, "خطا", "همه فیلدها را پر کنید.");
+        return;
+    }
 
-        DatabaseManager::UserRole role = dbManager.checkUserLogin(firstName, lastName, password);
-
-        switch (role) {
-        case DatabaseManager::UserRole::Customer:
-            QMessageBox::information(this, "ورود موفق", "خوش آمدید مشتری عزیز!");
-          //  (new CustomerPage())->show();
-            this->close();
-            break;
-
-        // case DatabaseManager::UserRole::Restaurant:
-        //     QMessageBox::information(this, "ورود موفق", "ورود رستوران‌دار موفقیت‌آمیز بود.");
-        //     (new RestaurantPage())->show();
-        //     this->close();
-        //     break;
-
-        // case DatabaseManager::UserRole::Admin:
-        //     QMessageBox::information(this, "ورود موفق", "خوش آمدید مدیر محترم!");
-        //     (new AdminPage())->show();
-        //     this->close();
-        //     break;
-
-        case DatabaseManager::UserRole::None:
-        default:
-            QMessageBox::warning(this, "خطا", "کاربری با این اطلاعات پیدا نشد.");
-            break;
-        }
-
-
+    // ارسال به سرور
+    QString msg = "LOGIN:" + firstName + ":" + lastName + ":" + password;
+    clientSocket->sendMessage(msg);
 }
-

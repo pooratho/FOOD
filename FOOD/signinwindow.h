@@ -3,8 +3,8 @@
 
 #include <QWidget>
 #include <QMessageBox>
-#include "database.h"
-#include "customersignup.h"
+#include "clientsocketmanager.h"
+
 namespace Ui {
 class SignInWindow;
 }
@@ -18,11 +18,11 @@ public:
     ~SignInWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButton_clicked();  // دکمه ورود
 
 private:
     Ui::SignInWindow *ui;
-    DatabaseManager dbManager;
+    ClientSocketManager *clientSocket;
 };
 
 #endif // SIGNINWINDOW_H
