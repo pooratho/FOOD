@@ -14,6 +14,11 @@ customersignup::customersignup(QWidget *parent)
         if (msg.startsWith("SIGNUP_OK:Customer")) {
             QMessageBox::information(this, "موفقیت", "ثبت نام با موفقیت انجام شد.");
             this->close();
+
+            if (this->parentWidget()) {
+                this->parentWidget()->close();
+            }
+
         } else if (msg.startsWith("SIGNUP_FAIL:Customer")) {
             QMessageBox::warning(this, "خطا", "ثبت نام ناموفق بود، دوباره تلاش کنید.");
         }

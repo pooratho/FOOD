@@ -41,7 +41,11 @@ void RestaurantOwnerSignUpWindow::on_pushButton_clicked()
             QMessageBox::warning(this, "Error", "ثبت اطلاعات انجام نشد.");
         } else {
             QMessageBox::information(this, "Success", "ثبت نام رستوران موفقیت‌آمیز بود!");
-            // اینجا می‌تونی فرم رو پاک کنی یا صفحه بعد بری
+            this->close();
+
+            if (this->parentWidget()) {
+                this->parentWidget()->close();
+            }
         }
 
 

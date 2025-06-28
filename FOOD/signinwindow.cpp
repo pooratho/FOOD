@@ -20,11 +20,19 @@ SignInWindow::SignInWindow(QWidget *parent) :
                 QMessageBox::information(this, "ورود موفق", "خوش آمدید مشتری عزیز!");
                 // (new CustomerPage())->show();
                 this->close();
+
+                if (this->parentWidget()) {
+                    this->parentWidget()->close();
+                }
             }
             else if (role == "Restaurant") {
                 QMessageBox::information(this, "ورود موفق", "خوش آمدید رستوران‌دار محترم!");
                 // (new RestaurantPage())->show();
                 this->close();
+
+                if (this->parentWidget()) {
+                    this->parentWidget()->close();
+                }
             }
         }
         else if (msg.startsWith("LOGIN_FAIL")) {
