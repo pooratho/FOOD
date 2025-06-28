@@ -13,7 +13,6 @@ CONFIG += c++17
 SOURCES += \
     clientsocketmanager.cpp \
     customersignup.cpp \
-    database.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -23,7 +22,6 @@ SOURCES += \
 HEADERS += \
     clientsocketmanager.h \
     customersignup.h \
-    database.h \
     loginwindow.h \
     mainwindow.h \
     restaurantownersignupwindow.h \

@@ -97,82 +97,50 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
     }
 
-    else if (msg.startsWith("SIGNUP:")) {
+    else if (msg.startsWith("SIGNUP_CUSTOMER:")) {
         QStringList parts = msg.split(":");
-        if (parts.size() < 2) {
+        if (parts.size() != 5) {
             sender->write("SIGNUP_FAIL:فرمت اشتباه\n");
             return;
         }
 
-        QString role = parts[1].trimmed().toLower();
+        QString firstName = parts[1].trimmed();
+        QString lastName = parts[2].trimmed();
+        QString phone = parts[3].trimmed();
+        QString password = parts[4].trimmed();
 
-        if (role == "customer" && parts.size() == 6) {
-            QString firstName = parts[2].trimmed();
-            QString lastName = parts[3].trimmed();
-            QString phone = parts[4].trimmed();
-            QString password = parts[5].trimmed();
-
-            bool ok = dbManager.insertCustomer(firstName, lastName, phone, password);
-            if (ok) {
-                sender->write("SIGNUP_OK:Customer\n");
-                emit logMessage("✅ ثبت مشتری جدید: " + firstName + " " + lastName);
-            } else {
-                sender->write("SIGNUP_FAIL:Customer\n");
-                emit logMessage("❌ ثبت مشتری ناموفق");
-            }
-        }
-
-        else if (role == "restaurant" && parts.size() == 9) {
-            QString restName      = parts[2].trimmed();
-            QString ownerFirst    = parts[3].trimmed();
-            QString ownerLast     = parts[4].trimmed();
-            QString phone         = parts[5].trimmed();
-            QString province      = parts[6].trimmed();
-            QString city          = parts[7].trimmed();
-            QString password      = parts[8].trimmed();
-
-            bool ok = dbManager.insertRestaurant(restName, ownerFirst, ownerLast, phone, province, city, password);
-            if (ok) {
-                sender->write("SIGNUP_OK:Restaurant\n");
-                emit logMessage("✅ ثبت رستوران جدید: " + restName);
-            } else {
-                sender->write("SIGNUP_FAIL:Restaurant\n");
-                emit logMessage("❌ ثبت رستوران ناموفق");
-            }
-        }
-
-        else {
-            sender->write("SIGNUP_FAIL:فرمت نامعتبر\n");
+        bool ok = dbManager.insertCustomer(firstName, lastName, phone, password);
+        if (ok) {
+            sender->write("SIGNUP_OK:Customer\n");
+            emit logMessage("✅ ثبت مشتری جدید: " + firstName + " " + lastName);
+        } else {
+            sender->write("SIGNUP_FAIL:Customer\n");
+            emit logMessage("❌ ثبت مشتری ناموفق");
         }
     }
 
-    else if (msg.startsWith("SIGNUP_CUSTOMER:")) {
+    else if (msg.startsWith("SIGNUP_RESTAURANT:")) {
         QStringList parts = msg.split(":");
-        if (parts.size() < 2) {
+        if (parts.size() != 8) {
             sender->write("SIGNUP_FAIL:فرمت اشتباه\n");
             return;
         }
 
-        QString role = parts[1].trimmed().toLower();
+        QString restName   = parts[1].trimmed();
+        QString ownerFirst = parts[2].trimmed();
+        QString ownerLast  = parts[3].trimmed();
+        QString phone      = parts[4].trimmed();
+        QString province   = parts[5].trimmed();
+        QString city       = parts[6].trimmed();
+        QString password   = parts[7].trimmed();
 
-        if (role == "customer" && parts.size() == 6) {
-            QString firstName = parts[2].trimmed();
-            QString lastName = parts[3].trimmed();
-            QString phone = parts[4].trimmed();
-            QString password = parts[5].trimmed();
-
-            bool ok = dbManager.insertCustomer(firstName, lastName, phone, password);
-            if (ok) {
-                sender->write("SIGNUP_OK:Customer\n");
-                emit logMessage("✅ ثبت مشتری جدید: " + firstName + " " + lastName);
-            } else {
-                sender->write("SIGNUP_FAIL:Customer\n");
-                emit logMessage("❌ ثبت مشتری ناموفق");
-            }
-        }
-
-        else {
-            sender->write("SIGNUP_FAIL:فرمت نامعتبر\n");
+        bool ok = dbManager.insertRestaurant(restName, ownerFirst, ownerLast, phone, province, city, password);
+        if (ok) {
+            sender->write("SIGNUP_OK:Restaurant\n");
+            emit logMessage("✅ ثبت رستوران جدید: " + restName);
+        } else {
+            sender->write("SIGNUP_FAIL:Restaurant\n");
+            emit logMessage("❌ ثبت رستوران ناموفق");
         }
     }
 
@@ -180,6 +148,7 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         sender->write("ERROR:فرمان ناشناخته\n");
     }
 }
+
 
 // void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 // {

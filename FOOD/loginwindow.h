@@ -2,7 +2,6 @@
 #define LOGINWINDOW_H
 
 #include <QWidget>
-#include "database.h"
 #include "customersignup.h"
 #include "restaurantownersignupwindow.h"
 #include "signinwindow.h"

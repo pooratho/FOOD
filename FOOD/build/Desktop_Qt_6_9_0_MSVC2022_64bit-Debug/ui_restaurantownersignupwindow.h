@@ -110,25 +110,28 @@ public:
 
         QMetaObject::connectSlotsByName(RestaurantOwnerSignUpWindow_);
     } // setupUi
+
     void retranslateUi(QWidget *RestaurantOwnerSignUpWindow_)
     {
         RestaurantOwnerSignUpWindow_->setWindowTitle(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "Form", nullptr));
+
         lineEditRestaurantName->setPlaceholderText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "  نام رستوران", nullptr));
-        lineEditOwnerFirstName->setPlaceholderText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "  نام رستوراندار", nullptr));
-#if QT_CONFIG(tooltip)
+        lineEditOwnerFirstName->setPlaceholderText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "  نام صاحب رستوران", nullptr));
         lineEditPhone->setToolTip(QString());
-#endif // QT_CONFIG(tooltip)
-        label_4->setText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "ثبت نام", nullptr));
+        label_4->setText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "  تلفن", nullptr));
         lineEditPassword->setPlaceholderText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "  رمز عبور", nullptr));
         lineEditPasswordrepeat->setPlaceholderText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "  تکرار رمز عبور", nullptr));
-        lineEditOwnerLastName->setPlaceholderText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "  نام خانوادگی رستوراندار", nullptr));
-        comboBoxProvince->setItemText(0, QCoreApplication::translate("RestaurantOwnerSignUpWindow", "استان"));
-        comboBoxProvince->setItemText(1, QCoreApplication::translate("RestaurantOwnerSignUpWindow", "تهران"));
+        lineEditOwnerLastName->setPlaceholderText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "  نام خانوادگی صاحب رستوران", nullptr));
+
+        comboBoxProvince->setItemText(0, QCoreApplication::translate("RestaurantOwnerSignUpWindow", "استان", nullptr));
+        comboBoxProvince->setItemText(1, QCoreApplication::translate("RestaurantOwnerSignUpWindow", "تهران", nullptr));
         comboBoxProvince->setPlaceholderText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "  انتخاب استان", nullptr));
-        comboBoxCity->setItemText(0, QCoreApplication::translate("RestaurantOwnerSignUpWindow", "شهر"));
-        comboBoxCity->setItemText(1, QCoreApplication::translate("RestaurantOwnerSignUpWindow", "تهران"));
+
+        comboBoxCity->setItemText(0, QCoreApplication::translate("RestaurantOwnerSignUpWindow", "شهر", nullptr));
+        comboBoxCity->setItemText(1, QCoreApplication::translate("RestaurantOwnerSignUpWindow", "تهران", nullptr));
         comboBoxCity->setPlaceholderText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "  انتخاب شهر", nullptr));
-        pushButton->setText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "تایید", nullptr));
+
+        pushButton->setText(QCoreApplication::translate("RestaurantOwnerSignUpWindow", "ثبت‌نام", nullptr));
     }
 
 };
