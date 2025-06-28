@@ -124,22 +124,31 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
     }
     else if (msg.startsWith("SIGNUP_CUSTOMER:")) {
         QStringList parts = msg.split(":");
-        if(parts.size() != 5) {
+        if (parts.size() < 2) {
             sender->write("SIGNUP_FAIL:فرمت اشتباه\n");
             return;
         }
-        QString firstName = parts[1].trimmed();
-        QString lastName = parts[2].trimmed();
-        QString phone = parts[3].trimmed();
-        QString password = parts[4].trimmed();
 
-        bool ok = dbManager.insertCustomer(firstName, lastName, phone, password);
-        if (ok) {
-            sender->write("SIGNUP_OK\n");
-            emit logMessage("✅ ثبت مشتری جدید: " + firstName + " " + lastName);
-        } else {
-            sender->write("SIGNUP_FAIL:خطا در ثبت مشتری\n");
-            emit logMessage("❌ ثبت مشتری ناموفق");
+        QString role = parts[1].trimmed().toLower();
+
+        if (role == "customer" && parts.size() == 6) {
+            QString firstName = parts[2].trimmed();
+            QString lastName = parts[3].trimmed();
+            QString phone = parts[4].trimmed();
+            QString password = parts[5].trimmed();
+
+            bool ok = dbManager.insertCustomer(firstName, lastName, phone, password);
+            if (ok) {
+                sender->write("SIGNUP_OK:Customer\n");
+                emit logMessage("✅ ثبت مشتری جدید: " + firstName + " " + lastName);
+            } else {
+                sender->write("SIGNUP_FAIL:Customer\n");
+                emit logMessage("❌ ثبت مشتری ناموفق");
+            }
+        }
+
+        else {
+            sender->write("SIGNUP_FAIL:فرمت نامعتبر\n");
         }
     }
     else {
