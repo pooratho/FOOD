@@ -32,7 +32,8 @@ void LoginWindow::on_pushButton_clicked()
         SignInWindow* SignInPage = new SignInWindow(this);
         SignInPage ->show();
     }
-
+    else if (role == "مدیر سیستم")
+    {}
     else {
         QMessageBox::warning(this, "خطا", "لطفاً یک نقش انتخاب کنید.");
     }
