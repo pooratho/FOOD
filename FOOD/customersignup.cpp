@@ -48,7 +48,7 @@ void customersignup::on_pushButton_clicked()
     }
 
     // ساخت پیام ثبت‌نام طبق پروتکل سرور
-    QString msg = QString("SIGNUP_CUSTOMER:Customer:%1:%2:%3:%4")
+    QString msg = QString("SIGNUP_CUSTOMER:%1:%2:%3:%4")
                       .arg(firstName)
                       .arg(lastName)
                       .arg(phone)
