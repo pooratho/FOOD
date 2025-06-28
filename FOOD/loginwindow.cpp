@@ -1,6 +1,9 @@
 #include "loginwindow.h"
-#include "customersignup.h"
-#include "ui_loginwindow.h"  // توجه: دقیقا همون اسمی که فایل داره
+#include "ui_loginwindow.h"
+#include "mainwindow.h"
+#include "clientsocketmanager.h"
+#include <QMessageBox>
+  // توجه: دقیقا همون اسمی که فایل داره
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),

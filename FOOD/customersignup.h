@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QMessageBox>
-#include "database.h"
+#include "clientsocketmanager.h"  // مدیریت ارتباط با سرور
 
 namespace Ui {
 class customersignup;
@@ -22,8 +22,7 @@ private slots:
 
 private:
     Ui::customersignup *ui;
-private:
-     DatabaseManager dbManager;
+    ClientSocketManager *clientSocket;
 };
 
 #endif // CUSTOMERSIGNUP_H

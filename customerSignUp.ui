@@ -196,6 +196,22 @@ font: 12pt &quot;B Farnaz&quot;;</string>
      </property>
     </widget>
    </widget>
+   <widget class="QWidget" name="widget_3" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-80</y>
+      <width>581</width>
+      <height>781</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url(&quot;C:/Users/Taheri/OneDrive/دسکتاپ/foodSource/hg5.jpg&quot;);
+background-repeat: no-repeat;
+background-position: center;
+</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
@@ -214,25 +230,6 @@ font: 12pt &quot;B Farnaz&quot;;</string>
     <string>تایید</string>
    </property>
   </widget>
-  <widget class="QWidget" name="widget_3" native="true">
-   <property name="geometry">
-    <rect>
-     <x>-10</x>
-     <y>-10</y>
-     <width>581</width>
-     <height>781</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-image: url(&quot;C:/Users/Taheri/OneDrive/دسکتاپ/foodSource/hg5.jpg&quot;);
-background-repeat: no-repeat;
-background-position: center;
-</string>
-   </property>
-  </widget>
-  <zorder>widget_3</zorder>
-  <zorder>widget</zorder>
-  <zorder>pushButton</zorder>
  </widget>
  <resources/>
  <connections/>
