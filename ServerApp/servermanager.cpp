@@ -1,34 +1,33 @@
 #include "servermanager.h"
-#include <QSqlQuery>
-#include <QSqlError>
+#include <QDebug>
 
-ServerManager::ServerManager(QObject *parent)
-    : QObject(parent)
+ServerManager::ServerManager(QObject *parent) : QObject(parent)
 {
     server = new QTcpServer(this);
     connect(server, &QTcpServer::newConnection, this, &ServerManager::onNewConnection);
 }
 
-bool ServerManager::startServer(int port)
+ServerManager::~ServerManager()
 {
-    if (!server->listen(QHostAddress::Any, port)) {
-        emit logMessage("❌ سرور راه‌اندازی نشد.");
-        return false;
-    } else {
-        emit logMessage("✅ سرور روی پورت " + QString::number(port) + " اجرا شد.");
-        return true;
-    }
+    // دیتابیس خود dbManager مدیریت می‌کنه
 }
 
 void ServerManager::connectToDatabase()
 {
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("users.db");
-
-    if (!db.open()) {
-        emit logMessage("❌ اتصال به دیتابیس ناموفق بود.");
-    } else {
+    if (dbManager.connectToDatabase()) {
         emit logMessage("✅ اتصال به دیتابیس برقرار شد.");
+        dbManager.createTables();
+    } else {
+        emit logMessage("❌ اتصال به دیتابیس ناموفق بود.");
+    }
+}
+
+void ServerManager::startServer(quint16 port)
+{
+    if (!server->listen(QHostAddress::Any, port)) {
+        emit logMessage("❌ سرور راه‌اندازی نشد: " + server->errorString());
+    } else {
+        emit logMessage("✅ سرور روی پورت " + QString::number(port) + " اجرا شد.");
     }
 }
 
@@ -40,49 +39,110 @@ void ServerManager::onNewConnection()
     connect(client, &QTcpSocket::readyRead, this, &ServerManager::onReadyRead);
     connect(client, &QTcpSocket::disconnected, this, &ServerManager::onDisconnected);
 
-    emit logMessage("🔌 کلاینت جدید وصل شد.");
+    emit logMessage("🔌 کلاینت جدید متصل شد: " + client->peerAddress().toString());
 }
 
 void ServerManager::onReadyRead()
 {
     QTcpSocket *client = qobject_cast<QTcpSocket*>(sender());
-    QString msg = QString::fromUtf8(client->readAll());
+    if (!client)
+        return;
+
+    QByteArray data = client->readAll();
+    QString msg = QString::fromUtf8(data).trimmed();
 
     emit logMessage("📨 پیام دریافتی: " + msg);
+
     processMessage(client, msg);
 }
 
 void ServerManager::onDisconnected()
 {
     QTcpSocket *client = qobject_cast<QTcpSocket*>(sender());
-    clients.removeAll(client);
-    client->deleteLater();
+    if (!client)
+        return;
 
-    emit logMessage("❌ کلاینت قطع شد.");
+    clients.removeAll(client);
+    emit logMessage("❌ کلاینت قطع شد: " + client->peerAddress().toString());
+    client->deleteLater();
 }
 
-void ServerManager::processMessage(QTcpSocket *client, const QString &msg)
+void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 {
     if (msg.startsWith("LOGIN:")) {
         QStringList parts = msg.split(":");
-        if (parts.size() != 3) {
-            client->write("LOGIN_FAIL:فرمت اشتباه");
+        if(parts.size() != 4) {
+            sender->write("LOGIN_FAIL:فرمت اشتباه\n");
             return;
         }
 
-        QString username = parts[1];
-        QString password = parts[2];
+        QString firstName = parts[1].trimmed();
+        QString lastName = parts[2].trimmed();
+        QString password = parts[3].trimmed();
 
-        QSqlQuery query;
-        query.prepare("SELECT * FROM users WHERE username = ? AND password = ?");
-        query.addBindValue(username);
-        query.addBindValue(password);
-
-        if (query.exec() && query.next()) {
-            QString role = query.value("role").toString();
-            client->write(("LOGIN_OK:" + role).toUtf8());
+        auto role = dbManager.checkUserLogin(firstName, lastName, password);
+        if (role != DatabaseManager::UserRole::None) {
+            QString roleStr;
+            switch(role) {
+            case DatabaseManager::UserRole::Customer: roleStr = "Customer"; break;
+            case DatabaseManager::UserRole::Restaurant: roleStr = "Restaurant"; break;
+            case DatabaseManager::UserRole::Admin: roleStr = "Admin"; break;
+            default: roleStr = "None"; break;
+            }
+            sender->write(("LOGIN_OK:" + roleStr + "\n").toUtf8());
+            emit logMessage("✅ ورود موفق: " + firstName + " " + lastName);
         } else {
-            client->write("LOGIN_FAIL:نام کاربری یا رمز اشتباه است");
+            sender->write("LOGIN_FAIL:اطلاعات نادرست\n");
+            emit logMessage("⚠️ ورود ناموفق برای: " + firstName + " " + lastName);
         }
+    }
+    else if (msg.startsWith("SIGNUP_RESTAURANT:")) {
+        QStringList parts = msg.split(":");
+        if(parts.size() != 7) {
+            sender->write("SIGNUP_FAIL:فرمت اشتباه\n");
+            return;
+        }
+        QString restName = parts[1].trimmed();
+        QString ownerFirst = parts[2].trimmed();
+        QString ownerLast = parts[3].trimmed();
+        QString phone = parts[4].trimmed();
+        QString province = parts[5].trimmed();
+        QString city = parts[6].trimmed();
+        QString password; // باید از جایی بگیری (مثلاً اضافه کن به پیام یا ثابت بذار)
+
+        // مثلا فرض کن رمز ثابت برای نمونه:
+        password = "1234";
+
+        bool ok = dbManager.insertRestaurant(restName, ownerFirst, ownerLast, phone, province, city, password);
+        if (ok) {
+            sender->write("SIGNUP_OK\n");
+            emit logMessage("✅ ثبت رستوران جدید: " + restName);
+        } else {
+            sender->write("SIGNUP_FAIL:خطا در ثبت رستوران\n");
+            emit logMessage("❌ ثبت رستوران ناموفق");
+        }
+    }
+    else if (msg.startsWith("SIGNUP_CUSTOMER:")) {
+        QStringList parts = msg.split(":");
+        if(parts.size() != 5) {
+            sender->write("SIGNUP_FAIL:فرمت اشتباه\n");
+            return;
+        }
+        QString firstName = parts[1].trimmed();
+        QString lastName = parts[2].trimmed();
+        QString phone = parts[3].trimmed();
+        QString password = parts[4].trimmed();
+
+        bool ok = dbManager.insertCustomer(firstName, lastName, phone, password);
+        if (ok) {
+            sender->write("SIGNUP_OK\n");
+            emit logMessage("✅ ثبت مشتری جدید: " + firstName + " " + lastName);
+        } else {
+            sender->write("SIGNUP_FAIL:خطا در ثبت مشتری\n");
+            emit logMessage("❌ ثبت مشتری ناموفق");
+        }
+    }
+    else {
+        sender->write("ERROR:فرمان ناشناخته\n");
     }
 }

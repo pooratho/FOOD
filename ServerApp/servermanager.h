@@ -5,15 +5,17 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QList>
-#include <QSqlDatabase>
+#include "database.h"
 
 class ServerManager : public QObject
 {
     Q_OBJECT
 public:
     explicit ServerManager(QObject *parent = nullptr);
-    bool startServer(int port);
+    ~ServerManager();
+
     void connectToDatabase();
+    void startServer(quint16 port);
 
 signals:
     void logMessage(const QString &msg);
@@ -26,9 +28,9 @@ private slots:
 private:
     QTcpServer *server;
     QList<QTcpSocket*> clients;
-    QSqlDatabase db;
+    DatabaseManager dbManager;
 
-    void processMessage(QTcpSocket *client, const QString &msg);
+    void processMessage(QTcpSocket *sender, const QString &msg);
 };
 
 #endif // SERVERMANAGER_H
