@@ -1,0 +1,12 @@
+release/customersignupwindow.o
+release/database.o
+release/loginwindow.o
+release/main.o
+release/mainwindow.o
+release/restaurantownersignupwindow.o
+release/signinwindow.o
+release/moc_customersignupwindow.o
+release/moc_loginwindow.o
+release/moc_mainwindow.o
+release/moc_restaurantownersignupwindow.o
+release/moc_signinwindow.o
