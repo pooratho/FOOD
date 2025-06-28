@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "database.h"
 #include "customersignup.h"
-#include "restaurantownersignupwindow.h"
+#include "restaurantownersignup.h"
 #include "signinwindow.h"
 namespace Ui {
 class LoginWindow;

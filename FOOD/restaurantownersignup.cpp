@@ -1,19 +1,19 @@
-#include "restaurantownersignupwindow.h"
-#include "ui_restaurantownersignupwindow.h"
+#include "restaurantownersignup.h"
+#include "ui_restaurantownersignup.h"
 
-    RestaurantOwnerSignUpWindow::RestaurantOwnerSignUpWindow(QWidget *parent) :
+    RestaurantOwnerSignUp::RestaurantOwnerSignUp(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::RestaurantOwnerSignUpWindow)
+    ui(new Ui::RestaurantOwnerSignUp)
 {
     ui->setupUi(this);
 }
 
-RestaurantOwnerSignUpWindow::~RestaurantOwnerSignUpWindow()
+RestaurantOwnerSignUp::~RestaurantOwnerSignUp()
 {
     delete ui;
 }
 
-void RestaurantOwnerSignUpWindow::on_pushButton_clicked()
+void RestaurantOwnerSignUp::on_pushButton_clicked()
 {
 
         QString restaurantName = ui->lineEditRestaurantName->text();

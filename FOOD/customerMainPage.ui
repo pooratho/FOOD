@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>customerMainPage</class>
+ <widget class="QWidget" name="customerMainPage">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>744</width>
-    <height>573</height>
+    <width>950</width>
+    <height>629</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>751</width>
-     <height>581</height>
+     <width>950</width>
+     <height>631</height>
     </rect>
    </property>
    <property name="layoutDirection">
@@ -45,15 +45,15 @@ color: rgb(255, 85, 0);
      <string notr="true"/>
     </property>
     <attribute name="title">
-     <string>                  سفارش                  </string>
+     <string>                    سفارش                    </string>
     </attribute>
     <widget class="QWidget" name="widget" native="true">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>741</width>
-       <height>531</height>
+       <width>951</width>
+       <height>581</height>
       </rect>
      </property>
      <widget class="QListWidget" name="listWidget">
@@ -61,8 +61,8 @@ color: rgb(255, 85, 0);
        <rect>
         <x>0</x>
         <y>170</y>
-        <width>741</width>
-        <height>361</height>
+        <width>951</width>
+        <height>401</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -73,7 +73,7 @@ border-color: rgb(255, 85, 0);</string>
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>470</x>
+        <x>670</x>
         <y>10</y>
         <width>261</width>
         <height>20</height>
@@ -91,7 +91,7 @@ color: rgb(255, 145, 67);
      <widget class="QComboBox" name="comboBox">
       <property name="geometry">
        <rect>
-        <x>380</x>
+        <x>580</x>
         <y>40</y>
         <width>341</width>
         <height>31</height>
@@ -104,8 +104,11 @@ color: rgb(255, 145, 67);
        <string notr="true">background-color: rgb(255, 85, 0);
 color: rgb(60, 60, 60);</string>
       </property>
+      <property name="currentText">
+       <string/>
+      </property>
       <property name="placeholderText">
-       <string>                                    نوع غذا </string>
+       <string>                              نوع رستوران                              </string>
       </property>
       <item>
        <property name="text">
@@ -121,7 +124,7 @@ color: rgb(60, 60, 60);</string>
      <widget class="QComboBox" name="comboBox_2">
       <property name="geometry">
        <rect>
-        <x>380</x>
+        <x>580</x>
         <y>80</y>
         <width>341</width>
         <height>31</height>
@@ -141,7 +144,7 @@ color: rgb(60, 60, 60);</string>
      <widget class="QComboBox" name="comboBox_3">
       <property name="geometry">
        <rect>
-        <x>380</x>
+        <x>580</x>
         <y>120</y>
         <width>341</width>
         <height>31</height>
@@ -163,23 +166,20 @@ color: rgb(60, 60, 60);</string>
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>741</width>
+        <width>951</width>
         <height>171</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-image: url(&quot;C:/Users/Taheri/OneDrive/دسکتاپ/foodSource/hg3 copy.jpg&quot;);
-background-repeat: no-repeat;
-background-position: center;
-</string>
+       <string notr="true">background-image: url(:/background.jpg);</string>
       </property>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="label_2">
        <property name="geometry">
         <rect>
-         <x>70</x>
-         <y>70</y>
-         <width>231</width>
-         <height>61</height>
+         <x>0</x>
+         <y>0</y>
+         <width>251</width>
+         <height>111</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -188,15 +188,15 @@ background-position: center;
 color: rgb(255, 85, 0);</string>
        </property>
        <property name="text">
-        <string>  Games</string>
+        <string>Hunger</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="label_3">
        <property name="geometry">
         <rect>
-         <x>-20</x>
-         <y>0</y>
-         <width>251</width>
+         <x>230</x>
+         <y>70</y>
+         <width>231</width>
          <height>81</height>
         </rect>
        </property>
@@ -206,7 +206,7 @@ color: rgb(255, 85, 0);</string>
 color: rgb(255, 85, 0);</string>
        </property>
        <property name="text">
-        <string>  Hunger</string>
+        <string>Games</string>
        </property>
       </widget>
      </widget>
@@ -220,25 +220,25 @@ color: rgb(255, 85, 0);</string>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
-     <string>             سبد خرید                        </string>
+     <string>                  سبد خرید                   </string>
     </attribute>
     <widget class="QListWidget" name="listWidget_2">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>741</width>
-       <height>411</height>
+       <width>950</width>
+       <height>501</height>
       </rect>
      </property>
     </widget>
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>230</x>
+       <x>300</x>
        <y>180</y>
-       <width>261</width>
-       <height>41</height>
+       <width>331</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -251,8 +251,8 @@ color: rgb(255, 85, 0);</string>
     <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
-       <x>310</x>
-       <y>450</y>
+       <x>410</x>
+       <y>520</y>
        <width>121</width>
        <height>31</height>
       </rect>
@@ -269,25 +269,25 @@ color: rgb(255, 255, 255);</string>
    </widget>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
-     <string>                  وضعیت سفارش                  </string>
+     <string>                وضعیت سفارش                </string>
     </attribute>
     <widget class="QListWidget" name="listWidget_3">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>741</width>
-       <height>521</height>
+       <width>950</width>
+       <height>571</height>
       </rect>
      </property>
     </widget>
     <widget class="QLabel" name="label_5">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>220</y>
-       <width>311</width>
-       <height>41</height>
+       <x>260</x>
+       <y>225</y>
+       <width>401</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="styleSheet">
