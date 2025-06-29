@@ -7,6 +7,7 @@ release/food.o
 release/loginwindow.o
 release/main.o
 release/mainwindow.o
+release/restaurantownermainpage.o
 release/restaurantownersignup.o
 release/menuitem.o
 release/order.o
@@ -20,5 +21,6 @@ release/moc_customermainpage.o
 release/moc_customersignup.o
 release/moc_loginwindow.o
 release/moc_mainwindow.o
+release/moc_restaurantownermainpage.o
 release/moc_restaurantownersignup.o
 release/moc_signinwindow.o

@@ -20,6 +20,7 @@ SOURCES += \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    restaurantownermainpage.cpp \
     restaurantownersignup.cpp \
     menuitem.cpp \
     order.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     food.h \
     loginwindow.h \
     mainwindow.h \
+    restaurantownermainpage.h \
     restaurantownersignup.h \
     signinwindow.h \
     menuitem.h \
@@ -51,7 +53,8 @@ FORMS += \
     mainwindow.ui \
     restaurantownersignup.ui \
     signinwindow.ui \
-    customerMainPage.ui
+    customerMainPage.ui \
+    restaurantOwnerMainPage.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

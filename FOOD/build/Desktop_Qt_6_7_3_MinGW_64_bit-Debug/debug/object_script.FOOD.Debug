@@ -7,6 +7,7 @@ debug/food.o
 debug/loginwindow.o
 debug/main.o
 debug/mainwindow.o
+debug/restaurantownermainpage.o
 debug/restaurantownersignup.o
 debug/menuitem.o
 debug/order.o
@@ -20,5 +21,6 @@ debug/moc_customermainpage.o
 debug/moc_customersignup.o
 debug/moc_loginwindow.o
 debug/moc_mainwindow.o
+debug/moc_restaurantownermainpage.o
 debug/moc_restaurantownersignup.o
 debug/moc_signinwindow.o

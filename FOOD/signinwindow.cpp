@@ -30,12 +30,13 @@ SignInWindow::SignInWindow(LoginWindow *loginWin, const QString& role, QWidget *
             }
             else if (role == "Restaurant") {
                 QMessageBox::information(this, "ورود موفق", "خوش آمدید رستوران‌دار محترم!");
-                // (new RestaurantPage())->show();
-                this->close();
 
-                if (this->parentWidget()) {
-                    this->parentWidget()->close();
-                }
+                RestaurantOwnerMainPage *page = new RestaurantOwnerMainPage();  // بدون parent
+                page->setAttribute(Qt::WA_DeleteOnClose);         // با بستن آزاد شود
+                page->show();                                     // باز کن
+
+                loginWindow->close();  // فقط پنجره اصلی رو ببند
+                this->close();
             }
         }
         else if (msg.startsWith("LOGIN_FAIL")) {
@@ -64,8 +65,27 @@ void SignInWindow::on_pushButton_clicked()
         return;
     }
 
-    // ارسال به سرور
+    // بررسی محرمانه برای نقش Admin
+    if (selectedRole == "Admin") {
+        if (firstName != "ADMIN" || lastName != "ADMIN" || password != "ADMIN") {
+            QMessageBox::critical(this, "خطا", "اطلاعات ورود مدیر سیستم نادرست است.");
+            return;
+        }
+
+        // ورود موفق مدیر سیستم (بدون نیاز به ارسال به سرور)
+        QMessageBox::information(this, "ورود موفق", "خوش آمدید مدیر محترم سیستم!");
+
+        //AdminMainPage* page = new AdminMainPage();  // فرض بر اینکه چنین صفحه‌ای وجود دارد
+        //page->setAttribute(Qt::WA_DeleteOnClose);
+        //page->show();
+
+        //loginWindow->close();
+        //this->close();
+        //return;
+    }
+
+    // برای سایر نقش‌ها: ارسال به سرور
     QString msg = "LOGIN:" + selectedRole + ":" + firstName + ":" + lastName + ":" + password;
     clientSocket->sendMessage(msg);
-
 }
+

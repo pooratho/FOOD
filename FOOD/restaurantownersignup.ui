@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>563</width>
-    <height>689</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@
      <x>-70</x>
      <y>-30</y>
      <width>661</width>
-     <height>711</height>
+     <height>731</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -35,7 +35,7 @@
     <property name="geometry">
      <rect>
       <x>205</x>
-      <y>50</y>
+      <y>60</y>
       <width>281</width>
       <height>581</height>
      </rect>
@@ -162,16 +162,6 @@ background-color: rgb(70, 70, 70);
      <property name="placeholderText">
       <string>  انتخاب استان</string>
      </property>
-     <item>
-      <property name="text">
-       <string>تهران</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>اصفهان</string>
-      </property>
-     </item>
     </widget>
     <widget class="QComboBox" name="comboBoxCity">
      <property name="geometry">
@@ -201,7 +191,7 @@ background-color: rgb(70, 70, 70);
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>660</y>
+      <y>670</y>
       <width>151</width>
       <height>31</height>
      </rect>
