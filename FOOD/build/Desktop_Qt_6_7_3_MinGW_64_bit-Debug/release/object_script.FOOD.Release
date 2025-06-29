@@ -1,3 +1,4 @@
+release/adminmainpage.o
 release/cartitem.o
 release/clientsocketmanager.o
 release/customermainpage.o
@@ -16,6 +17,7 @@ release/restaurantowner.o
 release/signinwindow.o
 release/user.o
 release/qrc_resources.o
+release/moc_adminmainpage.o
 release/moc_clientsocketmanager.o
 release/moc_customermainpage.o
 release/moc_customersignup.o

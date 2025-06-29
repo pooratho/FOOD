@@ -1,3 +1,4 @@
+debug/adminmainpage.o
 debug/cartitem.o
 debug/clientsocketmanager.o
 debug/customermainpage.o
@@ -16,6 +17,7 @@ debug/restaurantowner.o
 debug/signinwindow.o
 debug/user.o
 debug/qrc_resources.o
+debug/moc_adminmainpage.o
 debug/moc_clientsocketmanager.o
 debug/moc_customermainpage.o
 debug/moc_customersignup.o

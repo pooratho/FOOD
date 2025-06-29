@@ -11,6 +11,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    adminmainpage.cpp \
     cartitem.cpp \
     clientsocketmanager.cpp \
     customermainpage.cpp \
@@ -30,6 +31,7 @@ SOURCES += \
     user.cpp
 
 HEADERS += \
+    adminmainpage.h \
     cartitem.h \
     clientsocketmanager.h \
     customermainpage.h \
@@ -54,7 +56,8 @@ FORMS += \
     restaurantownersignup.ui \
     signinwindow.ui \
     customerMainPage.ui \
-    restaurantOwnerMainPage.ui
+    restaurantOwnerMainPage.ui \
+    adminMainPage.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

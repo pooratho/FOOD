@@ -1,6 +1,7 @@
 #include "signinwindow.h"
 #include "ui_signinwindow.h"
 #include "loginwindow.h"
+#include "adminmainpage.h"
 
 SignInWindow::SignInWindow(LoginWindow *loginWin, const QString& role, QWidget *parent) :
     QWidget(parent),
@@ -75,13 +76,13 @@ void SignInWindow::on_pushButton_clicked()
         // ورود موفق مدیر سیستم (بدون نیاز به ارسال به سرور)
         QMessageBox::information(this, "ورود موفق", "خوش آمدید مدیر محترم سیستم!");
 
-        //AdminMainPage* page = new AdminMainPage();  // فرض بر اینکه چنین صفحه‌ای وجود دارد
-        //page->setAttribute(Qt::WA_DeleteOnClose);
-        //page->show();
+        AdminMainPage* page = new AdminMainPage();  // فرض بر اینکه چنین صفحه‌ای وجود دارد
+        page->setAttribute(Qt::WA_DeleteOnClose);
+        page->show();
 
-        //loginWindow->close();
-        //this->close();
-        //return;
+        loginWindow->close();
+        this->close();
+        return;
     }
 
     // برای سایر نقش‌ها: ارسال به سرور
