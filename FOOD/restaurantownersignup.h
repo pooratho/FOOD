@@ -1,9 +1,10 @@
 #ifndef RESTAURANTOWNERSIGNUP_H
 #define RESTAURANTOWNERSIGNUP_H
 
-#include "database.h"
 #include <QWidget>
 #include <QMessageBox>
+#include "clientsocketmanager.h"  // کلاس ارتباط با سرور
+
 namespace Ui {
 class RestaurantOwnerSignUp;
 }
@@ -21,8 +22,8 @@ private slots:
 
 private:
     Ui::RestaurantOwnerSignUp *ui;
-    DatabaseManager dbManager;
+    ClientSocketManager *clientSocket;  // اشاره‌گر به سوکت مدیریتی
 };
 
+#endif // RESTAURANTOWNERSIGNUPWINDOW_H
 
-#endif // RESTAURANTOWNERSIGNUP_H

@@ -21,7 +21,6 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     restaurantownersignup.cpp \
-    signinwindow.cpp
     menuitem.cpp \
     order.cpp \
     restaurant.cpp \
@@ -39,12 +38,11 @@ HEADERS += \
     loginwindow.h \
     mainwindow.h \
     restaurantownersignup.h \
-    signinwindow.h
+    signinwindow.h \
     menuitem.h \
     order.h \
     restaurant.h \
     restaurantowner.h \
-    signinwindow.h \
     user.h
 
 FORMS += \
