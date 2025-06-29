@@ -7,7 +7,8 @@ RestaurantOwnerSignUpWindow::RestaurantOwnerSignUpWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // اتصال به سرور با استفاده از کلاس مدیریت سوکت
+
+
     clientSocket = new ClientSocketManager(this);
  clientSocket->connectToServer("127.0.0.1", 1234);
     // وقتی پاسخی از سرور گرفتیم

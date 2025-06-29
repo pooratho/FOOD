@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QMessageBox>
-#include "clientsocketmanager.h"  // کلاس ارتباط با سرور
+#include "clientsocketmanager.h"
 
 namespace Ui {
 class RestaurantOwnerSignUpWindow;
