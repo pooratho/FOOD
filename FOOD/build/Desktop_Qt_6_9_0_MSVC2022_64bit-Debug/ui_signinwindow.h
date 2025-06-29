@@ -30,8 +30,8 @@ public:
     QLineEdit *lineEditLastName;
     QLabel *label_4;
     QLineEdit *lineEditPassword;
-    QWidget *widget_3;
     QPushButton *pushButton;
+    QWidget *widget_3;
 
     void setupUi(QWidget *SignInWindow)
     {
@@ -77,19 +77,17 @@ public:
         lineEditPassword = new QLineEdit(widget_2);
         lineEditPassword->setObjectName("lineEditPassword");
         lineEditPassword->setGeometry(QRect(40, 355, 201, 41));
+        pushButton = new QPushButton(widget);
+        pushButton->setObjectName("pushButton");
+        pushButton->setGeometry(QRect(260, 520, 131, 31));
+        pushButton->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 85, 0);"));
         widget_3 = new QWidget(widget);
         widget_3->setObjectName("widget_3");
-        widget_3->setGeometry(QRect(0, 0, 611, 621));
-        widget_3->setStyleSheet(QString::fromUtf8("background-image: url(\"C:/Users/Taheri/OneDrive/\330\257\330\263\332\251\330\252\330\247\331\276/foodSource/hg4.jpg\");\n"
-"background-repeat: no-repeat;\n"
-"background-position: center;\n"
-""));
-        pushButton = new QPushButton(widget_3);
-        pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(250, 520, 131, 31));
-        pushButton->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 85, 0);"));
+        widget_3->setGeometry(QRect(0, 0, 581, 581));
+        widget_3->setStyleSheet(QString::fromUtf8("background-image: url(:/background.jpg);"));
         widget_3->raise();
         widget_2->raise();
+        pushButton->raise();
 
         retranslateUi(SignInWindow);
 

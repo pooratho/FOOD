@@ -17,7 +17,8 @@ class SignInWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit SignInWindow(LoginWindow *loginWin, QWidget *parent = nullptr);
+    explicit SignInWindow(LoginWindow *loginWin, const QString& role, QWidget *parent = nullptr);
+
     ~SignInWindow();
 
 private slots:
@@ -27,6 +28,8 @@ private:
     Ui::SignInWindow *ui;
     ClientSocketManager *clientSocket;
     LoginWindow *loginWindow;  // اشاره‌گر به پنجره اصلی
+    QString selectedRole;
+
 };
 
 #endif // SIGNINWINDOW_H

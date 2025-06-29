@@ -36,12 +36,14 @@ public:
     QLineEdit *lineEditPassword;
     QLineEdit *lineEditPasswordRepeat;
     QPushButton *pushButton;
+    QWidget *widget_3;
 
     void setupUi(QDialog *customersignup)
     {
         if (customersignup->objectName().isEmpty())
             customersignup->setObjectName("customersignup");
         customersignup->resize(596, 814);
+        customersignup->setStyleSheet(QString::fromUtf8(""));
         widget = new QWidget(customersignup);
         widget->setObjectName("widget");
         widget->setGeometry(QRect(10, 0, 561, 711));
@@ -99,6 +101,13 @@ public:
         pushButton->setGeometry(QRect(200, 750, 151, 31));
         pushButton->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 85, 0);\n"
 ""));
+        widget_3 = new QWidget(customersignup);
+        widget_3->setObjectName("widget_3");
+        widget_3->setGeometry(QRect(0, 0, 601, 811));
+        widget_3->setStyleSheet(QString::fromUtf8("background-image: url(:/background.jpg);"));
+        widget_3->raise();
+        widget->raise();
+        pushButton->raise();
 
         retranslateUi(customersignup);
 

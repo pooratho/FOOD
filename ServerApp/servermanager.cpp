@@ -71,31 +71,47 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 {
     if (msg.startsWith("LOGIN:")) {
         QStringList parts = msg.split(":");
-        if(parts.size() != 4) {
+        if(parts.size() != 5) {
             sender->write("LOGIN_FAIL:فرمت اشتباه\n");
             return;
         }
 
-        QString firstName = parts[1].trimmed();
-        QString lastName = parts[2].trimmed();
-        QString password = parts[3].trimmed();
+        QString role       = parts[1].trimmed().toLower();  // نقش انتخاب‌شده توسط کاربر
+        QString firstName  = parts[2].trimmed();
+        QString lastName   = parts[3].trimmed();
+        QString password   = parts[4].trimmed();
 
-        auto role = dbManager.checkUserLogin(firstName, lastName, password);
-        if (role != DatabaseManager::UserRole::None) {
-            QString roleStr;
-            switch(role) {
-            case DatabaseManager::UserRole::Customer: roleStr = "Customer"; break;
-            case DatabaseManager::UserRole::Restaurant: roleStr = "Restaurant"; break;
-            case DatabaseManager::UserRole::Admin: roleStr = "Admin"; break;
-            default: roleStr = "None"; break;
-            }
+        auto dbRole = dbManager.checkUserLogin(firstName, lastName, password);  // نقش واقعی در دیتابیس
+
+        bool matched = false;
+        QString roleStr;
+
+        switch (dbRole) {
+        case DatabaseManager::UserRole::Customer:
+            matched = (role == "customer");
+            roleStr = "Customer";
+            break;
+        case DatabaseManager::UserRole::Restaurant:
+            matched = (role == "restaurant");
+            roleStr = "Restaurant";
+            break;
+        // case DatabaseManager::UserRole::Admin:
+        //     matched = (role == "admin");
+        //     roleStr = "Admin";
+        //     break;
+        default:
+            matched = false;
+        }
+
+        if (matched) {
             sender->write(("LOGIN_OK:" + roleStr + "\n").toUtf8());
-            emit logMessage("✅ ورود موفق: " + firstName + " " + lastName);
+            emit logMessage("✅ ورود موفق: " + firstName + " " + lastName + " (" + roleStr + ")");
         } else {
-            sender->write("LOGIN_FAIL:اطلاعات نادرست\n");
-            emit logMessage("⚠️ ورود ناموفق برای: " + firstName + " " + lastName);
+            sender->write("LOGIN_FAIL:نقش اشتباه یا اطلاعات نادرست\n");
+            emit logMessage("❌ ورود ناموفق برای: " + firstName + " " + lastName + " با نقش " + role);
         }
     }
+
 
     else if (msg.startsWith("SIGNUP_CUSTOMER:")) {
         QStringList parts = msg.split(":");

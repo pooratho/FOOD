@@ -2,10 +2,11 @@
 #include "ui_signinwindow.h"
 #include "loginwindow.h"
 
-SignInWindow::SignInWindow(LoginWindow *loginWin, QWidget *parent) :
+SignInWindow::SignInWindow(LoginWindow *loginWin, const QString& role, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SignInWindow),
-    loginWindow(loginWin)
+    loginWindow(loginWin),
+    selectedRole(role)
 {
     ui->setupUi(this);
 
@@ -64,6 +65,7 @@ void SignInWindow::on_pushButton_clicked()
     }
 
     // ارسال به سرور
-    QString msg = "LOGIN:" + firstName + ":" + lastName + ":" + password;
+    QString msg = "LOGIN:" + selectedRole + ":" + firstName + ":" + lastName + ":" + password;
     clientSocket->sendMessage(msg);
+
 }

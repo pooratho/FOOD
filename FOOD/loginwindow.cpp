@@ -22,21 +22,30 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::on_pushButton_clicked()
 {
-        QString role = ui->comboBoxRole->currentText();
-
-    if (role == "مشتری") {
-        SignInWindow* SignInPage = new SignInWindow(this);
-        SignInPage ->show();
-    }
-    else if (role == "رستوران دار") {
-        SignInWindow* SignInPage = new SignInWindow(this);
-        SignInPage ->show();
-    }
-    else if (role == "مدیر سیستم")
-    {}
-    else {
+    QString role = ui->comboBoxRole->currentText().trimmed();
+    if (role.isEmpty()) {
         QMessageBox::warning(this, "خطا", "لطفاً یک نقش انتخاب کنید.");
+        return;
     }
+
+    // تبدیل نقش فارسی به انگلیسی
+    QString roleEnglish;
+    if (role == "مشتری") roleEnglish = "Customer";
+    else if (role == "رستوران دار") roleEnglish = "Restaurant";
+    else {
+        QMessageBox::warning(this, "خطا", "نقش انتخاب‌شده نامعتبر است.");
+        return;
+    }
+
+    SignInWindow *signin = new SignInWindow(this, roleEnglish);
+    signin->show();
+    this->close();  // لاگین بسته شه
+
+    // else if (role == "مدیر سیستم")
+    // {}
+    // else {
+    //     QMessageBox::warning(this, "خطا", "لطفاً یک نقش انتخاب کنید.");
+    // }
 
 }
 

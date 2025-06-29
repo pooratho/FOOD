@@ -37,8 +37,8 @@ public:
         LoginWindow->setStyleSheet(QString::fromUtf8(""));
         label = new QLabel(LoginWindow);
         label->setObjectName("label");
-        label->setGeometry(QRect(80, 25, 391, 81));
-        label->setStyleSheet(QString::fromUtf8("font: 48pt \"AlphaFridgeMagnets \";\n"
+        label->setGeometry(QRect(95, 25, 451, 81));
+        label->setStyleSheet(QString::fromUtf8("font: 45pt \"AlphaFridgeMagnets \";\n"
 "\n"
 "color: rgb(255, 85, 0);"));
         widget = new QWidget(LoginWindow);
@@ -73,10 +73,7 @@ public:
         widget_2 = new QWidget(LoginWindow);
         widget_2->setObjectName("widget_2");
         widget_2->setGeometry(QRect(-40, -80, 600, 511));
-        widget_2->setStyleSheet(QString::fromUtf8("background-image: url(\"C:/Users/Taheri/OneDrive/\330\257\330\263\332\251\330\252\330\247\331\276/foodSource/hg3 copy.jpg\");\n"
-"background-repeat: no-repeat;\n"
-"background-position: center;\n"
-""));
+        widget_2->setStyleSheet(QString::fromUtf8("background-image: url(:/background.jpg);"));
         widget_2->raise();
         label->raise();
         widget->raise();
