@@ -11,22 +11,34 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    cartitem.cpp \
     clientsocketmanager.cpp \
     customer.cpp \
     customersignup.cpp \
+    food.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    menuitem.cpp \
+    order.cpp \
+    restaurant.cpp \
+    restaurantowner.cpp \
     restaurantownersignupwindow.cpp \
     signinwindow.cpp \
     user.cpp
 
 HEADERS += \
+    cartitem.h \
     clientsocketmanager.h \
     customer.h \
     customersignup.h \
+    food.h \
     loginwindow.h \
     mainwindow.h \
+    menuitem.h \
+    order.h \
+    restaurant.h \
+    restaurantowner.h \
     restaurantownersignupwindow.h \
     signinwindow.h \
     user.h

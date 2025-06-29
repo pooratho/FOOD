@@ -1,0 +1,42 @@
+#include "restaurant.h"
+
+Restaurant::Restaurant(int id, const QString& name, const QString& ownerUsername,
+                       const QString& province, const QString& city, bool isActive)
+    : id(id), name(name), ownerUsername(ownerUsername),
+    province(province), city(city), isActive(isActive) {}
+
+int Restaurant::getId() const {
+    return id;
+}
+
+QString Restaurant::getName() const {
+    return name;
+}
+
+QString Restaurant::getOwnerUsername() const {
+    return ownerUsername;
+}
+
+QString Restaurant::getProvince() const {
+    return province;
+}
+
+QString Restaurant::getCity() const {
+    return city;
+}
+
+bool Restaurant::getIsActive() const {
+    return isActive;
+}
+
+void Restaurant::setActive(bool active) {
+    isActive = active;
+}
+
+void Restaurant::addMenuItem(const MenuItem& item) {
+    menu.append(item);
+}
+
+QVector<MenuItem> Restaurant::getMenu() const {
+    return menu;
+}

@@ -4,6 +4,7 @@
 #include "user.h"
 #include <QString>
 #include <QVector>
+#include "order.h"
 
 class Order;     // به‌زودی تعریف می‌شه
 class CartItem;  // به‌زودی تعریف می‌شه
