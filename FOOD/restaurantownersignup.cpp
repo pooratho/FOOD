@@ -1,6 +1,6 @@
+
 #include "restaurantownersignup.h"
 #include "ui_restaurantownersignup.h"
-
 
 RestaurantOwnerSignUp::RestaurantOwnerSignUp(QWidget *parent) :
     QWidget(parent),
@@ -43,28 +43,12 @@ void RestaurantOwnerSignUp::on_pushButton_clicked()
         return;
     }
 
-    if (password != passwordRepeat) {
-        QMessageBox::warning(this, "Error", "رمز عبور و تکرار آن یکسان نیستند!");
+    if (restaurantName.isEmpty() || ownerFirstName.isEmpty() || ownerLastName.isEmpty() ||
+        phone.isEmpty() || province.isEmpty() || city.isEmpty() || password.isEmpty()) {
+        QMessageBox::warning(this, "خطا", "لطفاً تمام فیلدها را پر کنید.");
         return;
     }
 
-        // چک خالی بودن فیلدها
-    if (restaurantName.isEmpty() || ownerFirstName.isEmpty() || ownerLastName.isEmpty() || phone.isEmpty()
-        || province.isEmpty() || city.isEmpty() || password.isEmpty()) {
-            QMessageBox::warning(this, "Error", "لطفا همه فیلدها را پر کنید.");
-            return;
-        }
-
-        if (!dbManager.insertRestaurant(restaurantName, ownerFirstName, ownerLastName, phone, province, city, password)) {
-            QMessageBox::warning(this, "Error", "ثبت اطلاعات انجام نشد.");
-        } else {
-            QMessageBox::information(this, "Success", "ثبت نام رستوران موفقیت‌آمیز بود!");
-            this->close();
-
-            if (this->parentWidget()) {
-                this->parentWidget()->close();
-            }
-        }
 
     // ساخت پیام برای ارسال به سرور
     QString msg = QString("SIGNUP_RESTAURANT:%1:%2:%3:%4:%5:%6:%7")

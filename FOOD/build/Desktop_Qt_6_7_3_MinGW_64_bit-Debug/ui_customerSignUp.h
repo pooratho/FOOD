@@ -1,5 +1,5 @@
 /********************************************************************************
-** Form generated from reading UI file 'customerSignUp.ui'
+** Form generated from reading UI file 'customersignup.ui'
 **
 ** Created by: Qt User Interface Compiler version 6.7.3
 **
@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QDialog>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
@@ -18,7 +19,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_Form
+class Ui_customersignup
 {
 public:
     QWidget *widget;
@@ -26,31 +27,30 @@ public:
     QLabel *label;
     QLabel *label_2;
     QLabel *label_3;
-    QLineEdit *lineEdit;
-    QLineEdit *lineEdit_2;
-    QLineEdit *lineEdit_3;
+    QLineEdit *lineEditFirstName;
+    QLineEdit *lineEditLastName;
+    QLineEdit *lineEditPhone;
     QLabel *label_4;
     QLabel *label_5;
     QLabel *label_6;
-    QLineEdit *lineEdit_4;
-    QLineEdit *lineEdit_5;
+    QLineEdit *lineEditPassword;
+    QLineEdit *lineEditPasswordRepeat;
     QPushButton *pushButton;
     QWidget *widget_3;
 
-    void setupUi(QWidget *Form)
+    void setupUi(QDialog *customersignup)
     {
-        if (Form->objectName().isEmpty())
-            Form->setObjectName("Form");
-        Form->resize(563, 754);
-        Form->setLayoutDirection(Qt::LayoutDirection::RightToLeft);
-        Form->setStyleSheet(QString::fromUtf8(""));
-        widget = new QWidget(Form);
+        if (customersignup->objectName().isEmpty())
+            customersignup->setObjectName("customersignup");
+        customersignup->resize(596, 814);
+        customersignup->setStyleSheet(QString::fromUtf8(""));
+        widget = new QWidget(customersignup);
         widget->setObjectName("widget");
-        widget->setGeometry(QRect(-70, -30, 661, 711));
+        widget->setGeometry(QRect(10, 0, 561, 711));
         widget->setStyleSheet(QString::fromUtf8("x"));
         widget_2 = new QWidget(widget);
         widget_2->setObjectName("widget_2");
-        widget_2->setGeometry(QRect(205, 50, 281, 651));
+        widget_2->setGeometry(QRect(130, 60, 281, 651));
         widget_2->setStyleSheet(QString::fromUtf8("color: rgb(240, 80, 0);\n"
 "font: 12pt ;\n"
 "font: 12pt \"B Farnaz\";\n"
@@ -68,18 +68,18 @@ public:
         label_3 = new QLabel(widget_2);
         label_3->setObjectName("label_3");
         label_3->setGeometry(QRect(50, 310, 191, 20));
-        lineEdit = new QLineEdit(widget_2);
-        lineEdit->setObjectName("lineEdit");
-        lineEdit->setGeometry(QRect(40, 125, 201, 41));
-        lineEdit->setStyleSheet(QString::fromUtf8(""));
-        lineEdit_2 = new QLineEdit(widget_2);
-        lineEdit_2->setObjectName("lineEdit_2");
-        lineEdit_2->setGeometry(QRect(40, 235, 201, 41));
-        lineEdit_3 = new QLineEdit(widget_2);
-        lineEdit_3->setObjectName("lineEdit_3");
-        lineEdit_3->setGeometry(QRect(40, 355, 201, 41));
-        lineEdit_3->setText(QString::fromUtf8("+98"));
-        lineEdit_3->setPlaceholderText(QString::fromUtf8("+98"));
+        lineEditFirstName = new QLineEdit(widget_2);
+        lineEditFirstName->setObjectName("lineEditFirstName");
+        lineEditFirstName->setGeometry(QRect(40, 125, 201, 41));
+        lineEditFirstName->setStyleSheet(QString::fromUtf8(""));
+        lineEditLastName = new QLineEdit(widget_2);
+        lineEditLastName->setObjectName("lineEditLastName");
+        lineEditLastName->setGeometry(QRect(40, 235, 201, 41));
+        lineEditPhone = new QLineEdit(widget_2);
+        lineEditPhone->setObjectName("lineEditPhone");
+        lineEditPhone->setGeometry(QRect(40, 355, 201, 41));
+        lineEditPhone->setText(QString::fromUtf8("+98"));
+        lineEditPhone->setPlaceholderText(QString::fromUtf8("+98"));
         label_4 = new QLabel(widget_2);
         label_4->setObjectName("label_4");
         label_4->setGeometry(QRect(80, 15, 171, 61));
@@ -90,52 +90,49 @@ public:
         label_6 = new QLabel(widget_2);
         label_6->setObjectName("label_6");
         label_6->setGeometry(QRect(140, 530, 101, 20));
-        lineEdit_4 = new QLineEdit(widget_2);
-        lineEdit_4->setObjectName("lineEdit_4");
-        lineEdit_4->setGeometry(QRect(40, 465, 201, 41));
-        lineEdit_5 = new QLineEdit(widget_2);
-        lineEdit_5->setObjectName("lineEdit_5");
-        lineEdit_5->setGeometry(QRect(40, 570, 201, 41));
-        pushButton = new QPushButton(Form);
+        lineEditPassword = new QLineEdit(widget_2);
+        lineEditPassword->setObjectName("lineEditPassword");
+        lineEditPassword->setGeometry(QRect(40, 465, 201, 41));
+        lineEditPasswordRepeat = new QLineEdit(widget_2);
+        lineEditPasswordRepeat->setObjectName("lineEditPasswordRepeat");
+        lineEditPasswordRepeat->setGeometry(QRect(40, 570, 201, 41));
+        pushButton = new QPushButton(customersignup);
         pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(200, 690, 151, 31));
+        pushButton->setGeometry(QRect(200, 750, 151, 31));
         pushButton->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 85, 0);\n"
 ""));
-        widget_3 = new QWidget(Form);
+        widget_3 = new QWidget(customersignup);
         widget_3->setObjectName("widget_3");
-        widget_3->setGeometry(QRect(-10, -10, 581, 781));
-        widget_3->setStyleSheet(QString::fromUtf8("background-image: url(\"C:/Users/Taheri/OneDrive/\330\257\330\263\332\251\330\252\330\247\331\276/foodSource/hg5.jpg\");\n"
-"background-repeat: no-repeat;\n"
-"background-position: center;\n"
-""));
+        widget_3->setGeometry(QRect(0, 0, 601, 811));
+        widget_3->setStyleSheet(QString::fromUtf8("background-image: url(:/background.jpg);"));
         widget_3->raise();
         widget->raise();
         pushButton->raise();
 
-        retranslateUi(Form);
+        retranslateUi(customersignup);
 
-        QMetaObject::connectSlotsByName(Form);
+        QMetaObject::connectSlotsByName(customersignup);
     } // setupUi
 
-    void retranslateUi(QWidget *Form)
+    void retranslateUi(QDialog *customersignup)
     {
-        Form->setWindowTitle(QCoreApplication::translate("Form", "Form", nullptr));
-        label->setText(QCoreApplication::translate("Form", "  \331\206\330\247\331\205:", nullptr));
-        label_2->setText(QCoreApplication::translate("Form", "  \331\206\330\247\331\205 \330\256\331\210\330\247\331\206\331\210\330\247\330\257\332\257\333\214:", nullptr));
-        label_3->setText(QCoreApplication::translate("Form", "  \330\264\331\205\330\247\330\261\331\207 \331\205\331\210\330\250\330\247\333\214\331\204:", nullptr));
+        customersignup->setWindowTitle(QCoreApplication::translate("customersignup", "Dialog", nullptr));
+        label->setText(QCoreApplication::translate("customersignup", "  \331\206\330\247\331\205:", nullptr));
+        label_2->setText(QCoreApplication::translate("customersignup", "  \331\206\330\247\331\205 \330\256\331\210\330\247\331\206\331\210\330\247\330\257\332\257\333\214:", nullptr));
+        label_3->setText(QCoreApplication::translate("customersignup", "  \330\264\331\205\330\247\330\261\331\207 \331\205\331\210\330\250\330\247\333\214\331\204:", nullptr));
 #if QT_CONFIG(tooltip)
-        lineEdit_3->setToolTip(QString());
+        lineEditPhone->setToolTip(QString());
 #endif // QT_CONFIG(tooltip)
-        label_4->setText(QCoreApplication::translate("Form", "  \330\271\330\266\331\210\333\214\330\252", nullptr));
-        label_5->setText(QCoreApplication::translate("Form", "  \330\261\331\205\330\262 \330\271\330\250\331\210\330\261:", nullptr));
-        label_6->setText(QCoreApplication::translate("Form", "  \330\252\332\251\330\261\330\247\330\261 \330\261\331\205\330\262 \330\271\330\250\331\210\330\261:", nullptr));
-        pushButton->setText(QCoreApplication::translate("Form", "\330\252\330\247\333\214\333\214\330\257", nullptr));
+        label_4->setText(QCoreApplication::translate("customersignup", "  \330\271\330\266\331\210\333\214\330\252", nullptr));
+        label_5->setText(QCoreApplication::translate("customersignup", "  \330\261\331\205\330\262 \330\271\330\250\331\210\330\261:", nullptr));
+        label_6->setText(QCoreApplication::translate("customersignup", "  \330\252\332\251\330\261\330\247\330\261 \330\261\331\205\330\262 \330\271\330\250\331\210\330\261:", nullptr));
+        pushButton->setText(QCoreApplication::translate("customersignup", "\330\252\330\247\333\214\333\214\330\257", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class Form: public Ui_Form {};
+    class customersignup: public Ui_customersignup {};
 } // namespace Ui
 
 QT_END_NAMESPACE
