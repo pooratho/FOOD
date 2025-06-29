@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RestaurantOwnerSignUp</class>
+ <widget class="QWidget" name="RestaurantOwnerSignUp">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>563</width>
+    <height>689</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LayoutDirection::RightToLeft</enum>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>-70</x>
+     <y>-30</y>
+     <width>661</width>
+     <height>711</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">x</string>
+   </property>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>205</x>
+      <y>50</y>
+      <width>281</width>
+      <height>581</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(240, 80, 0);
+font: 12pt ;
+font: 12pt &quot;B Farnaz&quot;;
+background-color: rgb(70, 70, 70);
+</string>
+    </property>
+    <widget class="QLineEdit" name="lineEditRestaurantName">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>80</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="placeholderText">
+      <string>  نام رستوران</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditOwnerFirstName">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>140</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>  نام مالک فروشگاه</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditPhone">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>260</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string/>
+     </property>
+     <property name="text">
+      <string notr="true"/>
+     </property>
+     <property name="placeholderText">
+      <string notr="true">  شماره موبایل                      98+</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>10</y>
+       <width>171</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 28pt &quot;B Farnaz&quot;;</string>
+     </property>
+     <property name="text">
+      <string>  عضویت</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditPassword">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>320</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>  رمز عبور</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditPasswordrepeat">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>380</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>  تکرار رمز عبور</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditOwnerLastName">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>200</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>  نام خانوادگی مالک فروشگاه</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBoxProvince">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>440</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>  انتخاب استان</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>تهران</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>اصفهان</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="comboBoxCity">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>500</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>  انتخاب شهر</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>تهران</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>اصفهان</string>
+      </property>
+     </item>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>660</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 85, 0);
+</string>
+    </property>
+    <property name="text">
+     <string>تایید</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="widget_3" native="true">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>-10</y>
+     <width>581</width>
+     <height>781</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/background.jpg);</string>
+   </property>
+  </widget>
+  <zorder>widget_3</zorder>
+  <zorder>widget</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

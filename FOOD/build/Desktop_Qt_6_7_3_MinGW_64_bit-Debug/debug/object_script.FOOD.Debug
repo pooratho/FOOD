@@ -1,0 +1,12 @@
+debug/customersignupwindow.o
+debug/database.o
+debug/loginwindow.o
+debug/main.o
+debug/mainwindow.o
+debug/restaurantownersignupwindow.o
+debug/signinwindow.o
+debug/moc_customersignupwindow.o
+debug/moc_loginwindow.o
+debug/moc_mainwindow.o
+debug/moc_restaurantownersignupwindow.o
+debug/moc_signinwindow.o

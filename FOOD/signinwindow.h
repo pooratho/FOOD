@@ -4,6 +4,9 @@
 #include <QWidget>
 #include <QMessageBox>
 #include "clientsocketmanager.h"
+#include "customermainpage.h"
+
+class LoginWindow;
 
 namespace Ui {
 class SignInWindow;
@@ -14,7 +17,7 @@ class SignInWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit SignInWindow(QWidget *parent = nullptr);
+    explicit SignInWindow(LoginWindow *loginWin, QWidget *parent = nullptr);
     ~SignInWindow();
 
 private slots:
@@ -23,6 +26,7 @@ private slots:
 private:
     Ui::SignInWindow *ui;
     ClientSocketManager *clientSocket;
+    LoginWindow *loginWindow;  // اشاره‌گر به پنجره اصلی
 };
 
 #endif // SIGNINWINDOW_H
