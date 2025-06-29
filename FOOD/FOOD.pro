@@ -12,20 +12,24 @@ CONFIG += c++17
 
 SOURCES += \
     clientsocketmanager.cpp \
+    customer.cpp \
     customersignup.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
     restaurantownersignupwindow.cpp \
-    signinwindow.cpp
+    signinwindow.cpp \
+    user.cpp
 
 HEADERS += \
     clientsocketmanager.h \
+    customer.h \
     customersignup.h \
     loginwindow.h \
     mainwindow.h \
     restaurantownersignupwindow.h \
-    signinwindow.h
+    signinwindow.h \
+    user.h
 
 FORMS += \
     customersignup.ui \
