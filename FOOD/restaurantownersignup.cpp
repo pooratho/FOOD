@@ -59,7 +59,7 @@ RestaurantOwnerSignUp::RestaurantOwnerSignUp(LoginWindow *loginWin, QWidget *par
             page->setAttribute(Qt::WA_DeleteOnClose);
             page->show();
 
-            loginWindow->close();
+           // loginWindow->close();
             this->close();
         } else if (msg.startsWith("SIGNUP_FAIL")) {
             QMessageBox::warning(this, "خطا", "ثبت نام ناموفق بود، دوباره تلاش کنید.");

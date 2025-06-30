@@ -24,7 +24,7 @@ customersignup::customersignup(LoginWindow *loginWin, QWidget *parent)
             page->setAttribute(Qt::WA_DeleteOnClose);
             page->show();
 
-            loginWindow->close();  // بستن پنجره لاگین
+            //loginWindow->close();  // بستن پنجره لاگین
             this->close();         // بستن فرم ثبت‌نام
 
         } else if (msg.startsWith("SIGNUP_FAIL")) {

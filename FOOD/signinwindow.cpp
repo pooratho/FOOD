@@ -29,7 +29,7 @@ SignInWindow::SignInWindow(LoginWindow *loginWin, const QString& role, QWidget *
                 page->setAttribute(Qt::WA_DeleteOnClose);         // با بستن آزاد شود
                 page->show();                                     // باز کن
 
-                loginWindow->close();  // فقط پنجره اصلی رو ببند
+                //loginWindow->close();  // فقط پنجره اصلی رو ببند
                 this->close();
             }
             else if (role == "Restaurant") {
@@ -50,7 +50,7 @@ SignInWindow::SignInWindow(LoginWindow *loginWin, const QString& role, QWidget *
                 page->setAttribute(Qt::WA_DeleteOnClose);         // با بستن آزاد شود
                 page->show();                                     // باز کن
 
-                loginWindow->close();  // فقط پنجره اصلی رو ببند
+              // loginWindow->close();  // فقط پنجره اصلی رو ببند
                 this->close();
             }
         }
@@ -61,7 +61,7 @@ SignInWindow::SignInWindow(LoginWindow *loginWin, const QString& role, QWidget *
             page->setAttribute(Qt::WA_DeleteOnClose);
             page->show();
 
-            loginWindow->close();
+          //  loginWindow->close();
             this->close();
         }
         else if (msg.startsWith("LOGIN_FAIL")) {
