@@ -51,12 +51,12 @@ HEADERS += \
 
 FORMS += \
     adminmainpage.ui \
+    customermainpage.ui \
     customersignup.ui \
     loginwindow.ui \
     mainwindow.ui \
     restaurantownersignup.ui \
     signinwindow.ui \
-    customerMainPage.ui \
     restaurantOwnerMainPage.ui
 
 # Default rules for deployment.

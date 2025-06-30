@@ -1,14 +1,15 @@
 #include "customermainpage.h"
 #include "ui_customermainpage.h"
-#include <QMap>
-#include <QStringList>
 #include <QDebug>
 
-CustomerMainPage::CustomerMainPage(QWidget *parent)
-    : QWidget(parent),
-    ui(new Ui::customerMainPage)
+CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::CustomerMainPage)
+    , customer(customer)
 {
     ui->setupUi(this);
+
+
 
     // تعریف نقشه استان -> لیست شهرها
     provinceCitiesMap["آذربایجان شرقی"] = {"میانه", "اهر", "تبریز", "مرند", "مراغه"};
@@ -22,7 +23,7 @@ CustomerMainPage::CustomerMainPage(QWidget *parent)
     provinceCitiesMap["گیلان"] = {"رشت", "بندر انزلی", "لاهیجان", "لنگرود", "تالش"};
     provinceCitiesMap["مازندران"] = {"ساری", "بابل", "آمل", "قائم شهر", "بهشهر"};
 
-    // اضافه کردن استان‌ها به comboBox_2 (فرض شده comboBox_2 برای استان‌هاست)
+    // اضافه کردن استان‌ها
     QStringList provinces = provinceCitiesMap.keys();
     provinces.sort();
     ui->comboBox_2->addItems(provinces);
@@ -37,25 +38,18 @@ CustomerMainPage::~CustomerMainPage()
     delete ui;
 }
 
-// استان انتخاب شده تغییر کرد
 void CustomerMainPage::on_comboBox_2_currentTextChanged(const QString &province)
 {
     qDebug() << "استان انتخاب شده: " << province;
 
-    // گرفتن شهرهای مربوط به استان
     QStringList cities = provinceCitiesMap.value(province);
     cities.sort();
 
-    // پاک کردن شهرهای قبلی
     ui->comboBox_3->clear();
-
-    // اضافه کردن شهرهای جدید
     ui->comboBox_3->addItems(cities);
 }
 
-// شهر انتخاب شده تغییر کرد
 void CustomerMainPage::on_comboBox_3_currentTextChanged(const QString &city)
 {
     qDebug() << "شهر انتخاب شده: " << city;
-    // اینجا می‌تونی کارهای مرتبط با شهر انتخاب‌شده رو انجام بدی
 }

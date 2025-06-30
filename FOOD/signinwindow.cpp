@@ -21,8 +21,11 @@ SignInWindow::SignInWindow(LoginWindow *loginWin, const QString& role, QWidget *
 
             if (role == "Customer") {
                 QMessageBox::information(this, "ورود موفق", "خوش آمدید مشتری عزیز!");
-
-                CustomerMainPage *page = new CustomerMainPage();  // بدون parent
+                Customer* customer = new Customer(cachedFirstName, cachedLastName, cachedPhone, cachedPassword);
+                CustomerMainPage* page = new CustomerMainPage(customer);
+                page->setAttribute(Qt::WA_DeleteOnClose);
+                page->show();
+ // بدون parent
                 page->setAttribute(Qt::WA_DeleteOnClose);         // با بستن آزاد شود
                 page->show();                                     // باز کن
 
@@ -62,31 +65,20 @@ void SignInWindow::on_pushButton_clicked()
     QString password = ui->lineEditPassword->text().trimmed();
 
     if (firstName.isEmpty() || lastName.isEmpty() || password.isEmpty()) {
-        QMessageBox::warning(this, "خطا", "همه فیلدها را پر کنید.");
+        QMessageBox::warning(this, "خطا", "لطفاً همه فیلدها را پر کنید.");
         return;
     }
 
-    // بررسی محرمانه برای نقش Admin
-    if (selectedRole == "Admin") {
-        if (firstName != "ADMIN" || lastName != "ADMIN" || password != "ADMIN") {
-            QMessageBox::critical(this, "خطا", "اطلاعات ورود مدیر سیستم نادرست است.");
-            return;
-        }
+    // ذخیره اطلاعات کاربر برای ساخت شی Customer بعدا
+    cachedFirstName = firstName;
+    cachedLastName = lastName;
+    cachedPassword = password;
 
-        // ورود موفق مدیر سیستم (بدون نیاز به ارسال به سرور)
-        QMessageBox::information(this, "ورود موفق", "خوش آمدید مدیر محترم سیستم!");
+    // اگر نقش رو جایی مثل comboBox داری باید مقدارش رو هم اینجا بگیری و ذخیره کنی
+    // فرضا:
 
-        AdminMainPage* page = new AdminMainPage();  // فرض بر اینکه چنین صفحه‌ای وجود دارد
-        page->setAttribute(Qt::WA_DeleteOnClose);
-        page->show();
 
-        loginWindow->close();
-        this->close();
-        return;
-    }
-
-    // برای سایر نقش‌ها: ارسال به سرور
+    // ارسال پیام به سرور
     QString msg = "LOGIN:" + selectedRole + ":" + firstName + ":" + lastName + ":" + password;
     clientSocket->sendMessage(msg);
 }
-

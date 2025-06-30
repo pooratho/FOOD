@@ -1,10 +1,11 @@
 #ifndef CUSTOMERSIGNUP_H
 #define CUSTOMERSIGNUP_H
 
+
 #include <QDialog>
-#include <QMessageBox>
-#include "clientsocketmanager.h"  // مدیریت ارتباط با سرور
+#include "clientsocketmanager.h"
 #include "customermainpage.h"
+#include "customer.h"  // ⬅️ حتما اینو اضافه کن
 
 class LoginWindow;
 
@@ -26,7 +27,13 @@ private slots:
 private:
     Ui::customersignup *ui;
     ClientSocketManager *clientSocket;
-    LoginWindow *loginWindow;  // اشاره‌گر به پنجره اصلی
+    LoginWindow *loginWindow;
+
+    // ⬅️ شی از کلاس Customer
+    Customer* customer = nullptr;
+
+    // برای ذخیره مقادیر اولیه قبل از ثبت‌نام موفق
+    QString firstName, lastName, phone, password;
 };
 
 #endif // CUSTOMERSIGNUP_H

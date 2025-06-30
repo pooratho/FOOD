@@ -5,10 +5,10 @@
 #include <QMap>
 #include <QStringList>
 
-#include "ui_customerMainPage.h"
+#include "customer.h"  // برای استفاده از کلاس Customer
 
 namespace Ui {
-class customerMainPage;
+class CustomerMainPage;
 }
 
 class CustomerMainPage : public QWidget
@@ -16,7 +16,7 @@ class CustomerMainPage : public QWidget
     Q_OBJECT
 
 public:
-    explicit CustomerMainPage(QWidget *parent = nullptr);
+    explicit CustomerMainPage(Customer* customer, QWidget *parent = nullptr);
     ~CustomerMainPage();
 
 private slots:
@@ -24,8 +24,11 @@ private slots:
     void on_comboBox_3_currentTextChanged(const QString &city);
 
 private:
-    Ui::customerMainPage *ui;
+private:
+    Ui::CustomerMainPage *ui;
     QMap<QString, QStringList> provinceCitiesMap;
+    Customer* customer; // این اضافه بشه
+
 };
 
 #endif // CUSTOMERMAINPAGE_H

@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include "clientsocketmanager.h"
 #include "customermainpage.h"
+#include "customer.h"
 
 class LoginWindow;
 
@@ -29,6 +30,11 @@ private:
     ClientSocketManager *clientSocket;
     LoginWindow *loginWindow;  // اشاره‌گر به پنجره اصلی
     QString selectedRole;
+private:
+    QString cachedFirstName;
+    QString cachedLastName;
+    QString cachedPassword;
+   QString cachedPhone;
 
 };
 
