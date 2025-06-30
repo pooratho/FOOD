@@ -54,6 +54,16 @@ SignInWindow::SignInWindow(LoginWindow *loginWin, const QString& role, QWidget *
                 this->close();
             }
         }
+        else if (role == "Admin") {
+            QMessageBox::information(this, "ورود موفق", "خوش آمدید مدیر سیستم!");
+
+            AdminMainPage* page = new AdminMainPage();  // اگر ورودی نیاز داشت می‌تونی بده، فعلاً بدون ورودی
+            page->setAttribute(Qt::WA_DeleteOnClose);
+            page->show();
+
+            loginWindow->close();
+            this->close();
+        }
         else if (msg.startsWith("LOGIN_FAIL")) {
             QMessageBox::warning(this, "خطا", "ورود ناموفق! اطلاعات اشتباه است.");
         }

@@ -10,6 +10,7 @@
 #include <QString>
 #include <QVariantList>
 #include <QMessageBox>
+#include "admin.h"
 
 class DatabaseManager {
 public:
@@ -43,6 +44,8 @@ public:
 
 private:
     QSqlDatabase db;
+
+    QVector<Admin> adminList;
 
 
 };

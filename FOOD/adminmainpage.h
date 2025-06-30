@@ -4,7 +4,7 @@
 #include <QWidget>
 
 namespace Ui {
-class adminMainPage;
+class AdminMainPage;
 }
 
 class AdminMainPage : public QWidget
@@ -16,7 +16,7 @@ public:
     ~AdminMainPage();
 
 private:
-    Ui::adminMainPage *ui;
+    Ui::AdminMainPage *ui;
 };
 
 #endif // ADMINMAINPAGE_H

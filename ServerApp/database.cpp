@@ -70,6 +70,31 @@ void DatabaseManager::createTables() {
     if (!successRestaurant) {
         qDebug() << "Create restaurants table error:" << query.lastError().text();
     }
+
+    bool successAdmin = query.exec(
+        "CREATE TABLE IF NOT EXISTS admins ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "firstname TEXT NOT NULL, "
+        "lastname TEXT NOT NULL, "
+        "password TEXT NOT NULL)"
+        );
+
+    if (!successAdmin) {
+        qDebug() << "Create admins table error:" << query.lastError().text();
+    }
+    // افزودن ادمین پیش‌فرض در صورت عدم وجود
+    query.prepare("SELECT COUNT(*) FROM admins WHERE firstname = 'ADMIN' AND lastname = 'ADMIN'");
+    if (query.exec() && query.next() && query.value(0).toInt() == 0) {
+        query.prepare("INSERT INTO admins (firstname, lastname, password) "
+                      "VALUES (:firstname, :lastname, :password)");
+        query.bindValue(":firstname", "ADMIN");
+        query.bindValue(":lastname", "ADMIN");
+        query.bindValue(":password", hashPassword("ADMIN")); // پسورد هش شده
+        if (!query.exec()) {
+            qDebug() << "Insert default admin failed:" << query.lastError().text();
+        }
+    }
+
 }
 
 // void DatabaseManager::creatRestaurantTable() {
@@ -162,64 +187,16 @@ DatabaseManager::UserRole DatabaseManager::checkUserLogin(const QString& firstNa
     }
 
     // بررسی مدیر
-    // query.prepare("SELECT COUNT(*) FROM admins WHERE firstname = :first AND lastname = :last AND password = :pass");
-    // query.bindValue(":first", firstName);
-    // query.bindValue(":last", lastName);
-    // query.bindValue(":pass", hashed);
-    // if (query.exec() && query.next() && query.value(0).toInt() > 0) {
-    //     return UserRole::Admin;
-    // }
+    query.prepare("SELECT COUNT(*) FROM admins WHERE firstname = :first AND lastname = :last AND password = :pass");
+    query.bindValue(":first", firstName);
+    query.bindValue(":last", lastName);
+    query.bindValue(":pass", hashed);
+    if (query.exec() && query.next() && query.value(0).toInt() > 0) {
+        return UserRole::Admin;
+    }
+
 
     return UserRole::None;
 }
 
 
-// void DatabaseManager::createUsersTable() {
-//     QSqlQuery query;
-//     QString createTable = "CREATE TABLE IF NOT EXISTS users ("
-//                           "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                           "username TEXT UNIQUE NOT NULL, "
-//                           "password TEXT NOT NULL)";
-//     if (!query.exec(createTable)) {
-//         qDebug() << "Failed to create users table:" << query.lastError();
-//     }
-// }
-
-// bool DatabaseManager::signUp(const QString& username, const QString& password, const QString& role) {
-//     QString hashedPassword = hashPassword(password);
-
-//     QSqlQuery query;
-//     query.prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
-//     query.addBindValue(username);
-//     query.addBindValue(hashedPassword);
-//     query.addBindValue(role);
-
-//     if (!query.exec()) {
-//         qDebug() << "SignUp failed:" << query.lastError();
-//         return false;
-//     }
-//     return true;
-// }
-
-
-// bool DatabaseManager::login(const QString& username, const QString& password, const QString& role) {
-//     QString hashedPassword = hashPassword(password);
-
-//     QSqlQuery query;
-//     query.prepare("SELECT COUNT(*) FROM users WHERE username = ? AND password = ? AND role = ?");
-//     query.addBindValue(username);
-//     query.addBindValue(hashedPassword);
-//     query.addBindValue(role);
-
-//     if (!query.exec()) {
-//         qDebug() << "Login query failed:" << query.lastError();
-//         return false;
-//     }
-
-//     if (query.next()) {
-//         int count = query.value(0).toInt();
-//         return count == 1;
-//     }
-
-//     return false;
-// }

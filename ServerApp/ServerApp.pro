@@ -11,12 +11,14 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    admin.cpp \
     database.cpp \
     main.cpp \
     mainwindow.cpp \
     servermanager.cpp
 
 HEADERS += \
+    admin.h \
     database.h \
     mainwindow.h \
     servermanager.h

@@ -3,7 +3,7 @@
 
 AdminMainPage::AdminMainPage(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::adminMainPage)
+    ui(new Ui::AdminMainPage)
 {
     ui->setupUi(this);
 

@@ -34,7 +34,7 @@ private:
     QString cachedFirstName;
     QString cachedLastName;
     QString cachedPassword;
-   QString cachedPhone;
+    QString cachedPhone;
 
 };
 
