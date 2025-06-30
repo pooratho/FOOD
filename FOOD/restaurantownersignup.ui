@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>563</width>
-    <height>700</height>
+    <height>684</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,9 +35,9 @@
     <property name="geometry">
      <rect>
       <x>205</x>
-      <y>60</y>
+      <y>50</y>
       <width>281</width>
-      <height>581</height>
+      <height>571</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -67,7 +67,7 @@ background-color: rgb(70, 70, 70);
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>140</y>
+       <y>185</y>
        <width>201</width>
        <height>41</height>
       </rect>
@@ -80,7 +80,7 @@ background-color: rgb(70, 70, 70);
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>260</y>
+       <y>295</y>
        <width>201</width>
        <height>41</height>
       </rect>
@@ -115,7 +115,7 @@ background-color: rgb(70, 70, 70);
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>320</y>
+       <y>350</y>
        <width>201</width>
        <height>41</height>
       </rect>
@@ -128,7 +128,7 @@ background-color: rgb(70, 70, 70);
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>380</y>
+       <y>405</y>
        <width>201</width>
        <height>41</height>
       </rect>
@@ -141,7 +141,7 @@ background-color: rgb(70, 70, 70);
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>200</y>
+       <y>240</y>
        <width>201</width>
        <height>41</height>
       </rect>
@@ -154,7 +154,7 @@ background-color: rgb(70, 70, 70);
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>440</y>
+       <y>460</y>
        <width>201</width>
        <height>41</height>
       </rect>
@@ -167,7 +167,7 @@ background-color: rgb(70, 70, 70);
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>500</y>
+       <y>510</y>
        <width>201</width>
        <height>41</height>
       </rect>
@@ -186,12 +186,69 @@ background-color: rgb(70, 70, 70);
       </property>
      </item>
     </widget>
+    <widget class="QComboBox" name="comboBox">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>130</y>
+       <width>201</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LayoutDirection::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="currentText">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>                              نوع رستوران                              </string>
+     </property>
+     <item>
+      <property name="text">
+       <string>                               نوع رستوران                    </string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>ایرانی</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>فست فود</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>صبحانه</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>سالاد</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>دریایی</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>بین الملل</string>
+      </property>
+     </item>
+    </widget>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>670</y>
+      <y>650</y>
       <width>151</width>
       <height>31</height>
      </rect>
