@@ -1,12 +1,17 @@
 #include "restaurantownermainpage.h"
+#include "ui_restaurantownermainpage.h"
 
-RestaurantOwnerMainPage::RestaurantOwnerMainPage(QWidget *parent)
-    : QWidget(parent)
+RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget *parent)
+    : QWidget(parent),
+    ui(new Ui::restaurantOwnerMainPage),
+    currentOwner(owner)
 {
-    ui.setupUi(this);  // اتصال UI به این ویجت
+    ui->setupUi(this);
+
+
 }
 
 RestaurantOwnerMainPage::~RestaurantOwnerMainPage()
 {
-    // معمولاً نیازی به کد خاص نیست چون Qt خودش پاکسازی می‌کند
+    delete ui;
 }

@@ -21,7 +21,7 @@ public:
     QString getProvince() const;
     QString getCity() const;
     bool getIsActive() const;
-
+Restaurant(const QString& name, const QString& province, const QString& city);
     void setActive(bool active);
     void addMenuItem(const MenuItem& item);
     QVector<MenuItem> getMenu() const;

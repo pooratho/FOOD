@@ -35,7 +35,18 @@ SignInWindow::SignInWindow(LoginWindow *loginWin, const QString& role, QWidget *
             else if (role == "Restaurant") {
                 QMessageBox::information(this, "ورود موفق", "خوش آمدید رستوران‌دار محترم!");
 
-                RestaurantOwnerMainPage *page = new RestaurantOwnerMainPage();  // بدون parent
+                Restaurant restaurant("RestaurantName", "Tehran", "Tehran");  // اینا فعلاً فرضی هستن
+                RestaurantOwner* owner = new RestaurantOwner(
+                    cachedFirstName,
+                    cachedLastName,
+                    cachedPhone,
+                    cachedPassword,
+                    restaurant
+                    );
+
+                RestaurantOwnerMainPage* page = new RestaurantOwnerMainPage(owner);
+
+
                 page->setAttribute(Qt::WA_DeleteOnClose);         // با بستن آزاد شود
                 page->show();                                     // باز کن
 

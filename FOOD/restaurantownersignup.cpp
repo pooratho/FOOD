@@ -1,11 +1,14 @@
-
 #include "restaurantownersignup.h"
 #include "ui_restaurantownersignup.h"
 #include "loginwindow.h"
+#include "restaurant.h"
+#include "restaurantowner.h"
+#include "restaurantownermainpage.h"
 
 #include <QScreen>
 #include <QGuiApplication>
 #include <QTimer>
+#include <QMessageBox>
 
 RestaurantOwnerSignUp::RestaurantOwnerSignUp(LoginWindow *loginWin, QWidget *parent) :
     QWidget(parent),
@@ -14,40 +17,56 @@ RestaurantOwnerSignUp::RestaurantOwnerSignUp(LoginWindow *loginWin, QWidget *par
 {
     ui->setupUi(this);
 
-    // ابتدا ارتفاع و عرض فرم را تنظیم می‌کنیم
-    this->resize(563, 700); // یا هر ابعاد دلخواه متناسب با مانیتور
+    this->resize(563, 700);
 
-    // با تأخیر یک لحظه‌ای فرم را جابجا می‌کنیم
     QTimer::singleShot(0, this, [this]() {
         QScreen *screen = QGuiApplication::primaryScreen();
         QRect screenGeometry = screen->availableGeometry();
 
         int x = (screenGeometry.width() - this->width()) / 2;
-        int y = 30;  // از بالا شروع شود
-
+        int y = 30;
         this->move(x, y);
     });
 
-    // کدهای اتصال به سرور
     clientSocket = new ClientSocketManager(this);
     clientSocket->connectToServer("127.0.0.1", 1234);
 
-    connect(clientSocket, &ClientSocketManager::messageReceived, this, [=](const QString& response) {
-        if (response.startsWith("SIGNUP_OK")) {
-            QMessageBox::information(this, "موفق", "ثبت‌نام رستوران با موفقیت انجام شد.");
+    connect(clientSocket, &ClientSocketManager::messageReceived, this, [=](const QString &msg) {
+        if (msg.startsWith("SIGNUP_OK")) {
+            QMessageBox::information(this, "موفقیت", "ثبت نام با موفقیت انجام شد.");
 
-            RestaurantOwnerMainPage *page = new RestaurantOwnerMainPage();
-            page->setAttribute(Qt::WA_DeleteOnClose);         // با بستن آزاد شود
-            page->show();                                     // باز کن
+            // ساخت شی Restaurant
+            Restaurant restaurant(
+                0,  // ID موقت
+                cachedRestaurantName,
+                cachedOwnerFirstName + cachedOwnerLastName,  // owner username فرضی
+                cachedProvince,
+                cachedCity,
+                true  // isActive
+                );
 
-            loginWindow->close();  // فقط پنجره اصلی رو ببند
+            // ساخت شی RestaurantOwner
+            RestaurantOwner* owner = new RestaurantOwner(
+                cachedOwnerFirstName,
+                cachedOwnerLastName,
+                cachedPhone,
+                cachedPassword,
+                restaurant
+                );
+
+            // باز کردن صفحه اصلی رستوران‌دار
+            RestaurantOwnerMainPage* page = new RestaurantOwnerMainPage(owner);
+            page->setAttribute(Qt::WA_DeleteOnClose);
+            page->show();
+
+            loginWindow->close();
             this->close();
-
-        } else {
-            QMessageBox::warning(this, "خطا", "ثبت‌نام رستوران ناموفق بود.");
+        } else if (msg.startsWith("SIGNUP_FAIL")) {
+            QMessageBox::warning(this, "خطا", "ثبت نام ناموفق بود، دوباره تلاش کنید.");
         }
     });
 
+    // لیست استان‌ها و شهرها
     provinceCitiesMap["آذربایجان شرقی"] = {"میانه", "اهر", "تبریز", "مرند", "مراغه"};
     provinceCitiesMap["اصفهان"] = {"اصفهان", "کاشان", "خمینی شهر", "شاهین شهر", "نجف آباد"};
     provinceCitiesMap["البرز"] = {"کرج", "فردیس", "کمال شهر", "نظر آباد", "محمد شهر"};
@@ -59,12 +78,10 @@ RestaurantOwnerSignUp::RestaurantOwnerSignUp(LoginWindow *loginWin, QWidget *par
     provinceCitiesMap["گیلان"] = {"رشت", "بندر انزلی", "لاهیجان", "لنگرود", "تالش"};
     provinceCitiesMap["مازندران"] = {"ساری", "بابل", "آمل", "قائم شهر", "بهشهر"};
 
-    // اضافه کردن استان‌ها به comboBox_2 (فرض شده comboBox_2 برای استان‌هاست)
     QStringList provinces = provinceCitiesMap.keys();
     provinces.sort();
     ui->comboBoxProvince->addItems(provinces);
 
-    // انتخاب پیش‌فرض (مثلاً اولین استان)
     if (!provinces.isEmpty())
         on_comboBoxProvince_currentTextChanged(provinces.first());
 }
@@ -76,10 +93,10 @@ RestaurantOwnerSignUp::~RestaurantOwnerSignUp()
 
 void RestaurantOwnerSignUp::on_pushButton_clicked()
 {
-    QString restaurantName = ui->lineEditRestaurantName->text();
-    QString ownerFirstName = ui->lineEditOwnerFirstName->text();
-    QString ownerLastName = ui->lineEditOwnerLastName->text();
-    QString phone = ui->lineEditPhone->text();
+    QString restaurantName = ui->lineEditRestaurantName->text().trimmed();
+    QString ownerFirstName = ui->lineEditOwnerFirstName->text().trimmed();
+    QString ownerLastName = ui->lineEditOwnerLastName->text().trimmed();
+    QString phone = ui->lineEditPhone->text().trimmed();
     QString province = ui->comboBoxProvince->currentText();
     QString city = ui->comboBoxCity->currentText();
     QString password = ui->lineEditPassword->text();
@@ -96,8 +113,15 @@ void RestaurantOwnerSignUp::on_pushButton_clicked()
         return;
     }
 
+    // ذخیره اطلاعات برای بعد از پاسخ مثبت سرور
+    cachedRestaurantName = restaurantName;
+    cachedOwnerFirstName = ownerFirstName;
+    cachedOwnerLastName = ownerLastName;
+    cachedPhone = phone;
+    cachedProvince = province;
+    cachedCity = city;
+    cachedPassword = password;
 
-    // ساخت پیام برای ارسال به سرور
     QString msg = QString("SIGNUP_RESTAURANT:%1:%2:%3:%4:%5:%6:%7")
                       .arg(restaurantName)
                       .arg(ownerFirstName)
@@ -112,22 +136,14 @@ void RestaurantOwnerSignUp::on_pushButton_clicked()
 
 void RestaurantOwnerSignUp::on_comboBoxProvince_currentTextChanged(const QString &province)
 {
-    qDebug() << "استان انتخاب شده: " << province;
-
-    // گرفتن شهرهای مربوط به استان
     QStringList cities = provinceCitiesMap.value(province);
     cities.sort();
-
-    // پاک کردن شهرهای قبلی
     ui->comboBoxCity->clear();
-
-    // اضافه کردن شهرهای جدید
     ui->comboBoxCity->addItems(cities);
 }
 
-
 void RestaurantOwnerSignUp::on_comboBoxCity_currentTextChanged(const QString &city)
 {
-
+    Q_UNUSED(city);
+    // اگر نیاز به پردازش بود، اضافه می‌کنیم
 }
-

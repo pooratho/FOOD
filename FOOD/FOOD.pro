@@ -55,9 +55,9 @@ FORMS += \
     customersignup.ui \
     loginwindow.ui \
     mainwindow.ui \
+    restaurantownermainpage.ui \
     restaurantownersignup.ui \
-    signinwindow.ui \
-    restaurantOwnerMainPage.ui
+    signinwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

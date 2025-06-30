@@ -5,6 +5,9 @@ Restaurant::Restaurant(int id, const QString& name, const QString& ownerUsername
     : id(id), name(name), ownerUsername(ownerUsername),
     province(province), city(city), isActive(isActive) {}
 
+Restaurant::Restaurant(const QString& name, const QString& province, const QString& city)
+    : id(-1), name(name), ownerUsername(""), province(province), city(city), isActive(true) {}
+
 int Restaurant::getId() const {
     return id;
 }
@@ -40,3 +43,4 @@ void Restaurant::addMenuItem(const MenuItem& item) {
 QVector<MenuItem> Restaurant::getMenu() const {
     return menu;
 }
+

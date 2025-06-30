@@ -3,10 +3,10 @@
 
 #include <QWidget>
 #include <QMessageBox>
-#include "clientsocketmanager.h"  // کلاس ارتباط با سرور
+#include "clientsocketmanager.h"
 #include <QMap>
-
 #include "restaurantownermainpage.h"
+#include "restaurantowner.h"
 
 class LoginWindow;
 
@@ -31,10 +31,18 @@ private slots:
 
 private:
     Ui::RestaurantOwnerSignUp *ui;
-    ClientSocketManager *clientSocket;  // اشاره‌گر به سوکت مدیریتی
+    ClientSocketManager *clientSocket;
     QMap<QString, QStringList> provinceCitiesMap;
     LoginWindow *loginWindow;
+
+    // اضافه کردن متغیر کش برای اطلاعات ثبت‌نام
+    QString cachedRestaurantName;
+    QString cachedOwnerFirstName;
+    QString cachedOwnerLastName;
+    QString cachedPhone;
+    QString cachedProvince;
+    QString cachedCity;
+    QString cachedPassword;
 };
 
-#endif // RESTAURANTOWNERSIGNUPWINDOW_H
-
+#endif // RESTAURANTOWNERSIGNUP_H

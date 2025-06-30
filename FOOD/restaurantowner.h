@@ -6,17 +6,20 @@
 
 class RestaurantOwner : public User
 {
+private:
+    Restaurant restaurant;
+
 public:
     RestaurantOwner(const QString& firstName,
                     const QString& lastName,
                     const QString& phone,
-                    const QString& password);
+                    const QString& password,
+                    const Restaurant& restaurant);
 
-    void addRestaurant(const Restaurant& r);
-    QVector<Restaurant> getRestaurants() const;
+    Restaurant getRestaurant() const;
+    void setRestaurant(const Restaurant& r);
 
-private:
-    QVector<Restaurant> ownedRestaurants;
+    QString getRole() const override;
 };
 
 #endif // RESTAURANTOWNER_H
