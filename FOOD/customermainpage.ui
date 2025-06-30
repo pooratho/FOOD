@@ -69,6 +69,18 @@ color: rgb(255, 85, 0);
        <string notr="true">background-color: rgb(60, 60, 60);
 border-color: rgb(255, 85, 0);</string>
       </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>false</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+      </property>
       <column>
        <property name="text">
         <string>نام رستوران     </string>

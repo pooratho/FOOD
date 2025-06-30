@@ -33,6 +33,7 @@ public:
     QLineEdit *lineEditOwnerLastName;
     QComboBox *comboBoxProvince;
     QComboBox *comboBoxCity;
+    QComboBox *comboBox;
     QPushButton *pushButton;
     QWidget *widget_3;
 
@@ -40,7 +41,7 @@ public:
     {
         if (RestaurantOwnerSignUp->objectName().isEmpty())
             RestaurantOwnerSignUp->setObjectName("RestaurantOwnerSignUp");
-        RestaurantOwnerSignUp->resize(563, 700);
+        RestaurantOwnerSignUp->resize(563, 684);
         RestaurantOwnerSignUp->setLayoutDirection(Qt::LayoutDirection::RightToLeft);
         RestaurantOwnerSignUp->setStyleSheet(QString::fromUtf8(""));
         widget = new QWidget(RestaurantOwnerSignUp);
@@ -49,7 +50,7 @@ public:
         widget->setStyleSheet(QString::fromUtf8("x"));
         widget_2 = new QWidget(widget);
         widget_2->setObjectName("widget_2");
-        widget_2->setGeometry(QRect(205, 60, 281, 581));
+        widget_2->setGeometry(QRect(205, 50, 281, 571));
         widget_2->setStyleSheet(QString::fromUtf8("color: rgb(240, 80, 0);\n"
 "font: 12pt ;\n"
 "font: 12pt \"B Farnaz\";\n"
@@ -61,10 +62,10 @@ public:
         lineEditRestaurantName->setStyleSheet(QString::fromUtf8(""));
         lineEditOwnerFirstName = new QLineEdit(widget_2);
         lineEditOwnerFirstName->setObjectName("lineEditOwnerFirstName");
-        lineEditOwnerFirstName->setGeometry(QRect(40, 140, 201, 41));
+        lineEditOwnerFirstName->setGeometry(QRect(40, 185, 201, 41));
         lineEditPhone = new QLineEdit(widget_2);
         lineEditPhone->setObjectName("lineEditPhone");
-        lineEditPhone->setGeometry(QRect(40, 260, 201, 41));
+        lineEditPhone->setGeometry(QRect(40, 295, 201, 41));
         lineEditPhone->setText(QString::fromUtf8(""));
         lineEditPhone->setPlaceholderText(QString::fromUtf8("  \330\264\331\205\330\247\330\261\331\207 \331\205\331\210\330\250\330\247\333\214\331\204                      98+"));
         label_4 = new QLabel(widget_2);
@@ -73,24 +74,36 @@ public:
         label_4->setStyleSheet(QString::fromUtf8("font: 28pt \"B Farnaz\";"));
         lineEditPassword = new QLineEdit(widget_2);
         lineEditPassword->setObjectName("lineEditPassword");
-        lineEditPassword->setGeometry(QRect(40, 320, 201, 41));
+        lineEditPassword->setGeometry(QRect(40, 350, 201, 41));
         lineEditPasswordrepeat = new QLineEdit(widget_2);
         lineEditPasswordrepeat->setObjectName("lineEditPasswordrepeat");
-        lineEditPasswordrepeat->setGeometry(QRect(40, 380, 201, 41));
+        lineEditPasswordrepeat->setGeometry(QRect(40, 405, 201, 41));
         lineEditOwnerLastName = new QLineEdit(widget_2);
         lineEditOwnerLastName->setObjectName("lineEditOwnerLastName");
-        lineEditOwnerLastName->setGeometry(QRect(40, 200, 201, 41));
+        lineEditOwnerLastName->setGeometry(QRect(40, 240, 201, 41));
         comboBoxProvince = new QComboBox(widget_2);
         comboBoxProvince->setObjectName("comboBoxProvince");
-        comboBoxProvince->setGeometry(QRect(40, 440, 201, 41));
+        comboBoxProvince->setGeometry(QRect(40, 460, 201, 41));
         comboBoxCity = new QComboBox(widget_2);
         comboBoxCity->addItem(QString());
         comboBoxCity->addItem(QString());
         comboBoxCity->setObjectName("comboBoxCity");
-        comboBoxCity->setGeometry(QRect(40, 500, 201, 41));
+        comboBoxCity->setGeometry(QRect(40, 510, 201, 41));
+        comboBox = new QComboBox(widget_2);
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->setObjectName("comboBox");
+        comboBox->setGeometry(QRect(40, 130, 201, 41));
+        comboBox->setLayoutDirection(Qt::LayoutDirection::LeftToRight);
+        comboBox->setStyleSheet(QString::fromUtf8(""));
         pushButton = new QPushButton(widget);
         pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(270, 670, 151, 31));
+        pushButton->setGeometry(QRect(270, 650, 151, 31));
         pushButton->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 85, 0);\n"
 ""));
         widget_3 = new QWidget(RestaurantOwnerSignUp);
@@ -122,6 +135,16 @@ public:
         comboBoxCity->setItemText(1, QCoreApplication::translate("RestaurantOwnerSignUp", "\330\247\330\265\331\201\331\207\330\247\331\206", nullptr));
 
         comboBoxCity->setPlaceholderText(QCoreApplication::translate("RestaurantOwnerSignUp", "  \330\247\331\206\330\252\330\256\330\247\330\250 \330\264\331\207\330\261", nullptr));
+        comboBox->setItemText(0, QCoreApplication::translate("RestaurantOwnerSignUp", "                               \331\206\331\210\330\271 \330\261\330\263\330\252\331\210\330\261\330\247\331\206                    ", nullptr));
+        comboBox->setItemText(1, QCoreApplication::translate("RestaurantOwnerSignUp", "\330\247\333\214\330\261\330\247\331\206\333\214", nullptr));
+        comboBox->setItemText(2, QCoreApplication::translate("RestaurantOwnerSignUp", "\331\201\330\263\330\252 \331\201\331\210\330\257", nullptr));
+        comboBox->setItemText(3, QCoreApplication::translate("RestaurantOwnerSignUp", "\330\265\330\250\330\255\330\247\331\206\331\207", nullptr));
+        comboBox->setItemText(4, QCoreApplication::translate("RestaurantOwnerSignUp", "\330\263\330\247\331\204\330\247\330\257", nullptr));
+        comboBox->setItemText(5, QCoreApplication::translate("RestaurantOwnerSignUp", "\330\257\330\261\333\214\330\247\333\214\333\214", nullptr));
+        comboBox->setItemText(6, QCoreApplication::translate("RestaurantOwnerSignUp", "\330\250\333\214\331\206 \330\247\331\204\331\205\331\204\331\204", nullptr));
+
+        comboBox->setCurrentText(QString());
+        comboBox->setPlaceholderText(QCoreApplication::translate("RestaurantOwnerSignUp", "                              \331\206\331\210\330\271 \330\261\330\263\330\252\331\210\330\261\330\247\331\206                              ", nullptr));
         pushButton->setText(QCoreApplication::translate("RestaurantOwnerSignUp", "\330\252\330\247\333\214\333\214\330\257", nullptr));
     } // retranslateUi
 

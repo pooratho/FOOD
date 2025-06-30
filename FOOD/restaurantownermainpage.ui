@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>621</width>
-    <height>664</height>
+    <height>662</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,9 +21,9 @@ font: 14pt &quot;B Farnaz&quot;;</string>
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>100</y>
+     <y>80</y>
      <width>621</width>
-     <height>561</height>
+     <height>581</height>
     </rect>
    </property>
    <property name="layoutDirection">
@@ -40,7 +40,7 @@ font: 14pt &quot;B Farnaz&quot;;</string>
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>10</y>
+       <y>20</y>
        <width>311</width>
        <height>451</height>
       </rect>
@@ -177,7 +177,7 @@ background-color: rgb(60, 60, 60);</string>
      <property name="geometry">
       <rect>
        <x>260</x>
-       <y>470</y>
+       <y>485</y>
        <width>101</width>
        <height>31</height>
       </rect>
@@ -197,7 +197,7 @@ font: 12pt &quot;B Farnaz&quot;;</string>
        <x>0</x>
        <y>0</y>
        <width>621</width>
-       <height>521</height>
+       <height>531</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -424,7 +424,7 @@ font: 18pt &quot;B Farnaz&quot;;</string>
      <x>0</x>
      <y>0</y>
      <width>621</width>
-     <height>101</height>
+     <height>81</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -438,7 +438,7 @@ font: 20pt &quot;B Farnaz&quot;;</string>
       <x>10</x>
       <y>10</y>
       <width>601</width>
-      <height>81</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">

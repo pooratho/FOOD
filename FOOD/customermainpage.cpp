@@ -32,6 +32,9 @@ CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
     connect(ui->comboBoxFoodType, &QComboBox::currentTextChanged,
             this, &CustomerMainPage::sendFilteredRequest);
 
+    connect(ui->comboBoxProvince, &QComboBox::currentTextChanged,
+            this, &CustomerMainPage::on_comboBox_2_currentTextChanged);
+
     // نقشه استان‌ها
     provinceCitiesMap["آذربایجان شرقی"] = {"میانه", "اهر", "تبریز", "مرند", "مراغه"};
     provinceCitiesMap["اصفهان"] = {"اصفهان", "کاشان", "خمینی شهر", "شاهین شهر", "نجف آباد"};
@@ -83,13 +86,6 @@ void CustomerMainPage::handleServerMessage(const QString& msg)
 
         // جدول رو پاک می‌کنیم
         ui->tableWidget->clearContents();
-        ui->tableWidget->setRowCount(0);
-
-        // فقط یک بار ستون‌ها و هدر رو تنظیم کن (اگر قبلاً انجام نشده)
-        if (ui->tableWidget->columnCount() != 3) {
-            ui->tableWidget->setColumnCount(3);
-            ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "نام رستوران" << "نوع غذا" << "آدرس");
-        }
 
         ui->tableWidget->setRowCount(rows.size());
 
@@ -109,6 +105,12 @@ void CustomerMainPage::handleServerMessage(const QString& msg)
         if (rows.isEmpty()) {
             QMessageBox::information(this, "اطلاع", "هیچ رستورانی در سیستم ثبت نشده است.");
         }
+        ui->tableWidget->setColumnWidth(0, 360); // ستون "نام رستوران"
+        ui->tableWidget->setColumnWidth(1, 200); // ستون "نوع غذا"
+        ui->tableWidget->setColumnWidth(2, 370); // ستون "آدرس"
+
+        ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+
     }
     else if (msg.startsWith("RESTAURANT_LIST_FAIL")) {
         QMessageBox::warning(this, "خطا", "دریافت لیست رستوران‌ها ناموفق بود!");
@@ -125,12 +127,12 @@ void CustomerMainPage::sendFilteredRequest()
     QString city = ui->comboBoxCity->currentText().trimmed();
     QString type = ui->comboBoxFoodType->currentText().trimmed();
 
-    if (province.isEmpty() && city.isEmpty() && type.isEmpty()) {
-        clientSocket->sendMessage("GET_RESTAURANTS");
-        return;
-    }
+    // بررسی اینکه آیا مقدار نوع غذا واقعی است
+    if (type == "نوع رستوران" || type == "همه" || type.isEmpty())
+        type = ""; // از فیلتر حذفش کن
 
     QStringList filters;
+
     if (!province.isEmpty())
         filters << "province=" + province;
     if (!city.isEmpty())
@@ -138,9 +140,16 @@ void CustomerMainPage::sendFilteredRequest()
     if (!type.isEmpty())
         filters << "type=" + type;
 
-    QString msg = "GET_RESTAURANTS_FILTERED:" + filters.join(";");
+    // اگر هیچ فیلتری فعال نیست، درخواست همه رستوران‌ها را بفرست
+    if (filters.isEmpty()) {
+        clientSocket->sendMessage("GET_RESTAURANTS");
+        return;
+    }
 
+    QString msg = "GET_RESTAURANTS_FILTERED:" + filters.join(";");
+    qDebug() << "🔍 پيام ارسال‌شده به سرور: " << msg;
     clientSocket->sendMessage(msg);
 }
+
 
 

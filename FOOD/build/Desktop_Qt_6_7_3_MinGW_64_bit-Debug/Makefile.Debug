@@ -701,6 +701,25 @@ debug/moc_customermainpage.cpp: ../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
 		../../customer.h \
 		../../user.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
@@ -711,6 +730,14 @@ debug/moc_customermainpage.cpp: ../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
 		../../cartitem.h \
+		../../clientsocketmanager.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/QTcpSocket \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qhostaddress.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.7.3/mingw_64/bin/moc.exe
 	C:\Qt\6.7.3\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/debug/moc_predefs.h" -IC:/Qt/6.7.3/mingw_64/mkspecs/win32-g++ -I"C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD" -IC:/Qt/6.7.3/mingw_64/include -IC:/Qt/6.7.3/mingw_64/include/QtWidgets -IC:/Qt/6.7.3/mingw_64/include/QtGui -IC:/Qt/6.7.3/mingw_64/include/QtSql -IC:/Qt/6.7.3/mingw_64/include/QtNetwork -IC:/Qt/6.7.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\customermainpage.h -o debug\moc_customermainpage.cpp
@@ -915,6 +942,25 @@ debug/moc_customersignup.cpp: ../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QWidget \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
 		../../customer.h \
 		../../user.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
@@ -1130,6 +1176,25 @@ debug/moc_loginwindow.cpp: ../../loginwindow.h \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
 		../../customer.h \
 		../../user.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
@@ -1961,6 +2026,25 @@ debug/moc_signinwindow.cpp: ../../signinwindow.h \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
 		../../customer.h \
 		../../user.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
@@ -2617,22 +2701,14 @@ debug/customermainpage.o: ../../customermainpage.cpp ../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
-		../../customer.h \
-		../../user.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
-		../../order.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
-		../../cartitem.h \
-		ui_customermainpage.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
@@ -2644,8 +2720,32 @@ debug/customermainpage.o: ../../customermainpage.cpp ../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+		../../customer.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../order.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+		../../cartitem.h \
+		../../clientsocketmanager.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/QTcpSocket \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qhostaddress.h \
+		ui_customermainpage.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QHeaderView \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qheaderview.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
@@ -2653,14 +2753,16 @@ debug/customermainpage.o: ../../customermainpage.cpp ../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QDebug
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidget \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialog.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\customermainpage.o ..\..\customermainpage.cpp
 
 debug/customer.o: ../../customer.cpp ../../customer.h \
@@ -2988,6 +3090,25 @@ debug/customersignup.o: ../../customersignup.cpp ../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QWidget \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
 		../../customer.h \
 		../../user.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
@@ -3004,7 +3125,6 @@ debug/customersignup.o: ../../customersignup.cpp ../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
@@ -3306,6 +3426,25 @@ debug/loginwindow.o: ../../loginwindow.cpp ../../loginwindow.h \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
 		../../customer.h \
 		../../user.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
@@ -3332,19 +3471,6 @@ debug/loginwindow.o: ../../loginwindow.cpp ../../loginwindow.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
@@ -3562,6 +3688,24 @@ debug/main.o: ../../main.cpp ../../mainwindow.h \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
 		../../customer.h \
 		../../user.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
@@ -4269,6 +4413,12 @@ debug/restaurantownersignup.o: ../../restaurantownersignup.cpp ../../restauranto
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QDialog \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
 		../../customer.h \
 		../../order.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
@@ -4870,6 +5020,25 @@ debug/signinwindow.o: ../../signinwindow.cpp ../../signinwindow.h \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
 		../../customer.h \
 		../../user.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
@@ -4886,7 +5055,6 @@ debug/signinwindow.o: ../../signinwindow.cpp ../../signinwindow.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
