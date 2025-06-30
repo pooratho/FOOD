@@ -79,6 +79,11 @@ border-color: rgb(255, 85, 0);</string>
         <string>نوع غذا</string>
        </property>
       </column>
+      <column>
+       <property name="text">
+        <string>آدرس</string>
+       </property>
+      </column>
      </widget>
      <widget class="QLabel" name="label">
       <property name="geometry">
