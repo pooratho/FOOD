@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>627</width>
-    <height>485</height>
+    <height>559</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>79</y>
+     <y>150</y>
      <width>631</width>
      <height>411</height>
     </rect>
@@ -31,7 +31,7 @@ font: 13pt &quot;B Farnaz&quot;;
 color: rgb(255, 85, 0);</string>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -59,6 +59,24 @@ color: rgb(255, 85, 0);</string>
        <string notr="true">background-color: rgb(255, 126, 52);</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>135</x>
+        <y>150</y>
+        <width>331</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(0, 0, 0);
+font: 20pt &quot;B Farnaz&quot;;
+background-color: rgb(255, 126, 52);</string>
+      </property>
+      <property name="text">
+       <string>  آیتمی برای نمایش وجود ندارد...</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_2">
@@ -76,6 +94,24 @@ color: rgb(255, 85, 0);</string>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: rgb(255, 126, 52);</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>135</x>
+       <y>150</y>
+       <width>331</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 0, 0);
+font: 20pt &quot;B Farnaz&quot;;
+background-color: rgb(255, 126, 52);</string>
+     </property>
+     <property name="text">
+      <string>  آیتمی برای نمایش وجود ندارد...</string>
      </property>
     </widget>
    </widget>
@@ -96,6 +132,24 @@ color: rgb(255, 85, 0);</string>
       <string notr="true">background-color: rgb(255, 126, 52);</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>135</x>
+       <y>150</y>
+       <width>331</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 0, 0);
+font: 20pt &quot;B Farnaz&quot;;
+background-color: rgb(255, 126, 52);</string>
+     </property>
+     <property name="text">
+      <string>  آیتمی برای نمایش وجود ندارد...</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_4">
     <attribute name="title">
@@ -114,6 +168,24 @@ color: rgb(255, 85, 0);</string>
       <string notr="true">background-color: rgb(255, 126, 52);</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>135</x>
+       <y>150</y>
+       <width>331</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 0, 0);
+font: 20pt &quot;B Farnaz&quot;;
+background-color: rgb(255, 126, 52);</string>
+     </property>
+     <property name="text">
+      <string>  آیتمی برای نمایش وجود ندارد...</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_5">
     <attribute name="title">
@@ -130,6 +202,24 @@ color: rgb(255, 85, 0);</string>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: rgb(255, 126, 52);</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>135</x>
+       <y>150</y>
+       <width>331</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 0, 0);
+font: 20pt &quot;B Farnaz&quot;;
+background-color: rgb(255, 126, 52);</string>
+     </property>
+     <property name="text">
+      <string>  آیتمی برای نمایش وجود ندارد...</string>
      </property>
     </widget>
    </widget>
@@ -177,7 +267,7 @@ font: 10pt &quot;B Farnaz&quot;;</string>
      <x>0</x>
      <y>0</y>
      <width>631</width>
-     <height>111</height>
+     <height>151</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -187,10 +277,53 @@ background-position: center;
 </string>
    </property>
   </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>90</y>
+     <width>411</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="styleSheet">
+       <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);
+font: 15pt &quot;B Farnaz&quot;;</string>
+      </property>
+      <property name="text">
+       <string>  حداکثر قیمت:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="styleSheet">
+       <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);
+font: 15pt &quot;B Farnaz&quot;;</string>
+      </property>
+      <property name="text">
+       <string>  حداقل قیمت:</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <zorder>widget_2</zorder>
   <zorder>tabWidget</zorder>
   <zorder>label</zorder>
   <zorder>pushButton</zorder>
+  <zorder>horizontalLayoutWidget</zorder>
  </widget>
  <resources/>
  <connections/>
