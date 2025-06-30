@@ -150,7 +150,7 @@ DESTDIR_TARGET = release\FOOD.exe
 first: all
 all: Makefile.Release  release/FOOD.exe
 
-release/FOOD.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Widgets.a C:/Qt/6.7.3/mingw_64/lib/libQt6Gui.a C:/Qt/6.7.3/mingw_64/lib/libQt6Sql.a C:/Qt/6.7.3/mingw_64/lib/libQt6Network.a C:/Qt/6.7.3/mingw_64/lib/libQt6Core.a C:/Qt/6.7.3/mingw_64/lib/libQt6EntryPoint.a ui_customersignup.h ui_loginwindow.h ui_mainwindow.h ui_restaurantownersignup.h ui_signinwindow.h ui_customerMainPage.h ui_restaurantOwnerMainPage.h ui_adminMainPage.h $(OBJECTS) 
+release/FOOD.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Widgets.a C:/Qt/6.7.3/mingw_64/lib/libQt6Gui.a C:/Qt/6.7.3/mingw_64/lib/libQt6Sql.a C:/Qt/6.7.3/mingw_64/lib/libQt6Network.a C:/Qt/6.7.3/mingw_64/lib/libQt6Core.a C:/Qt/6.7.3/mingw_64/lib/libQt6EntryPoint.a ui_adminmainpage.h ui_customermainpage.h ui_customersignup.h ui_loginwindow.h ui_mainwindow.h ui_restaurantownermainpage.h ui_restaurantownersignup.h ui_signinwindow.h $(OBJECTS) 
 	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) @release\object_script.FOOD.Release $(LIBS)
 
 qmake: FORCE
@@ -159,7 +159,7 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) FOOD.zip $(SOURCES) $(DIST) ..\..\FOOD.pro C:\Qt\6.7.3\mingw_64\mkspecs\features\spec_pre.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\device_config.prf C:\Qt\6.7.3\mingw_64\mkspecs\common\sanitize.conf C:\Qt\6.7.3\mingw_64\mkspecs\common\gcc-base.conf C:\Qt\6.7.3\mingw_64\mkspecs\common\g++-base.conf C:\Qt\6.7.3\mingw_64\mkspecs\features\win32\windows_vulkan_sdk.prf C:\Qt\6.7.3\mingw_64\mkspecs\common\windows-vulkan.conf C:\Qt\6.7.3\mingw_64\mkspecs\common\g++-win32.conf C:\Qt\6.7.3\mingw_64\mkspecs\common\windows-desktop.conf C:\Qt\6.7.3\mingw_64\mkspecs\qconfig.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_ext_freetype.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_ext_libjpeg.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_ext_libpng.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_core.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_core_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_dbus.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_designer.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_entrypoint_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_example_icons_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_fb_support_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_freetype_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_gui.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_harfbuzz_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_help.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_help_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_httpserver.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_httpserver_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_jpeg_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsanimation.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsanimation_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsfolderlistmodel.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsfolderlistmodel_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsqmlmodels.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsqmlmodels_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labssettings.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labssettings_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labssharedimage.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labssharedimage_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labswavefrontmesh.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labswavefrontmesh_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_linguist.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_network.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_network_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_opengl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_openglwidgets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_openglwidgets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_packetprotocol_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdf.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdf_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdfquick.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdfquick_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdfwidgets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdfwidgets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_png_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_positioning.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_positioningquick.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_positioningquick_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qdoccatch_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qdoccatchconversions_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qdoccatchgenerators_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qml.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlbuiltins.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlbuiltins_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlcompiler.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlcompiler_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlcore.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlcore_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmldebug_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmldom_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlintegration.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlintegration_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmllocalstorage.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmllocalstorage_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlls_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlmodels.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlmodels_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlnetwork.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlnetwork_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmltoolingsettings_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmltyperegistrar_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlworkerscript.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlworkerscript_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlxmllistmodel.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlxmllistmodel_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quick.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basic.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basic_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basicstyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basicstyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusion.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusion_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusionstyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusionstyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imagine.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imagine_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imaginestyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imaginestyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2impl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2impl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2material.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2material_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2materialstyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2materialstyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universal.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universal_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universalstyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universalstyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2windowsstyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2windowsstyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrolstestutilsprivate_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2quickimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2quickimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2utils.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2utils_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickeffects_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quicklayouts.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quicklayouts_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickshapes_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quicktemplates2.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quicktestutilsprivate_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_sql.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_svg.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_svgwidgets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_svgwidgets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_testlib.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_tools_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_uitools.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_webchannelquick.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_webchannelquick_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_websockets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_widgets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_xml.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_zlib_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\features\qt_functions.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\qt_config.prf C:\Qt\6.7.3\mingw_64\mkspecs\win32-g++\qmake.conf C:\Qt\6.7.3\mingw_64\mkspecs\features\spec_post.prf .qmake.stash C:\Qt\6.7.3\mingw_64\mkspecs\features\exclusive_builds.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\toolchain.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\default_pre.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\win32\default_pre.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\resolve_config.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\exclusive_builds_post.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\default_post.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\build_pass.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\qml_debug.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\precompile_header.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\warn_on.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\permissions.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\qt.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\resources_functions.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\resources.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\moc.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\win32\opengl.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\uic.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\qmake_use.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\file_copies.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\win32\windows.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\testcase_targets.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\exceptions.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\yacc.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\lex.prf ..\..\FOOD.pro ..\..\resources.qrc C:\Qt\6.7.3\mingw_64\lib\Qt6Widgets.prl C:\Qt\6.7.3\mingw_64\lib\Qt6Gui.prl C:\Qt\6.7.3\mingw_64\lib\Qt6Sql.prl C:\Qt\6.7.3\mingw_64\lib\Qt6Network.prl C:\Qt\6.7.3\mingw_64\lib\Qt6Core.prl C:\Qt\6.7.3\mingw_64\lib\Qt6EntryPoint.prl   ..\..\resources.qrc C:\Qt\6.7.3\mingw_64\mkspecs\features\data\dummy.cpp ..\..\adminmainpage.h ..\..\cartitem.h ..\..\clientsocketmanager.h ..\..\customermainpage.h ..\..\customer.h ..\..\customersignup.h ..\..\food.h ..\..\loginwindow.h ..\..\mainwindow.h ..\..\restaurantownermainpage.h ..\..\restaurantownersignup.h ..\..\signinwindow.h ..\..\menuitem.h ..\..\order.h ..\..\restaurant.h ..\..\restaurantowner.h ..\..\user.h  ..\..\adminmainpage.cpp ..\..\cartitem.cpp ..\..\clientsocketmanager.cpp ..\..\customermainpage.cpp ..\..\customer.cpp ..\..\customersignup.cpp ..\..\food.cpp ..\..\loginwindow.cpp ..\..\main.cpp ..\..\mainwindow.cpp ..\..\restaurantownermainpage.cpp ..\..\restaurantownersignup.cpp ..\..\menuitem.cpp ..\..\order.cpp ..\..\restaurant.cpp ..\..\restaurantowner.cpp ..\..\signinwindow.cpp ..\..\user.cpp ..\..\customersignup.ui ..\..\loginwindow.ui ..\..\mainwindow.ui ..\..\restaurantownersignup.ui ..\..\signinwindow.ui ..\..\customerMainPage.ui ..\..\restaurantOwnerMainPage.ui ..\..\adminMainPage.ui    
+	$(ZIP) FOOD.zip $(SOURCES) $(DIST) ..\..\FOOD.pro C:\Qt\6.7.3\mingw_64\mkspecs\features\spec_pre.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\device_config.prf C:\Qt\6.7.3\mingw_64\mkspecs\common\sanitize.conf C:\Qt\6.7.3\mingw_64\mkspecs\common\gcc-base.conf C:\Qt\6.7.3\mingw_64\mkspecs\common\g++-base.conf C:\Qt\6.7.3\mingw_64\mkspecs\features\win32\windows_vulkan_sdk.prf C:\Qt\6.7.3\mingw_64\mkspecs\common\windows-vulkan.conf C:\Qt\6.7.3\mingw_64\mkspecs\common\g++-win32.conf C:\Qt\6.7.3\mingw_64\mkspecs\common\windows-desktop.conf C:\Qt\6.7.3\mingw_64\mkspecs\qconfig.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_ext_freetype.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_ext_libjpeg.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_ext_libpng.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_core.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_core_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_dbus.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_designer.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_entrypoint_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_example_icons_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_fb_support_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_freetype_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_gui.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_harfbuzz_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_help.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_help_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_httpserver.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_httpserver_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_jpeg_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsanimation.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsanimation_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsfolderlistmodel.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsfolderlistmodel_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsqmlmodels.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labsqmlmodels_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labssettings.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labssettings_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labssharedimage.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labssharedimage_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labswavefrontmesh.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_labswavefrontmesh_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_linguist.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_network.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_network_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_opengl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_openglwidgets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_openglwidgets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_packetprotocol_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdf.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdf_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdfquick.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdfquick_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdfwidgets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_pdfwidgets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_png_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_positioning.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_positioningquick.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_positioningquick_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qdoccatch_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qdoccatchconversions_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qdoccatchgenerators_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qml.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlbuiltins.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlbuiltins_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlcompiler.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlcompiler_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlcore.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlcore_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmldebug_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmldom_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlintegration.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlintegration_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmllocalstorage.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmllocalstorage_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlls_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlmodels.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlmodels_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlnetwork.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlnetwork_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmltoolingsettings_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmltyperegistrar_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlworkerscript.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlworkerscript_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlxmllistmodel.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_qmlxmllistmodel_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quick.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basic.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basic_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basicstyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2basicstyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusion.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusion_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusionstyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2fusionstyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imagine.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imagine_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imaginestyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2imaginestyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2impl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2impl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2material.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2material_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2materialstyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2materialstyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universal.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universal_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universalstyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2universalstyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2windowsstyleimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrols2windowsstyleimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickcontrolstestutilsprivate_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2quickimpl.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2quickimpl_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2utils.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickdialogs2utils_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickeffects_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quicklayouts.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quicklayouts_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickshapes_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quicktemplates2.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quicktestutilsprivate_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_sql.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_svg.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_svgwidgets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_svgwidgets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_testlib.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_tools_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_uitools.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_webchannelquick.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_webchannelquick_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_websockets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_widgets.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_xml.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\modules\qt_lib_zlib_private.pri C:\Qt\6.7.3\mingw_64\mkspecs\features\qt_functions.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\qt_config.prf C:\Qt\6.7.3\mingw_64\mkspecs\win32-g++\qmake.conf C:\Qt\6.7.3\mingw_64\mkspecs\features\spec_post.prf .qmake.stash C:\Qt\6.7.3\mingw_64\mkspecs\features\exclusive_builds.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\toolchain.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\default_pre.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\win32\default_pre.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\resolve_config.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\exclusive_builds_post.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\default_post.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\build_pass.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\qml_debug.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\precompile_header.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\warn_on.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\permissions.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\qt.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\resources_functions.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\resources.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\moc.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\win32\opengl.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\uic.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\qmake_use.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\file_copies.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\win32\windows.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\testcase_targets.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\exceptions.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\yacc.prf C:\Qt\6.7.3\mingw_64\mkspecs\features\lex.prf ..\..\FOOD.pro ..\..\resources.qrc C:\Qt\6.7.3\mingw_64\lib\Qt6Widgets.prl C:\Qt\6.7.3\mingw_64\lib\Qt6Gui.prl C:\Qt\6.7.3\mingw_64\lib\Qt6Sql.prl C:\Qt\6.7.3\mingw_64\lib\Qt6Network.prl C:\Qt\6.7.3\mingw_64\lib\Qt6Core.prl C:\Qt\6.7.3\mingw_64\lib\Qt6EntryPoint.prl   ..\..\resources.qrc C:\Qt\6.7.3\mingw_64\mkspecs\features\data\dummy.cpp ..\..\adminmainpage.h ..\..\cartitem.h ..\..\clientsocketmanager.h ..\..\customermainpage.h ..\..\customer.h ..\..\customersignup.h ..\..\food.h ..\..\loginwindow.h ..\..\mainwindow.h ..\..\restaurantownermainpage.h ..\..\restaurantownersignup.h ..\..\signinwindow.h ..\..\menuitem.h ..\..\order.h ..\..\restaurant.h ..\..\restaurantowner.h ..\..\user.h  ..\..\adminmainpage.cpp ..\..\cartitem.cpp ..\..\clientsocketmanager.cpp ..\..\customermainpage.cpp ..\..\customer.cpp ..\..\customersignup.cpp ..\..\food.cpp ..\..\loginwindow.cpp ..\..\main.cpp ..\..\mainwindow.cpp ..\..\restaurantownermainpage.cpp ..\..\restaurantownersignup.cpp ..\..\menuitem.cpp ..\..\order.cpp ..\..\restaurant.cpp ..\..\restaurantowner.cpp ..\..\signinwindow.cpp ..\..\user.cpp ..\..\adminmainpage.ui ..\..\customermainpage.ui ..\..\customersignup.ui ..\..\loginwindow.ui ..\..\mainwindow.ui ..\..\restaurantownermainpage.ui ..\..\restaurantownersignup.ui ..\..\signinwindow.ui    
 
 clean: compiler_clean 
 	-$(DEL_FILE) release\adminmainpage.o release\cartitem.o release\clientsocketmanager.o release\customermainpage.o release\customer.o release\customersignup.o release\food.o release\loginwindow.o release\main.o release\mainwindow.o release\restaurantownermainpage.o release\restaurantownersignup.o release\menuitem.o release\order.o release\restaurant.o release\restaurantowner.o release\signinwindow.o release\user.o release\qrc_resources.o release\moc_adminmainpage.o release\moc_clientsocketmanager.o release\moc_customermainpage.o release\moc_customersignup.o release\moc_loginwindow.o release\moc_mainwindow.o release\moc_restaurantownermainpage.o release\moc_restaurantownersignup.o release\moc_signinwindow.o
@@ -701,39 +701,16 @@ release/moc_customermainpage.cpp: ../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
-		ui_customerMainPage.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
+		../../customer.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../order.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+		../../cartitem.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.3/mingw_64/bin/moc.exe
 	C:\Qt\6.7.3\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/release/moc_predefs.h" -IC:/Qt/6.7.3/mingw_64/mkspecs/win32-g++ -I"C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD" -IC:/Qt/6.7.3/mingw_64/include -IC:/Qt/6.7.3/mingw_64/include/QtWidgets -IC:/Qt/6.7.3/mingw_64/include/QtGui -IC:/Qt/6.7.3/mingw_64/include/QtSql -IC:/Qt/6.7.3/mingw_64/include/QtNetwork -IC:/Qt/6.7.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\customermainpage.h -o release\moc_customermainpage.cpp
@@ -926,9 +903,6 @@ release/moc_customersignup.cpp: ../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qinputmethod.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qlocale.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
 		../../clientsocketmanager.h \
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/QTcpSocket \
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtcpsocket.h \
@@ -941,39 +915,16 @@ release/moc_customersignup.cpp: ../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QWidget \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
-		ui_customerMainPage.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
+		../../customer.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../order.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+		../../cartitem.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.3/mingw_64/bin/moc.exe
 	C:\Qt\6.7.3\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/release/moc_predefs.h" -IC:/Qt/6.7.3/mingw_64/mkspecs/win32-g++ -I"C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD" -IC:/Qt/6.7.3/mingw_64/include -IC:/Qt/6.7.3/mingw_64/include/QtWidgets -IC:/Qt/6.7.3/mingw_64/include/QtGui -IC:/Qt/6.7.3/mingw_64/include/QtSql -IC:/Qt/6.7.3/mingw_64/include/QtNetwork -IC:/Qt/6.7.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\customersignup.h -o release\moc_customersignup.cpp
@@ -1168,9 +1119,6 @@ release/moc_loginwindow.cpp: ../../loginwindow.h \
 		../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QDialog \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialog.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
 		../../clientsocketmanager.h \
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/QTcpSocket \
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtcpsocket.h \
@@ -1182,48 +1130,25 @@ release/moc_loginwindow.cpp: ../../loginwindow.h \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
-		ui_customerMainPage.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
+		../../customer.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../order.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+		../../cartitem.h \
 		../../restaurantownersignup.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
 		../../restaurantownermainpage.h \
-		ui_restaurantOwnerMainPage.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlineedit.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextcursor.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextformat.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpen.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextoption.h \
+		../../restaurantowner.h \
+		../../restaurant.h \
+		../../menuitem.h \
+		../../food.h \
 		../../signinwindow.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.3/mingw_64/bin/moc.exe
@@ -1609,45 +1534,14 @@ release/moc_restaurantownermainpage.cpp: ../../restaurantownermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qinputmethod.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qlocale.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
-		ui_restaurantOwnerMainPage.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlineedit.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextcursor.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextformat.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpen.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
+		../../restaurantowner.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		../../restaurant.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../menuitem.h \
+		../../food.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.3/mingw_64/bin/moc.exe
 	C:\Qt\6.7.3\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/release/moc_predefs.h" -IC:/Qt/6.7.3/mingw_64/mkspecs/win32-g++ -I"C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD" -IC:/Qt/6.7.3/mingw_64/include -IC:/Qt/6.7.3/mingw_64/include/QtWidgets -IC:/Qt/6.7.3/mingw_64/include/QtGui -IC:/Qt/6.7.3/mingw_64/include/QtSql -IC:/Qt/6.7.3/mingw_64/include/QtNetwork -IC:/Qt/6.7.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\restaurantownermainpage.h -o release\moc_restaurantownermainpage.cpp
@@ -1853,45 +1747,14 @@ release/moc_restaurantownersignup.cpp: ../../restaurantownersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qhostaddress.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		../../restaurantownermainpage.h \
-		ui_restaurantOwnerMainPage.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlineedit.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextcursor.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextformat.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpen.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
+		../../restaurantowner.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		../../restaurant.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../menuitem.h \
+		../../food.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.3/mingw_64/bin/moc.exe
 	C:\Qt\6.7.3\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/release/moc_predefs.h" -IC:/Qt/6.7.3/mingw_64/mkspecs/win32-g++ -I"C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD" -IC:/Qt/6.7.3/mingw_64/include -IC:/Qt/6.7.3/mingw_64/include/QtWidgets -IC:/Qt/6.7.3/mingw_64/include/QtGui -IC:/Qt/6.7.3/mingw_64/include/QtSql -IC:/Qt/6.7.3/mingw_64/include/QtNetwork -IC:/Qt/6.7.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\restaurantownersignup.h -o release\moc_restaurantownersignup.cpp
@@ -2098,39 +1961,16 @@ release/moc_signinwindow.cpp: ../../signinwindow.h \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
-		ui_customerMainPage.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
+		../../customer.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../order.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+		../../cartitem.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.3/mingw_64/bin/moc.exe
 	C:\Qt\6.7.3\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/release/moc_predefs.h" -IC:/Qt/6.7.3/mingw_64/mkspecs/win32-g++ -I"C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD" -IC:/Qt/6.7.3/mingw_64/include -IC:/Qt/6.7.3/mingw_64/include/QtWidgets -IC:/Qt/6.7.3/mingw_64/include/QtGui -IC:/Qt/6.7.3/mingw_64/include/QtSql -IC:/Qt/6.7.3/mingw_64/include/QtNetwork -IC:/Qt/6.7.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\signinwindow.h -o release\moc_signinwindow.cpp
@@ -2139,9 +1979,17 @@ compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_customersignup.h ui_loginwindow.h ui_mainwindow.h ui_restaurantownersignup.h ui_signinwindow.h ui_customerMainPage.h ui_restaurantOwnerMainPage.h ui_adminMainPage.h
+compiler_uic_make_all: ui_adminmainpage.h ui_customermainpage.h ui_customersignup.h ui_loginwindow.h ui_mainwindow.h ui_restaurantownermainpage.h ui_restaurantownersignup.h ui_signinwindow.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_customersignup.h ui_loginwindow.h ui_mainwindow.h ui_restaurantownersignup.h ui_signinwindow.h ui_customerMainPage.h ui_restaurantOwnerMainPage.h ui_adminMainPage.h
+	-$(DEL_FILE) ui_adminmainpage.h ui_customermainpage.h ui_customersignup.h ui_loginwindow.h ui_mainwindow.h ui_restaurantownermainpage.h ui_restaurantownersignup.h ui_signinwindow.h
+ui_adminmainpage.h: ../../adminmainpage.ui \
+		C:/Qt/6.7.3/mingw_64/bin/uic.exe
+	C:\Qt\6.7.3\mingw_64\bin\uic.exe ..\..\adminmainpage.ui -o ui_adminmainpage.h
+
+ui_customermainpage.h: ../../customermainpage.ui \
+		C:/Qt/6.7.3/mingw_64/bin/uic.exe
+	C:\Qt\6.7.3\mingw_64\bin\uic.exe ..\..\customermainpage.ui -o ui_customermainpage.h
+
 ui_customersignup.h: ../../customersignup.ui \
 		C:/Qt/6.7.3/mingw_64/bin/uic.exe
 	C:\Qt\6.7.3\mingw_64\bin\uic.exe ..\..\customersignup.ui -o ui_customersignup.h
@@ -2154,6 +2002,10 @@ ui_mainwindow.h: ../../mainwindow.ui \
 		C:/Qt/6.7.3/mingw_64/bin/uic.exe
 	C:\Qt\6.7.3\mingw_64\bin\uic.exe ..\..\mainwindow.ui -o ui_mainwindow.h
 
+ui_restaurantownermainpage.h: ../../restaurantownermainpage.ui \
+		C:/Qt/6.7.3/mingw_64/bin/uic.exe
+	C:\Qt\6.7.3\mingw_64\bin\uic.exe ..\..\restaurantownermainpage.ui -o ui_restaurantownermainpage.h
+
 ui_restaurantownersignup.h: ../../restaurantownersignup.ui \
 		C:/Qt/6.7.3/mingw_64/bin/uic.exe
 	C:\Qt\6.7.3\mingw_64\bin\uic.exe ..\..\restaurantownersignup.ui -o ui_restaurantownersignup.h
@@ -2161,18 +2013,6 @@ ui_restaurantownersignup.h: ../../restaurantownersignup.ui \
 ui_signinwindow.h: ../../signinwindow.ui \
 		C:/Qt/6.7.3/mingw_64/bin/uic.exe
 	C:\Qt\6.7.3\mingw_64\bin\uic.exe ..\..\signinwindow.ui -o ui_signinwindow.h
-
-ui_customerMainPage.h: ../../customerMainPage.ui \
-		C:/Qt/6.7.3/mingw_64/bin/uic.exe
-	C:\Qt\6.7.3\mingw_64\bin\uic.exe ..\..\customerMainPage.ui -o ui_customerMainPage.h
-
-ui_restaurantOwnerMainPage.h: ../../restaurantOwnerMainPage.ui \
-		C:/Qt/6.7.3/mingw_64/bin/uic.exe
-	C:\Qt\6.7.3\mingw_64\bin\uic.exe ..\..\restaurantOwnerMainPage.ui -o ui_restaurantOwnerMainPage.h
-
-ui_adminMainPage.h: ../../adminMainPage.ui \
-		C:/Qt/6.7.3/mingw_64/bin/uic.exe
-	C:\Qt\6.7.3\mingw_64\bin\uic.exe ..\..\adminMainPage.ui -o ui_adminMainPage.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -2777,7 +2617,17 @@ release/customermainpage.o: ../../customermainpage.cpp ../../customermainpage.h 
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
-		ui_customerMainPage.h \
+		../../customer.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../order.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+		../../cartitem.h \
+		ui_customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
@@ -2810,7 +2660,6 @@ release/customermainpage.o: ../../customermainpage.cpp ../../customermainpage.h 
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
-		ui_customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\customermainpage.o ..\..\customermainpage.cpp
 
@@ -3127,9 +2976,6 @@ release/customersignup.o: ../../customersignup.cpp ../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qinputmethod.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qlocale.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
 		../../clientsocketmanager.h \
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/QTcpSocket \
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtcpsocket.h \
@@ -3142,50 +2988,44 @@ release/customersignup.o: ../../customersignup.cpp ../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QWidget \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
-		ui_customerMainPage.h \
+		../../customer.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../order.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+		../../cartitem.h \
+		ui_customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
-		ui_customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlineedit.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextcursor.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextformat.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qpen.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextoption.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
 		../../loginwindow.h \
 		../../restaurantownersignup.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
 		../../restaurantownermainpage.h \
-		ui_restaurantOwnerMainPage.h \
+		../../restaurantowner.h \
+		../../restaurant.h \
+		../../menuitem.h \
+		../../food.h \
 		../../signinwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\customersignup.o ..\..\customersignup.cpp
 
@@ -3455,9 +3295,6 @@ release/loginwindow.o: ../../loginwindow.cpp ../../loginwindow.h \
 		../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QDialog \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialog.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
 		../../clientsocketmanager.h \
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/QTcpSocket \
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtcpsocket.h \
@@ -3469,7 +3306,27 @@ release/loginwindow.o: ../../loginwindow.cpp ../../loginwindow.h \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
-		ui_customerMainPage.h \
+		../../customer.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../order.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+		../../cartitem.h \
+		../../restaurantownersignup.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+		../../restaurantownermainpage.h \
+		../../restaurantowner.h \
+		../../restaurant.h \
+		../../menuitem.h \
+		../../food.h \
+		../../signinwindow.h \
+		ui_loginwindow.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
@@ -3492,27 +3349,9 @@ release/loginwindow.o: ../../loginwindow.cpp ../../loginwindow.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
-		../../restaurantownersignup.h \
-		../../restaurantownermainpage.h \
-		ui_restaurantOwnerMainPage.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlineedit.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextcursor.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextformat.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpen.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextoption.h \
-		../../signinwindow.h \
-		ui_loginwindow.h \
 		../../mainwindow.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMainWindow \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmainwindow.h
@@ -3712,9 +3551,6 @@ release/main.o: ../../main.cpp ../../mainwindow.h \
 		../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QDialog \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialog.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
 		../../clientsocketmanager.h \
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/QTcpSocket \
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtcpsocket.h \
@@ -3726,48 +3562,28 @@ release/main.o: ../../main.cpp ../../mainwindow.h \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
-		ui_customerMainPage.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
+		../../customer.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../order.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+		../../cartitem.h \
 		../../restaurantownersignup.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
 		../../restaurantownermainpage.h \
-		ui_restaurantOwnerMainPage.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlineedit.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextcursor.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextformat.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qpen.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextoption.h \
-		../../signinwindow.h
+		../../restaurantowner.h \
+		../../restaurant.h \
+		../../menuitem.h \
+		../../food.h \
+		../../signinwindow.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\main.o ..\..\main.cpp
 
 release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
@@ -4158,7 +3974,15 @@ release/restaurantownermainpage.o: ../../restaurantownermainpage.cpp ../../resta
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qinputmethod.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qlocale.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
-		ui_restaurantOwnerMainPage.h \
+		../../restaurantowner.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		../../restaurant.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../menuitem.h \
+		../../food.h \
+		ui_restaurantownermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
@@ -4400,7 +4224,15 @@ release/restaurantownersignup.o: ../../restaurantownersignup.cpp ../../restauran
 		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qhostaddress.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		../../restaurantownermainpage.h \
-		ui_restaurantOwnerMainPage.h \
+		../../restaurantowner.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		../../restaurant.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../menuitem.h \
+		../../food.h \
+		ui_restaurantownersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
@@ -4429,23 +4261,20 @@ release/restaurantownersignup.o: ../../restaurantownersignup.cpp ../../restauran
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextformat.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qpen.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
-		ui_restaurantownersignup.h \
 		../../loginwindow.h \
 		../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QDialog \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
-		ui_customerMainPage.h \
+		../../customer.h \
+		../../order.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+		../../cartitem.h \
 		../../signinwindow.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/QScreen \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/QGuiApplication \
@@ -5041,52 +4870,43 @@ release/signinwindow.o: ../../signinwindow.cpp ../../signinwindow.h \
 		../../customermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QStringList \
-		ui_customerMainPage.h \
+		../../customer.h \
+		../../user.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
+		../../order.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+		../../cartitem.h \
+		ui_signinwindow.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
-		ui_signinwindow.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlineedit.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextcursor.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextformat.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qpen.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qtextoption.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
 		../../loginwindow.h \
 		../../customersignup.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QDialog \
 		../../restaurantownersignup.h \
 		../../restaurantownermainpage.h \
-		ui_restaurantOwnerMainPage.h \
+		../../restaurantowner.h \
+		../../restaurant.h \
+		../../menuitem.h \
+		../../food.h \
 		../../adminmainpage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\signinwindow.o ..\..\signinwindow.cpp
 
