@@ -50,14 +50,14 @@ HEADERS += \
     user.h
 
 FORMS += \
+    adminmainpage.ui \
     customersignup.ui \
     loginwindow.ui \
     mainwindow.ui \
     restaurantownersignup.ui \
     signinwindow.ui \
     customerMainPage.ui \
-    restaurantOwnerMainPage.ui \
-    adminMainPage.ui
+    restaurantOwnerMainPage.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
