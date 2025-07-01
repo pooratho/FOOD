@@ -118,53 +118,55 @@ void restaurantmenu::clearListWidgetCompletely(QListWidget* listWidget)
 }
 
 
-// void restaurantmenu::handleServerMessage(const QString& msg)
-// {
-//     if (msg.startsWith("MENU_LIST_FOR:")) {
-//         ui->listWidgetMain->clear();
-//         ui->listWidgetDessert->clear();
-//         ui->listWidgetDrink->clear();
-//         ui->listWidgetStarter->clear();
-//         ui->listWidgetOthers->clear();
-
-//         QString raw = msg.mid(QString("MENU_LIST_FOR:").length());
-//         QStringList items = raw.split(";", Qt::SkipEmptyParts);
-
-//         for (const QString& item : items) {
-//             QStringList parts = item.split("|");
-//             if (parts.size() != 4) continue;
-
-//             QString name = parts[0];
-//             QString desc = parts[1];
-//             QString price = parts[2];
-//             QString cat = parts[3];
-
-//             QListWidget* list = nullptr;
-//             if (cat == "غذا") list = ui->listWidgetMain;
-//             else if (cat == "دسر") list = ui->listWidgetDessert;
-//             else if (cat == "نوشیدنی") list = ui->listWidgetDrink;
-//             else if (cat == "پیش غذا") list = ui->listWidgetStarter;
-//             else list = ui->listWidgetOthers;
-
-//             if (list) {
-//                 RestaurantMenuItemWidget* itemWidget = new RestaurantMenuItemWidget(this);
-//                 itemWidget->setName(name);
-//                 itemWidget->setDescription(desc);
-//                 itemWidget->setPrice(price + " تومان");
-
-//                 QListWidgetItem* listItem = new QListWidgetItem(list);
-//                 listItem->setSizeHint(itemWidget->sizeHint());
-
-//                 list->addItem(listItem);
-//                 list->setItemWidget(listItem, itemWidget);
-//             }
-//         }
-
-//         ui->label->setText("منوی رستوران: " + restaurantName);
-//     }
-// }
 
 
+void restaurantmenu::collectSelectedItems()
+{
+    cartItems.clear();
+
+    QList<QListWidget*> allLists = {
+        ui->listWidgetMain,
+        ui->listWidgetDessert,
+        ui->listWidgetDrink,
+        ui->listWidgetStarter,
+        ui->listWidgetOthers
+    };
+
+    for (QListWidget* list : allLists) {
+        for (int i = 0; i < list->count(); ++i) {
+            QListWidgetItem* listItem = list->item(i);
+            RestaurantMenuItemWidget* itemWidget = qobject_cast<RestaurantMenuItemWidget*>(list->itemWidget(listItem));
+            if (itemWidget && itemWidget->isSelected()) {
+                QString foodName = itemWidget->getName();
+                QString restaurant = restaurantName; // متغیر عضو کلاس restaurantmenu
+                int quantity = 1; // فعلاً یک عدد، بعداً میتونی توسعه بدی
+                double unitPrice = itemWidget->getPriceValue();
+
+                // بررسی اینکه اگر قبلا همین غذا تو سبد هست، تعداد رو افزایش بده
+                bool found = false;
+                for (CartItem& ci : cartItems) {
+                    if (ci.getFoodName() == foodName && ci.getRestaurantName() == restaurant) {
+                        ci.setQuantity(ci.getQuantity() + quantity);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    cartItems.append(CartItem(foodName, restaurant, quantity, unitPrice));
+                }
+            }
+        }
+    }
+}
+
+
+void restaurantmenu::on_pushButton_clicked()
+{
+    collectSelectedItems();  // همون که قبلاً گفتیم آیتم‌های تیک‌خورده رو جمع می‌کنه
+
+    emit cartItemsReady(cartItems);
+}
 
 
 void restaurantmenu::on_pushButton_clicked()

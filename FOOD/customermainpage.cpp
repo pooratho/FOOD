@@ -173,6 +173,6 @@ void CustomerMainPage::onTableItemDoubleClicked(int row, int)
         ui->tabWidget->setCurrentWidget(ui->tab_2);
     });
 
+
+
 }
-
-

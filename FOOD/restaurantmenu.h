@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "clientsocketmanager.h"
 #include "qlistwidget.h"
+#include "cartitem.h"
 
 namespace Ui {
 class restaurantmenu;
@@ -20,7 +21,7 @@ public:
 private:
     Ui::restaurantmenu *ui;
     ClientSocketManager* clientSocket;
-    QString restaurantName;  // ✅ بهتر از currentRestaurantName
+    QString restaurantName;  //  بهتر از currentRestaurantName
     void clearListWidgetCompletely(QListWidget* listWidget);
 
 private slots:

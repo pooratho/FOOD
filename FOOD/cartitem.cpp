@@ -7,7 +7,9 @@ CartItem::CartItem(const QString& foodName,
     : foodName(foodName),
     restaurantName(restaurantName),
     quantity(quantity),
-    unitPrice(unitPrice) {}
+    unitPrice(unitPrice)
+{
+}
 
 QString CartItem::getFoodName() const {
     return foodName;
@@ -26,7 +28,7 @@ double CartItem::getUnitPrice() const {
 }
 
 double CartItem::getTotalPrice() const {
-    return unitPrice * quantity;
+    return quantity * unitPrice;
 }
 
 void CartItem::setQuantity(int newQuantity) {
