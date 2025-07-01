@@ -3,13 +3,31 @@
 
 #include <QWidget>
 
-class shoppingcartitemwidget : public QWidget
+namespace Ui {
+class shoppingcartitemwidget;
+}
+
+class ShoppingCartItemWidget : public QWidget
 {
     Q_OBJECT
+
 public:
-    explicit shoppingcartitemwidget(QWidget *parent = nullptr);
+    explicit ShoppingCartItemWidget(QWidget *parent = nullptr);
+    ~ShoppingCartItemWidget();
+
+    void setCode(const QString &code);
+    void setName(const QString &name);
+    void setPrice(const QString &price);
+    int quantity() const;
 
 signals:
+    void removeClicked();
+
+private slots:
+    void onRemoveClicked();
+
+private:
+    Ui::shoppingcartitemwidget *ui;
 };
 
 #endif // SHOPPINGCARTITEMWIDGET_H
