@@ -30,7 +30,7 @@ private slots:
 
     void onTableItemDoubleClicked(int row, int column);
 
-    void handleCartItemsFromRestaurant(const QList<CartItem>& items);
+    //void handleCartItemsFromRestaurant(const QList<CartItem>& items);
 
 private:
     Ui::CustomerMainPage *ui;

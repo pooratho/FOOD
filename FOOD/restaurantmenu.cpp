@@ -120,53 +120,53 @@ void restaurantmenu::clearListWidgetCompletely(QListWidget* listWidget)
 
 
 
-void restaurantmenu::collectSelectedItems()
-{
-    cartItems.clear();
+// void restaurantmenu::collectSelectedItems()
+// {
+//     cartItems.clear();
 
-    QList<QListWidget*> allLists = {
-        ui->listWidgetMain,
-        ui->listWidgetDessert,
-        ui->listWidgetDrink,
-        ui->listWidgetStarter,
-        ui->listWidgetOthers
-    };
+//     QList<QListWidget*> allLists = {
+//         ui->listWidgetMain,
+//         ui->listWidgetDessert,
+//         ui->listWidgetDrink,
+//         ui->listWidgetStarter,
+//         ui->listWidgetOthers
+//     };
 
-    for (QListWidget* list : allLists) {
-        for (int i = 0; i < list->count(); ++i) {
-            QListWidgetItem* listItem = list->item(i);
-            RestaurantMenuItemWidget* itemWidget = qobject_cast<RestaurantMenuItemWidget*>(list->itemWidget(listItem));
-            if (itemWidget && itemWidget->isSelected()) {
-                QString foodName = itemWidget->getName();
-                QString restaurant = restaurantName; // متغیر عضو کلاس restaurantmenu
-                int quantity = 1; // فعلاً یک عدد، بعداً میتونی توسعه بدی
-                double unitPrice = itemWidget->getPriceValue();
+//     for (QListWidget* list : allLists) {
+//         for (int i = 0; i < list->count(); ++i) {
+//             QListWidgetItem* listItem = list->item(i);
+//             RestaurantMenuItemWidget* itemWidget = qobject_cast<RestaurantMenuItemWidget*>(list->itemWidget(listItem));
+//             if (itemWidget && itemWidget->isSelected()) {
+//                 QString foodName = itemWidget->getName();
+//                 QString restaurant = restaurantName; // متغیر عضو کلاس restaurantmenu
+//                 int quantity = 1; // فعلاً یک عدد، بعداً میتونی توسعه بدی
+//                 double unitPrice = itemWidget->getPriceValue();
 
-                // بررسی اینکه اگر قبلا همین غذا تو سبد هست، تعداد رو افزایش بده
-                bool found = false;
-                for (CartItem& ci : cartItems) {
-                    if (ci.getFoodName() == foodName && ci.getRestaurantName() == restaurant) {
-                        ci.setQuantity(ci.getQuantity() + quantity);
-                        found = true;
-                        break;
-                    }
-                }
+//                 // بررسی اینکه اگر قبلا همین غذا تو سبد هست، تعداد رو افزایش بده
+//                 bool found = false;
+//                 for (CartItem& ci : cartItems) {
+//                     if (ci.getFoodName() == foodName && ci.getRestaurantName() == restaurant) {
+//                         ci.setQuantity(ci.getQuantity() + quantity);
+//                         found = true;
+//                         break;
+//                     }
+//                 }
 
-                if (!found) {
-                    cartItems.append(CartItem(foodName, restaurant, quantity, unitPrice));
-                }
-            }
-        }
-    }
-}
+//                 if (!found) {
+//                     cartItems.append(CartItem(foodName, restaurant, quantity, unitPrice));
+//                 }
+//             }
+//         }
+//     }
+// }
 
 
-void restaurantmenu::on_pushButton_clicked()
-{
-    collectSelectedItems();  // همون که قبلاً گفتیم آیتم‌های تیک‌خورده رو جمع می‌کنه
+// void restaurantmenu::on_pushButton_clicked()
+// {
+//     collectSelectedItems();  // همون که قبلاً گفتیم آیتم‌های تیک‌خورده رو جمع می‌کنه
 
-    emit cartItemsReady(cartItems);
-}
+//     emit cartItemsReady(cartItems);
+// }
 
 
 void restaurantmenu::on_pushButton_clicked()
