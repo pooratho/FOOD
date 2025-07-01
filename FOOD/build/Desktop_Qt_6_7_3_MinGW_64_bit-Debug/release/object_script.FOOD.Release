@@ -10,6 +10,7 @@ release/main.o
 release/mainwindow.o
 release/restaurantmenuitemwidget.o
 release/restaurantownermainpage.o
+release/restaurantownermenuitemwidget.o
 release/restaurantownersignup.o
 release/menuitem.o
 release/order.o
@@ -26,5 +27,6 @@ release/moc_loginwindow.o
 release/moc_mainwindow.o
 release/moc_restaurantmenuitemwidget.o
 release/moc_restaurantownermainpage.o
+release/moc_restaurantownermenuitemwidget.o
 release/moc_restaurantownersignup.o
 release/moc_signinwindow.o

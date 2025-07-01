@@ -30,7 +30,7 @@ font: 14pt &quot;B Farnaz&quot;;</string>
     <enum>Qt::LayoutDirection::RightToLeft</enum>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -233,7 +233,7 @@ font: 13pt &quot;B Farnaz&quot;;
 color: rgb(255, 85, 0);</string>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -389,7 +389,7 @@ font: 18pt &quot;B Farnaz&quot;;</string>
          <x>0</x>
          <y>0</y>
          <width>615</width>
-         <height>481</height>
+         <height>491</height>
         </rect>
        </property>
        <property name="styleSheet">
