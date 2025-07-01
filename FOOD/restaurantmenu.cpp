@@ -21,6 +21,10 @@ restaurantmenu::restaurantmenu(const QString& restaurantName, QWidget *parent)
         });
     });
 
+    connect(ui->pushButton, &QPushButton::clicked, this, [=]() {
+        emit requestShowCart();  // اطلاع دادن به صفحه اصلی
+        this->close();           // بستن صفحه منو
+    });
 
     connect(clientSocket, &ClientSocketManager::messageReceived,
             this, &restaurantmenu::handleServerMessage);
@@ -46,7 +50,7 @@ void restaurantmenu::handleServerMessage(const QString& msg)
         QStringList items = raw.split(";", Qt::SkipEmptyParts);
         populateMenuItems(items);
 
-        ui->label->setText("منوی رستوران: " + restaurantName);
+        ui->label->setText("  رستوران: " + restaurantName);
     }
 }
 
@@ -80,10 +84,10 @@ void restaurantmenu::populateMenuItems(const QStringList& items)
             RestaurantMenuItemWidget* itemWidget = new RestaurantMenuItemWidget(this);
             itemWidget->setName(name);
             itemWidget->setDescription(desc);
-            itemWidget->setPrice(price + " تومان");
+            itemWidget->setPrice("  " + price + " تومان");
 
             QListWidgetItem* listItem = new QListWidgetItem(list);
-            listItem->setSizeHint(QSize(200, 80));  // تست سایز
+            listItem->setSizeHint(QSize(610, 100));  // تست سایز
 
             list->addItem(listItem);
             list->setItemWidget(listItem, itemWidget);
@@ -92,6 +96,13 @@ void restaurantmenu::populateMenuItems(const QStringList& items)
         }
 
     }
+
+    ui->label_5->setVisible(ui->listWidgetMain->count() == 0);
+    ui->label_9->setVisible(ui->listWidgetDessert->count() == 0);
+    ui->label_8->setVisible(ui->listWidgetDrink->count() == 0);
+    ui->label_7->setVisible(ui->listWidgetStarter->count() == 0);
+    ui->label_6->setVisible(ui->listWidgetOthers->count() == 0);
+
 }
 
 void restaurantmenu::clearListWidgetCompletely(QListWidget* listWidget)
@@ -154,4 +165,10 @@ void restaurantmenu::clearListWidgetCompletely(QListWidget* listWidget)
 // }
 
 
+
+
+void restaurantmenu::on_pushButton_clicked()
+{
+
+}
 

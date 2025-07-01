@@ -15,12 +15,12 @@ RestaurantMenuItemWidget::~RestaurantMenuItemWidget()
 
 void RestaurantMenuItemWidget::setName(const QString &name)
 {
-    ui->name->setText(name);
+    ui->name->setText("  " + name);
 }
 
 void RestaurantMenuItemWidget::setDescription(const QString &desc)
 {
-    ui->description->setText(desc);
+    ui->description->setText("  " + desc);
 }
 
 void RestaurantMenuItemWidget::setPrice(const QString &price)

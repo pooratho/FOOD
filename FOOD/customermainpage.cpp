@@ -169,6 +169,10 @@ void CustomerMainPage::onTableItemDoubleClicked(int row, int)
     menuPage->setAttribute(Qt::WA_DeleteOnClose); // اختیاری: وقتی بسته شد، حافظه آزاد شود
     menuPage->show();
 
+    connect(menuPage, &restaurantmenu::requestShowCart, this, [=]() {
+        ui->tabWidget->setCurrentWidget(ui->tab_2);
+    });
+
 }
 
 

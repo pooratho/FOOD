@@ -22,9 +22,15 @@ private:
     ClientSocketManager* clientSocket;
     QString restaurantName;  // ✅ بهتر از currentRestaurantName
     void clearListWidgetCompletely(QListWidget* listWidget);
+
 private slots:
     void handleServerMessage(const QString& msg);
     void populateMenuItems(const QStringList& items);
+    void on_pushButton_clicked();
+
+signals:
+    void requestShowCart();  // این باید اینجا باشه
+
 };
 
 #endif // RESTAURANTMENU_H
