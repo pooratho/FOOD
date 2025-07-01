@@ -25,12 +25,13 @@ public:
     void createTables();
     bool insertCustomer(const QString& firstName, const QString& lastName, const QString& phone, const QString& password);
     bool insertRestaurant(const QString& restaurantName,
-                          const QString& ownerFirstName,
-                          const QString& ownerLastName,
-                          const QString& phone,
-                          const QString& province,
-                          const QString& city,
-                          const QString& password);
+                                           const QString& ownerFirstName,
+                                           const QString& ownerLastName,
+                                           const QString& phone,
+                                           const QString& province,
+                                           const QString& city,
+                                           const QString& password,
+                          const QString& restaurantType);
 
     enum class UserRole {
         None,

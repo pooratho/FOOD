@@ -101,6 +101,8 @@ void RestaurantOwnerSignUp::on_pushButton_clicked()
     QString city = ui->comboBoxCity->currentText();
     QString password = ui->lineEditPassword->text();
     QString passwordRepeat = ui->lineEditPasswordrepeat->text();
+    QString restaurantType = ui->comboBox->currentText();
+    cachedRestaurantType = restaurantType;
 
     if (password != passwordRepeat) {
         QMessageBox::warning(this, "خطا", "رمز عبور و تکرار آن یکسان نیستند!");
@@ -122,14 +124,16 @@ void RestaurantOwnerSignUp::on_pushButton_clicked()
     cachedCity = city;
     cachedPassword = password;
 
-    QString msg = QString("SIGNUP_RESTAURANT:%1:%2:%3:%4:%5:%6:%7")
+
+    QString msg = QString("SIGNUP_RESTAURANT:%1:%2:%3:%4:%5:%6:%7:%8")
                       .arg(restaurantName)
                       .arg(ownerFirstName)
                       .arg(ownerLastName)
                       .arg(phone)
                       .arg(province)
                       .arg(city)
-                      .arg(password);
+                      .arg(password)
+                      .arg(restaurantType);
 
     clientSocket->sendMessage(msg);
 }
@@ -147,3 +151,9 @@ void RestaurantOwnerSignUp::on_comboBoxCity_currentTextChanged(const QString &ci
     Q_UNUSED(city);
     // اگر نیاز به پردازش بود، اضافه می‌کنیم
 }
+
+void RestaurantOwnerSignUp::on_comboBox_activated(int index)
+{
+
+}
+

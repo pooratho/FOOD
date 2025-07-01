@@ -29,6 +29,8 @@ private slots:
 
     void on_comboBoxCity_currentTextChanged(const QString &city);
 
+    void on_comboBox_activated(int index);
+
 private:
     Ui::RestaurantOwnerSignUp *ui;
     ClientSocketManager *clientSocket;
@@ -43,6 +45,7 @@ private:
     QString cachedProvince;
     QString cachedCity;
     QString cachedPassword;
+    QString cachedRestaurantType;
 };
 
 #endif // RESTAURANTOWNERSIGNUP_H

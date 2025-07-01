@@ -64,8 +64,10 @@ void DatabaseManager::createTables() {
         "province TEXT NOT NULL, "
         "city TEXT NOT NULL, "
         "password TEXT NOT NULL, "
+        "restaurant_type TEXT NOT NULL, "
         "is_blocked INTEGER DEFAULT 0)"
         );
+
     if (!successRestaurant)
         qDebug() << "Create restaurants table error:" << query.lastError().text();
 
@@ -137,10 +139,15 @@ bool DatabaseManager::insertRestaurant(const QString& restaurantName,
                                        const QString& phone,
                                        const QString& province,
                                        const QString& city,
-                                       const QString& password) {
+                                       const QString& password,
+                                       const QString& restaurantType)
+{
     QSqlQuery query(db);
-    query.prepare("INSERT INTO restaurants (restaurant_name, owner_firstname, owner_lastname, phone, province, city, password, is_blocked) "
-                  "VALUES (:restaurant_name, :owner_firstname, :owner_lastname, :phone, :province, :city, :password, 0)");
+    query.prepare("INSERT INTO restaurants "
+                  "(restaurant_name, owner_firstname, owner_lastname, phone, province, city, password, restaurant_type, is_blocked) "
+                  "VALUES (:restaurant_name, :owner_firstname, :owner_lastname, :phone, :province, :city, :password, :restaurant_type, 0)");
+
+    qDebug() << query.lastQuery();
 
     query.bindValue(":restaurant_name", restaurantName);
     query.bindValue(":owner_firstname", ownerFirstName);
@@ -149,6 +156,7 @@ bool DatabaseManager::insertRestaurant(const QString& restaurantName,
     query.bindValue(":province", province);
     query.bindValue(":city", city);
     query.bindValue(":password", hashPassword(password));
+    query.bindValue(":restaurant_type", restaurantType); // 👈 اینم اضافه بشه
 
     if (!query.exec()) {
         QMessageBox::warning(nullptr, "Insert Restaurant Error", query.lastError().text());
@@ -156,6 +164,7 @@ bool DatabaseManager::insertRestaurant(const QString& restaurantName,
     }
     return true;
 }
+
 
 QString DatabaseManager::hashPassword(const QString& password) {
     QByteArray hashed = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256);

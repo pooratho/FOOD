@@ -144,7 +144,7 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 
     else if (msg.startsWith("SIGNUP_RESTAURANT:")) {
         QStringList parts = msg.split(":");
-        if (parts.size() != 8) {
+        if (parts.size() != 9) {
             sender->write("SIGNUP_FAIL:فرمت اشتباه\n");
             return;
         }
@@ -156,8 +156,10 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         QString province   = parts[5].trimmed();
         QString city       = parts[6].trimmed();
         QString password   = parts[7].trimmed();
+        QString type       = parts[8].trimmed();
 
-        bool ok = dbManager.insertRestaurant(restName, ownerFirst, ownerLast, phone, province, city, password);
+        bool ok = dbManager.insertRestaurant(restName, ownerFirst, ownerLast, phone, province, city, password, type);
+
         if (ok) {
             sender->write("SIGNUP_OK:Restaurant\n");
             emit logMessage("✅ ثبت رستوران جدید: " + restName);
