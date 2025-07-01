@@ -282,3 +282,17 @@ QString DatabaseManager::getRestaurantNameById(int restaurantId) {
     }
     return QString();
 }
+
+bool DatabaseManager::deleteFood(const QString& category, const QString& name) {
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM Foods WHERE category = :category AND name = :name");
+    query.bindValue(":category", category);
+    query.bindValue(":name", name);
+
+    if (!query.exec()) {
+        qDebug() << "خطا در حذف غذا:" << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
