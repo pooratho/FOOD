@@ -26,7 +26,7 @@ private slots:
     void on_comboBox_3_currentTextChanged(const QString &city);
 
     void handleServerMessage(const QString &msg); //  اسلات برای گرفتن پیام‌های سرور
-
+    void sendFilteredRequest();
 private:
     Ui::CustomerMainPage *ui;
     QMap<QString, QStringList> provinceCitiesMap;

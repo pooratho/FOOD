@@ -103,7 +103,7 @@ color: rgb(255, 145, 67);
        <string>  فیلتر های مورد نظر را اعمال کنید:</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="comboBoxFoodType">
       <property name="geometry">
        <rect>
         <x>580</x>
@@ -161,7 +161,7 @@ color: rgb(60, 60, 60);</string>
        </property>
       </item>
      </widget>
-     <widget class="QComboBox" name="comboBox_2">
+     <widget class="QComboBox" name="comboBoxProvince">
       <property name="geometry">
        <rect>
         <x>580</x>
@@ -181,7 +181,7 @@ color: rgb(60, 60, 60);</string>
        <string>                                    استان  </string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox_3">
+     <widget class="QComboBox" name="comboBoxCity">
       <property name="geometry">
        <rect>
         <x>580</x>
@@ -253,9 +253,9 @@ color: rgb(255, 85, 0);</string>
      <zorder>widget_2</zorder>
      <zorder>tableWidget</zorder>
      <zorder>label</zorder>
-     <zorder>comboBox</zorder>
-     <zorder>comboBox_2</zorder>
-     <zorder>comboBox_3</zorder>
+     <zorder>comboBoxFoodType</zorder>
+     <zorder>comboBoxProvince</zorder>
+     <zorder>comboBoxCity</zorder>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_2">

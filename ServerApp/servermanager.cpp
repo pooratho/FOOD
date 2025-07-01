@@ -168,14 +168,78 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
             emit logMessage("❌ ثبت رستوران ناموفق");
         }
     }
-
     else if (msg == "GET_RESTAURANTS") {
         QSqlQuery query;
-        query.prepare("SELECT restaurant_name, restaurant_type, province, city FROM restaurants");
+        query.prepare("SELECT restaurant_name, restaurant_type, province, city FROM restaurants WHERE is_blocked = 0");
 
         if (query.exec()) {
             QStringList restaurantLines;
+            while (query.next()) {
+                QString name = query.value(0).toString();
+                QString type = query.value(1).toString();
+                QString province = query.value(2).toString();
+                QString city = query.value(3).toString();
+                QString fullAddress = province + " - " + city;
 
+                restaurantLines << name + "|" + type + "|" + fullAddress;
+            }
+
+            if (!restaurantLines.isEmpty()) {
+                QString response = "RESTAURANT_LIST:" + restaurantLines.join(";") + "\n";
+                sender->write(response.toUtf8());
+                sender->flush();
+            } else {
+                sender->write("RESTAURANT_LIST:EMPTY\n");
+                sender->flush();
+            }
+        } else {
+            sender->write("RESTAURANT_LIST_FAIL\n");
+            sender->flush();
+        }
+    }
+
+    else if (msg.startsWith("GET_RESTAURANTS_FILTERED:")) {
+
+        QString filterPart = msg.mid(QString("GET_RESTAURANTS_FILTERED:").length()).trimmed();
+
+        // پارس کردن فیلترها
+        QMap<QString, QString> filters;
+        QStringList pairs = filterPart.split(";", Qt::SkipEmptyParts);
+        for (const QString &pair : pairs) {
+            QStringList keyVal = pair.split("=", Qt::SkipEmptyParts);
+            if (keyVal.size() == 2) {
+                filters[keyVal[0].trimmed().toLower()] = keyVal[1].trimmed();
+            }
+        }
+
+        // ساخت کوئری داینامیک با توجه به فیلترها
+        QString baseQuery = "SELECT restaurant_name, restaurant_type, province, city FROM restaurants WHERE is_blocked = 0";
+        QStringList conditions;
+
+        if (filters.contains("province") && !filters["province"].isEmpty())
+            conditions << "province = :province";
+        if (filters.contains("city") && !filters["city"].isEmpty())
+            conditions << "city = :city";
+        if (filters.contains("type") && !filters["type"].isEmpty())
+            conditions << "restaurant_type = :type";
+
+        if (!conditions.isEmpty()) {
+            baseQuery += " AND " + conditions.join(" AND ");
+        }
+
+        QSqlQuery query;
+        query.prepare(baseQuery);
+
+        // مقداردهی پارامترها
+        if (filters.contains("province") && !filters["province"].isEmpty())
+            query.bindValue(":province", filters["province"]);
+        if (filters.contains("city") && !filters["city"].isEmpty())
+            query.bindValue(":city", filters["city"]);
+        if (filters.contains("type") && !filters["type"].isEmpty())
+            query.bindValue(":type", filters["type"]);
+
+        if (query.exec()) {
+            QStringList restaurantLines;
             while (query.next()) {
                 QString name = query.value(0).toString();
                 QString type = query.value(1).toString();
@@ -185,27 +249,27 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 
                 qDebug() << "📦 Restaurant found:" << name << "," << type << "," << fullAddress;
 
-                // ساخت خط رشته‌ای با فرمت name|type|address
                 restaurantLines << name + "|" + type + "|" + fullAddress;
             }
 
             if (!restaurantLines.isEmpty()) {
                 QString response = "RESTAURANT_LIST:" + restaurantLines.join(";") + "\n";
-                qDebug() << "📤 Sending response:" << response;
+                qDebug() << "📤 Sending filtered response:" << response;
 
                 sender->write(response.toUtf8());
-                sender->flush(); // ✨ خیلی مهم برای اطمینان از ارسال سریع پیام
+                sender->flush();
             } else {
-                qDebug() << "❌ هیچ رستورانی یافت نشد";
+                qDebug() << "❌ هیچ رستورانی با فیلترهای داده شده یافت نشد";
                 sender->write("RESTAURANT_LIST:EMPTY\n");
                 sender->flush();
             }
         } else {
-            qDebug() << "❌ خطا در اجرای کوئری: " << query.lastError().text();
+            qDebug() << "❌ خطا در اجرای کوئری فیلتر شده: " << query.lastError().text();
             sender->write("RESTAURANT_LIST_FAIL\n");
             sender->flush();
         }
     }
+
 
 
     else {

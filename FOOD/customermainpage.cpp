@@ -23,6 +23,14 @@ CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
         clientSocket->sendMessage("GET_RESTAURANTS");  // اینجا بفرست، نه بالا!
     });
 
+    connect(ui->comboBoxProvince, &QComboBox::currentTextChanged,
+            this, &CustomerMainPage::sendFilteredRequest);
+
+    connect(ui->comboBoxCity, &QComboBox::currentTextChanged,
+            this, &CustomerMainPage::sendFilteredRequest);
+
+    connect(ui->comboBoxFoodType, &QComboBox::currentTextChanged,
+            this, &CustomerMainPage::sendFilteredRequest);
 
     // نقشه استان‌ها
     provinceCitiesMap["آذربایجان شرقی"] = {"میانه", "اهر", "تبریز", "مرند", "مراغه"};
@@ -38,7 +46,7 @@ CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
 
     QStringList provinces = provinceCitiesMap.keys();
     provinces.sort();
-    ui->comboBox_2->addItems(provinces);
+    ui->comboBoxProvince->addItems(provinces);
 
     if (!provinces.isEmpty())
         on_comboBox_2_currentTextChanged(provinces.first());
@@ -56,8 +64,8 @@ void CustomerMainPage::on_comboBox_2_currentTextChanged(const QString &province)
     QStringList cities = provinceCitiesMap.value(province);
     cities.sort();
 
-    ui->comboBox_3->clear();
-    ui->comboBox_3->addItems(cities);
+    ui->comboBoxCity->clear();
+    ui->comboBoxCity->addItems(cities);
 }
 
 void CustomerMainPage::on_comboBox_3_currentTextChanged(const QString &city)
@@ -67,15 +75,23 @@ void CustomerMainPage::on_comboBox_3_currentTextChanged(const QString &city)
 
 void CustomerMainPage::handleServerMessage(const QString& msg)
 {
-     QMessageBox::information(this, "رسیدن پیام", msg);  // تست اولیه
-     qDebug() << "پیام از سرور: " << msg;
+    qDebug() << "پیام از سرور: " << msg;
+
     if (msg.startsWith("RESTAURANT_LIST:")) {
         QString data = msg.mid(QString("RESTAURANT_LIST:").length());
         QStringList rows = data.split(";", Qt::SkipEmptyParts);
 
+        // جدول رو پاک می‌کنیم
+        ui->tableWidget->clearContents();
+        ui->tableWidget->setRowCount(0);
+
+        // فقط یک بار ستون‌ها و هدر رو تنظیم کن (اگر قبلاً انجام نشده)
+        if (ui->tableWidget->columnCount() != 3) {
+            ui->tableWidget->setColumnCount(3);
+            ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "نام رستوران" << "نوع غذا" << "آدرس");
+        }
+
         ui->tableWidget->setRowCount(rows.size());
-        ui->tableWidget->setColumnCount(3);
-        ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "نام رستوران" << "نوع غذا" << "آدرس");
 
         for (int i = 0; i < rows.size(); ++i) {
             QStringList columns = rows[i].split("|");
@@ -89,15 +105,42 @@ void CustomerMainPage::handleServerMessage(const QString& msg)
             }
         }
 
+        // اگر هیچ رستوانی نبود
+        if (rows.isEmpty()) {
+            QMessageBox::information(this, "اطلاع", "هیچ رستورانی در سیستم ثبت نشده است.");
+        }
     }
-    else if (msg.trimmed() == "RESTAURANT_LIST:EMPTY") {
-        QMessageBox::information(this, "اطلاع", "هیچ رستورانی در سیستم ثبت نشده است.");
-    }
-
-
     else if (msg.startsWith("RESTAURANT_LIST_FAIL")) {
         QMessageBox::warning(this, "خطا", "دریافت لیست رستوران‌ها ناموفق بود!");
     }
+    else {
+        qDebug() << "پیام ناشناخته از سرور دریافت شد.";
+    }
+}
+
+
+void CustomerMainPage::sendFilteredRequest()
+{
+    QString province = ui->comboBoxProvince->currentText().trimmed();
+    QString city = ui->comboBoxCity->currentText().trimmed();
+    QString type = ui->comboBoxFoodType->currentText().trimmed();
+
+    if (province.isEmpty() && city.isEmpty() && type.isEmpty()) {
+        clientSocket->sendMessage("GET_RESTAURANTS");
+        return;
+    }
+
+    QStringList filters;
+    if (!province.isEmpty())
+        filters << "province=" + province;
+    if (!city.isEmpty())
+        filters << "city=" + city;
+    if (!type.isEmpty())
+        filters << "type=" + type;
+
+    QString msg = "GET_RESTAURANTS_FILTERED:" + filters.join(";");
+
+    clientSocket->sendMessage(msg);
 }
 
 
