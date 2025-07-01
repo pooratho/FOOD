@@ -14,60 +14,9 @@ SignInWindow::SignInWindow(LoginWindow *loginWin, const QString& role, QWidget *
     clientSocket = new ClientSocketManager(this);
     clientSocket->connectToServer("127.0.0.1", 1234);  // آدرس و پورت سرور
 
-    // اتصال به پیام دریافتی از سرور
-    connect(clientSocket, &ClientSocketManager::messageReceived, this, [=](const QString &msg) {
-        if (msg.startsWith("LOGIN_OK:")) {
-            QString role = msg.section(':', 1); // نقش رو جدا کن
-
-            if (role == "Customer") {
-                QMessageBox::information(this, "ورود موفق", "خوش آمدید مشتری عزیز!");
-                Customer* customer = new Customer(cachedFirstName, cachedLastName, cachedPhone, cachedPassword);
-                CustomerMainPage* page = new CustomerMainPage(customer);
-                page->setAttribute(Qt::WA_DeleteOnClose);
-                page->show();
- // بدون parent
-                page->setAttribute(Qt::WA_DeleteOnClose);         // با بستن آزاد شود
-                page->show();                                     // باز کن
-
-                //loginWindow->close();  // فقط پنجره اصلی رو ببند
-                this->close();
-            }
-            else if (role == "Restaurant") {
-                QMessageBox::information(this, "ورود موفق", "خوش آمدید رستوران‌دار محترم!");
-
-                Restaurant restaurant("RestaurantName", "Tehran", "Tehran");  // اینا فعلاً فرضی هستن
-                RestaurantOwner* owner = new RestaurantOwner(
-                    cachedFirstName,
-                    cachedLastName,
-                    cachedPhone,
-                    cachedPassword,
-                    restaurant
-                    );
-
-                RestaurantOwnerMainPage* page = new RestaurantOwnerMainPage(owner);
-
-
-                page->setAttribute(Qt::WA_DeleteOnClose);         // با بستن آزاد شود
-                page->show();                                     // باز کن
-
-              // loginWindow->close();  // فقط پنجره اصلی رو ببند
-                this->close();
-            }
-        }
-        else if (role == "Admin") {
-            QMessageBox::information(this, "ورود موفق", "خوش آمدید مدیر سیستم!");
-
-            AdminMainPage* page = new AdminMainPage();  // اگر ورودی نیاز داشت می‌تونی بده، فعلاً بدون ورودی
-            page->setAttribute(Qt::WA_DeleteOnClose);
-            page->show();
-
-          //  loginWindow->close();
-            this->close();
-        }
-        else if (msg.startsWith("LOGIN_FAIL")) {
-            QMessageBox::warning(this, "خطا", "ورود ناموفق! اطلاعات اشتباه است.");
-        }
-    });
+    // اینجا کانکت رو به صورت مستقیم به تابع هندل مسیج وصل کن
+    connect(clientSocket, &ClientSocketManager::messageReceived,
+            this, &SignInWindow::handleServerMessage);
 
     connect(clientSocket, &ClientSocketManager::errorOccurred, this, [=](const QString &err) {
         QMessageBox::critical(this, "خطای اتصال", err);
@@ -78,7 +27,6 @@ SignInWindow::~SignInWindow()
 {
     delete ui;
 }
-
 void SignInWindow::on_pushButton_clicked()
 {
     QString firstName = ui->lineEditFirstName->text().trimmed();
@@ -90,16 +38,65 @@ void SignInWindow::on_pushButton_clicked()
         return;
     }
 
-    // ذخیره اطلاعات کاربر برای ساخت شی Customer بعدا
     cachedFirstName = firstName;
     cachedLastName = lastName;
     cachedPassword = password;
 
-    // اگر نقش رو جایی مثل comboBox داری باید مقدارش رو هم اینجا بگیری و ذخیره کنی
-    // فرضا:
-
-
-    // ارسال پیام به سرور
     QString msg = "LOGIN:" + selectedRole + ":" + firstName + ":" + lastName + ":" + password;
     clientSocket->sendMessage(msg);
+}
+
+void SignInWindow::handleServerMessage(const QString &msg)
+{
+    if (msg.startsWith("LOGIN_OK:")) {
+        QStringList parts = msg.split(":");
+        if (parts.size() >= 2) {
+            QString role = parts[1].trimmed();
+
+            if (role.toLower() == "restaurant" && parts.size() >= 3) {
+                QString restaurantName = parts[2].trimmed();
+
+                // ساخت شی رستوران با نام واقعی که از سرور گرفته شده
+                Restaurant restaurant(restaurantName, "Tehran", "Tehran"); // سایر فیلدها رو به دلخواه بزار
+                RestaurantOwner* owner = new RestaurantOwner(
+                    cachedFirstName,
+                    cachedLastName,
+                    cachedPhone,       // فرض کن این متغیرها ذخیره شده‌اند
+                    cachedPassword,
+                    restaurant
+                    );
+
+                // باز کردن صفحه اصلی رستوران
+                RestaurantOwnerMainPage* page = new RestaurantOwnerMainPage(owner);
+                page->setAttribute(Qt::WA_DeleteOnClose);
+                page->show();
+
+                this->close(); // بستن صفحه ورود
+            }
+            else if (role.toLower() == "customer") {
+                QMessageBox::information(this, "ورود موفق", "خوش آمدید مشتری عزیز!");
+                Customer* customer = new Customer(cachedFirstName, cachedLastName, cachedPhone, cachedPassword);
+                CustomerMainPage* page = new CustomerMainPage(customer);
+                page->setAttribute(Qt::WA_DeleteOnClose);
+                page->show();
+
+                this->close();
+            }
+            else if (role.toLower() == "admin") {
+                QMessageBox::information(this, "ورود موفق", "خوش آمدید مدیر سیستم!");
+                AdminMainPage* page = new AdminMainPage();
+                page->setAttribute(Qt::WA_DeleteOnClose);
+                page->show();
+
+                this->close();
+            }
+            else {
+                QMessageBox::warning(this, "خطا", "نقش دریافتی نامعتبر است.");
+            }
+        }
+    }
+    else if (msg.startsWith("LOGIN_FAIL:")) {
+        QString reason = msg.section(':', 1);
+        QMessageBox::warning(this, "ورود ناموفق", reason);
+    }
 }

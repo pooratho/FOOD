@@ -29,6 +29,7 @@ private:
     QTcpServer *server;
     QList<QTcpSocket*> clients;
     DatabaseManager dbManager;
+    QMap<QTcpSocket*, int> restaurantSocketMap;
 
     void processMessage(QTcpSocket *sender, const QString &msg);
 };

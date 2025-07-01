@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QVector>
+#include <QMap>               // ⬅️ این خطو اضافه کن
 #include "menuitem.h"
 
 class Restaurant
@@ -15,17 +16,19 @@ public:
                const QString& city,
                bool isActive = true);
 
+    Restaurant(const QString& name, const QString& province, const QString& city);  // اینو بهتر بیاری بالا
+
     int getId() const;
     QString getName() const;
     QString getOwnerUsername() const;
     QString getProvince() const;
     QString getCity() const;
     bool getIsActive() const;
-Restaurant(const QString& name, const QString& province, const QString& city);
-    void setActive(bool active);
-    void addMenuItem(const MenuItem& item);
-    QVector<MenuItem> getMenu() const;
 
+    void setActive(bool active);
+    void addMenuItem(const QString& category, const Food& food);
+    QMap<QString, MenuItem>& getMenu() ;
+    void setName(const QString& newName) ;
 private:
     int id;
     QString name;
@@ -34,7 +37,7 @@ private:
     QString city;
     bool isActive;
 
-    QVector<MenuItem> menu;
+    QMap<QString, MenuItem> menu;
 };
 
 #endif // RESTAURANT_H

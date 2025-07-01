@@ -65,7 +65,7 @@ background-color: rgb(60, 60, 60);</string>
        <string>  نوع آیتم:</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="comboBoxCategory">
       <property name="geometry">
        <rect>
         <x>57</x>
@@ -113,7 +113,7 @@ background-color: rgb(60, 60, 60);</string>
        <string>  نام آیتم:</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="lineEditFoodName">
       <property name="geometry">
        <rect>
         <x>57</x>
@@ -136,7 +136,7 @@ background-color: rgb(60, 60, 60);</string>
        <string>  توضیحات:</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_2">
+     <widget class="QLineEdit" name="lineEditPrice">
       <property name="geometry">
        <rect>
         <x>62</x>
@@ -162,7 +162,7 @@ background-color: rgb(60, 60, 60);</string>
        <string>  قیمت:</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_3">
+     <widget class="QLineEdit" name="textEditDescription">
       <property name="geometry">
        <rect>
         <x>62</x>
@@ -233,13 +233,17 @@ font: 13pt &quot;B Farnaz&quot;;
 color: rgb(255, 85, 0);</string>
      </property>
      <property name="currentIndex">
+<<<<<<< HEAD
       <number>0</number>
+=======
+      <number>2</number>
+>>>>>>> 17cce26c68a70de082c542b85b85a7f308aaa886
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
        <string>          غذا          </string>
       </attribute>
-      <widget class="QListWidget" name="listWidget_6">
+      <widget class="QListWidget" name="listWidgetMain">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -275,7 +279,7 @@ font: 18pt &quot;B Farnaz&quot;;</string>
       <attribute name="title">
        <string>          دسر          </string>
       </attribute>
-      <widget class="QListWidget" name="listWidget_2">
+      <widget class="QListWidget" name="listWidgetDessert">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -311,7 +315,7 @@ font: 18pt &quot;B Farnaz&quot;;</string>
       <attribute name="title">
        <string>          نوشیدنی          </string>
       </attribute>
-      <widget class="QListWidget" name="listWidget_3">
+      <widget class="QListWidget" name="listWidgetDrink">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -347,7 +351,7 @@ font: 18pt &quot;B Farnaz&quot;;</string>
       <attribute name="title">
        <string>         پیش غذا          </string>
       </attribute>
-      <widget class="QListWidget" name="listWidget_4">
+      <widget class="QListWidget" name="listWidgetStarter">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -383,7 +387,7 @@ font: 18pt &quot;B Farnaz&quot;;</string>
       <attribute name="title">
        <string>          سایر          </string>
       </attribute>
-      <widget class="QListWidget" name="listWidget_5">
+      <widget class="QListWidget" name="listWidgetOthers">
        <property name="geometry">
         <rect>
          <x>0</x>

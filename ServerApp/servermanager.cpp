@@ -61,7 +61,7 @@ void ServerManager::onDisconnected()
     QTcpSocket *client = qobject_cast<QTcpSocket*>(sender());
     if (!client)
         return;
-
+   restaurantSocketMap.remove(client);
     clients.removeAll(client);
     emit logMessage("❌ کلاینت قطع شد: " + client->peerAddress().toString());
     client->deleteLater();
@@ -111,9 +111,36 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
 
         if (matched) {
-            sender->write(("LOGIN_OK:" + roleStr + "\n").toUtf8());
-            emit logMessage("✅ ورود موفق: " + firstName + " " + lastName + " (" + roleStr + ")");
-        } else {
+            if (dbRole == DatabaseManager::UserRole::Restaurant) {
+                QString hashedPassword = dbManager.hashPassword(password);
+                int restaurantId = dbManager.getRestaurantId(firstName, lastName, password);  // بدون هش تست کن
+                qDebug() << "Restaurant ID (no hash):" << restaurantId;
+
+                if (restaurantId == -1) {
+                    QString hashedPassword = dbManager.hashPassword(password);
+                    restaurantId = dbManager.getRestaurantId(firstName, lastName, hashedPassword);
+                    qDebug() << "Restaurant ID (with hash):" << restaurantId;
+                }
+
+                if (restaurantId != -1) {
+                    // ادامه روند لاگین موفق
+                    restaurantSocketMap[sender] = restaurantId;
+                    QString restaurantName = dbManager.getRestaurantNameById(restaurantId);
+                    QString response = QString("LOGIN_OK:%1:%2\n").arg(roleStr).arg(restaurantName);
+                    sender->write(response.toUtf8());
+                    emit logMessage("🍽️ شناسه و نام رستوران به نگاشت سوکت اضافه شد: " + QString::number(restaurantId) + ", " + restaurantName);
+                } else {
+                    sender->write("LOGIN_FAIL:شناسه رستوران یافت نشد\n");
+                }
+      } else {
+                // برای سایر نقش‌ها مثل Customer یا Admin فقط نقش بفرست
+                sender->write(("LOGIN_OK:" + roleStr + "\n").toUtf8());
+                emit logMessage("✅ ورود موفق: " + firstName + " " + lastName + " (" + roleStr + ")");
+            }
+        }
+
+
+        else {
             sender->write("LOGIN_FAIL:نقش اشتباه یا اطلاعات نادرست\n");
             emit logMessage("❌ ورود ناموفق برای: " + firstName + " " + lastName + " با نقش " + role);
         }
@@ -270,7 +297,100 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
     }
 
+    else if (msg.startsWith("ADD_FOOD:")) {
+        QString content = msg.mid(QString("ADD_FOOD:").length());
+        QStringList parts = content.split(":", Qt::KeepEmptyParts);
 
+        if (parts.size() < 4) {
+            sender->write("ADD_FOOD_FAIL:فرمت اشتباه\n");
+            return;
+        }
+
+        QString category = parts[0].trimmed();
+        QString name = parts[1].trimmed();
+        QString priceStr = parts[2].trimmed();
+        // توضیحات ممکنه چند بخش داشته باشه، همه رو اینجا ترکیب کن
+        QString desc = parts.mid(3).join(":").trimmed();
+
+        bool ok;
+        double price = priceStr.toDouble(&ok);
+        if (!ok) {
+            sender->write("ADD_FOOD_FAIL:قیمت نامعتبر\n");
+            return;
+        }
+
+
+        // مثال: درج در جدول foods
+        QSqlQuery query;
+        query.prepare("INSERT INTO foods (name, description, price, category, restaurant_id) "
+                      "VALUES (:name, :desc, :price, :cat, :rest_id)");
+        query.bindValue(":name", name);
+        query.bindValue(":desc", desc);
+        query.bindValue(":price", price);
+        query.bindValue(":cat", category);
+
+        // فعلاً ساده فرض کنیم id رستوران ثابت باشه یا از socket map بگیریم:
+        qDebug() << "Current restaurantSocketMap keys:" << restaurantSocketMap.keys();
+        qDebug() << "Checking sender in map:" << restaurantSocketMap.contains(sender);
+        qDebug() << "restaurantId for sender:" << restaurantSocketMap.value(sender, -1);
+        int restaurantId = restaurantSocketMap.value(sender, -1);
+        if (restaurantId == -1) {
+            sender->write("ADD_FOOD_FAIL:شناسه رستوران یافت نشد\n");
+            return;
+        }
+        query.bindValue(":rest_id", restaurantId);
+
+        if (query.exec()) {
+            sender->write("ADD_FOOD_OK\n");
+        } else {
+            sender->write("ADD_FOOD_FAIL:" + query.lastError().text().toUtf8() + "\n");
+        }
+    }
+
+    else if (msg == "GET_MENU") {
+        int restaurantId = restaurantSocketMap.value(sender, -1);
+        if (restaurantId == -1) {
+            sender->write("MENU_LIST_FAIL:شناسه رستوران یافت نشد\n");
+            return;
+        }
+
+        QSqlQuery query;
+        query.prepare("SELECT name, description, price, category FROM foods WHERE restaurant_id = :id");
+        query.bindValue(":id", restaurantId);
+
+        if (query.exec()) {
+            QStringList items;
+            while (query.next()) {
+                QString name = query.value(0).toString();
+                QString desc = query.value(1).toString();
+                double price = query.value(2).toDouble();
+                QString cat = query.value(3).toString();
+
+                items << name + "|" + desc + "|" + QString::number(price) + "|" + cat;
+            }
+
+            QString response = "MENU_LIST:" + items.join(";") + "\n";
+            sender->write(response.toUtf8());
+            sender->flush();
+        } else {
+            sender->write("MENU_LIST_FAIL\n");
+        }
+    }
+    else if (msg.startsWith("REGISTER_RESTAURANT_SOCKET:")) {
+        QString restaurantName = msg.mid(QString("REGISTER_RESTAURANT_SOCKET:").length()).trimmed();
+        qDebug() << "Received REGISTER_RESTAURANT_SOCKET with name:" << restaurantName;
+
+        int restId = dbManager.getRestaurantIdByRestaurantName(restaurantName);
+        qDebug() << "Got restaurant ID from DB:" << restId;
+
+        if (restId != -1) {
+            restaurantSocketMap[sender] = restId;
+            sender->write("REGISTER_OK\n");
+        } else {
+            sender->write("REGISTER_FAIL:شناسه پیدا نشد\n");
+        }
+
+    }
 
     else {
         sender->write("ERROR:فرمان ناشناخته\n");

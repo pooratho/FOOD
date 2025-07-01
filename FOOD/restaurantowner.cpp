@@ -11,7 +11,7 @@ RestaurantOwner::RestaurantOwner(const QString& firstName,
 {
 }
 
-Restaurant RestaurantOwner::getRestaurant() const {
+Restaurant& RestaurantOwner::getRestaurant()  {
     return restaurant;
 }
 

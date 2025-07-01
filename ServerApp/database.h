@@ -41,8 +41,9 @@ public:
     };
 
     UserRole checkUserLogin(const QString& firstName, const QString& lastName, const QString& password);
-
-
+    int getRestaurantId(const QString& firstName, const QString& lastName, const QString& password);
+      int getRestaurantIdByRestaurantName(const QString& name);
+    QString getRestaurantNameById(int restaurantId);
 private:
     QSqlDatabase db;
 

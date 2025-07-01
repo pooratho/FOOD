@@ -24,7 +24,7 @@ public:
 
 private slots:
     void on_pushButton_clicked();  // دکمه ورود
-
+    void handleServerMessage(const QString &msg);
 private:
     Ui::SignInWindow *ui;
     ClientSocketManager *clientSocket;

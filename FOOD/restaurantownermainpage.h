@@ -2,7 +2,11 @@
 #define RESTAURANTOWNERMAINPAGE_H
 
 #include <QWidget>
-#include "restaurantowner.h"  // برای استفاده از کلاس رستوران‌دار
+#include <QMap>   // ⬅️ لازم برای نگه‌داری منو دسته‌بندی‌شده
+#include "restaurantowner.h"
+#include "food.h"
+#include "menuitem.h"
+#include "clientsocketmanager.h"
 
 namespace Ui {
 class restaurantOwnerMainPage;
@@ -16,9 +20,18 @@ public:
     explicit RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget *parent = nullptr);
     ~RestaurantOwnerMainPage();
 
+private slots:
+    void on_pushButton_clicked();              // افزودن غذا
+    void handleServerMessage(const QString &msg);  // پاسخ سرور
+
 private:
     Ui::restaurantOwnerMainPage *ui;
-    RestaurantOwner* currentOwner;  // نگه داشتن شی رستوران‌دار
+    RestaurantOwner* currentOwner;
+
+    // به جای فقط یک MenuItem، همه‌ی دسته‌ها رو نگه داریم:
+    QMap<QString, MenuItem> menuByCategory;   // ⬅ این نگه‌دارنده منوی دسته‌بندی شده‌ست
+
+    ClientSocketManager *clientSocket;
 };
 
 #endif // RESTAURANTOWNERMAINPAGE_H

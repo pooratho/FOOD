@@ -36,11 +36,11 @@ void Restaurant::setActive(bool active) {
     isActive = active;
 }
 
-void Restaurant::addMenuItem(const MenuItem& item) {
-    menu.append(item);
+void Restaurant::addMenuItem(const QString& category, const Food& food) {
+    menu[category].addFood(food);  // اگر وجود نداشته باشه، خودش ایجادش می‌کنه
 }
 
-QVector<MenuItem> Restaurant::getMenu() const {
+QMap<QString, MenuItem>& Restaurant::getMenu() {
     return menu;
 }
-
+void Restaurant::setName(const QString& newName) { name = newName; }

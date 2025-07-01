@@ -19,8 +19,9 @@ void ClientSocketManager::connectToServer(const QString &host, quint16 port)
 
 void ClientSocketManager::sendMessage(const QString &msg)
 {
+
     if (socket->state() == QTcpSocket::ConnectedState) {
-        socket->write(msg.toUtf8());
+        socket->write((msg + "\n").toUtf8());  // اضافه کردن \n برای تمایز بین پیام‌ها
     } else {
         emit errorOccurred("اتصال به سرور برقرار نیست.");
     }
