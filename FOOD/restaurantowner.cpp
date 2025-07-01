@@ -4,8 +4,9 @@ RestaurantOwner::RestaurantOwner(const QString& firstName,
                                  const QString& lastName,
                                  const QString& phone,
                                  const QString& password,
-                                 const Restaurant& restaurant)
-    : User(firstName, lastName, phone, password),
+                                 const Restaurant& restaurant,
+                                 bool isBlocked)
+    : User(firstName, lastName, phone, password, isBlocked),
     restaurant(restaurant)
 {
 }

@@ -47,12 +47,11 @@ void DatabaseManager::createTables() {
         "firstname TEXT NOT NULL, "
         "lastname TEXT NOT NULL, "
         "phone TEXT NOT NULL, "
-        "password TEXT NOT NULL)"
+        "password TEXT NOT NULL, "
+        "is_blocked INTEGER DEFAULT 0)" // ✅ اضافه شد
         );
-
-    if (!successCustomer) {
+    if (!successCustomer)
         qDebug() << "Create customers table error:" << query.lastError().text();
-    }
 
     // جدول رستوران
     bool successRestaurant = query.exec(
@@ -64,13 +63,13 @@ void DatabaseManager::createTables() {
         "phone TEXT NOT NULL, "
         "province TEXT NOT NULL, "
         "city TEXT NOT NULL, "
-        "password TEXT NOT NULL)"
+        "password TEXT NOT NULL, "
+        "is_blocked INTEGER DEFAULT 0)"
         );
-
-    if (!successRestaurant) {
+    if (!successRestaurant)
         qDebug() << "Create restaurants table error:" << query.lastError().text();
-    }
 
+    // جدول مدیر
     bool successAdmin = query.exec(
         "CREATE TABLE IF NOT EXISTS admins ("
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -78,24 +77,23 @@ void DatabaseManager::createTables() {
         "lastname TEXT NOT NULL, "
         "password TEXT NOT NULL)"
         );
-
-    if (!successAdmin) {
+    if (!successAdmin)
         qDebug() << "Create admins table error:" << query.lastError().text();
-    }
-    // افزودن ادمین پیش‌فرض در صورت عدم وجود
+
+    // افزودن ادمین پیش‌فرض
     query.prepare("SELECT COUNT(*) FROM admins WHERE firstname = 'ADMIN' AND lastname = 'ADMIN'");
     if (query.exec() && query.next() && query.value(0).toInt() == 0) {
         query.prepare("INSERT INTO admins (firstname, lastname, password) "
                       "VALUES (:firstname, :lastname, :password)");
         query.bindValue(":firstname", "ADMIN");
         query.bindValue(":lastname", "ADMIN");
-        query.bindValue(":password", hashPassword("ADMIN")); // پسورد هش شده
+        query.bindValue(":password", hashPassword("ADMIN"));
         if (!query.exec()) {
             qDebug() << "Insert default admin failed:" << query.lastError().text();
         }
     }
-
 }
+
 
 // void DatabaseManager::creatRestaurantTable() {
 //     QSqlQuery query(db);
@@ -118,8 +116,9 @@ bool DatabaseManager::insertCustomer(const QString& firstName, const QString& la
     QSqlQuery query(db);
 
 
-    query.prepare("INSERT INTO customers (firstname, lastname, phone, password) "
-                  "VALUES (:firstname, :lastname, :phone, :password)");
+    query.prepare("INSERT INTO customers (firstname, lastname, phone, password, is_blocked) "
+                  "VALUES (:firstname, :lastname, :phone, :password, 0)");
+
     query.bindValue(":firstname", firstName);
     query.bindValue(":lastname", lastName);
     query.bindValue(":phone", phone);
@@ -140,8 +139,9 @@ bool DatabaseManager::insertRestaurant(const QString& restaurantName,
                                        const QString& city,
                                        const QString& password) {
     QSqlQuery query(db);
-    query.prepare("INSERT INTO restaurants (restaurant_name, owner_firstname, owner_lastname, phone, province, city, password) "
-                  "VALUES (:restaurant_name, :owner_firstname, :owner_lastname, :phone, :province, :city, :password)");
+    query.prepare("INSERT INTO restaurants (restaurant_name, owner_firstname, owner_lastname, phone, province, city, password, is_blocked) "
+                  "VALUES (:restaurant_name, :owner_firstname, :owner_lastname, :phone, :province, :city, :password, 0)");
+
     query.bindValue(":restaurant_name", restaurantName);
     query.bindValue(":owner_firstname", ownerFirstName);
     query.bindValue(":owner_lastname", ownerLastName);
@@ -165,24 +165,29 @@ QString DatabaseManager::hashPassword(const QString& password) {
 
 DatabaseManager::UserRole DatabaseManager::checkUserLogin(const QString& firstName, const QString& lastName, const QString& password) {
     QString hashed = hashPassword(password);
-
     QSqlQuery query(db);
 
-    // بررسی مشتری
-    query.prepare("SELECT COUNT(*) FROM customers WHERE firstname = :first AND lastname = :last AND password = :pass");
+    // بررسی مشتری (و بلاک بودن)
+    query.prepare("SELECT is_blocked FROM customers WHERE firstname = :first AND lastname = :last AND password = :pass");
     query.bindValue(":first", firstName);
     query.bindValue(":last", lastName);
     query.bindValue(":pass", hashed);
-    if (query.exec() && query.next() && query.value(0).toInt() > 0) {
+    if (query.exec() && query.next()) {
+        if (query.value(0).toInt() == 1) {
+            return UserRole::None;
+        }
         return UserRole::Customer;
     }
 
-    // بررسی رستوران‌دار
-    query.prepare("SELECT COUNT(*) FROM restaurants WHERE owner_firstname = :first AND owner_lastname = :last AND password = :pass");
+    // بررسی رستوران‌دار (و بلاک بودن)
+    query.prepare("SELECT is_blocked FROM restaurants WHERE owner_firstname = :first AND owner_lastname = :last AND password = :pass");
     query.bindValue(":first", firstName);
     query.bindValue(":last", lastName);
     query.bindValue(":pass", hashed);
-    if (query.exec() && query.next() && query.value(0).toInt() > 0) {
+    if (query.exec() && query.next()) {
+        if (query.value(0).toInt() == 1) {
+            return UserRole::None;
+        }
         return UserRole::Restaurant;
     }
 
@@ -195,8 +200,8 @@ DatabaseManager::UserRole DatabaseManager::checkUserLogin(const QString& firstNa
         return UserRole::Admin;
     }
 
-
     return UserRole::None;
 }
+
 
 

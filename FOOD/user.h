@@ -9,21 +9,25 @@ protected:
     QString lastName;
     QString phone;
     QString password;
+    bool isBlocked;
 
 public:
     User(const QString& firstName,
          const QString& lastName,
          const QString& phone,
-         const QString& password);
+         const QString& password,
+         bool isBlocked = false);
 
-    virtual ~User(); // مهم برای پلی‌مورفیسم
+    virtual ~User();
 
-    virtual QString getRole() const = 0; // کلاس abstract
+    virtual QString getRole() const = 0;
 
     QString getFirstName() const;
     QString getLastName() const;
     QString getPhone() const;
     QString getPassword() const;
+    bool getIsBlocked() const;
+    void setIsBlocked(bool blocked);
 
     void setPassword(const QString& newPassword);
 };

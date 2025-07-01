@@ -3,8 +3,9 @@
 Customer::Customer(const QString& firstName,
                    const QString& lastName,
                    const QString& phone,
-                   const QString& password)
-    : User(firstName, lastName, phone, password) {}
+                   const QString& password,
+                   bool isBlocked)
+    : User(firstName, lastName, phone, password, isBlocked) {}  // ➕ تغییر در کانستراکتور پایه
 
 QString Customer::getRole() const {
     return "Customer";

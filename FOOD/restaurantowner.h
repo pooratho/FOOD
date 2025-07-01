@@ -14,7 +14,8 @@ public:
                     const QString& lastName,
                     const QString& phone,
                     const QString& password,
-                    const Restaurant& restaurant);
+                    const Restaurant& restaurant,
+                    bool isBlocked = false); // ➕ این پارامتر اضافه شد
 
     Restaurant getRestaurant() const;
     void setRestaurant(const Restaurant& r);

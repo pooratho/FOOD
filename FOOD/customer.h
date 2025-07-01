@@ -6,19 +6,19 @@
 #include <QVector>
 #include "order.h"
 
-class Order;     // به‌زودی تعریف می‌شه
-class CartItem;  // به‌زودی تعریف می‌شه
+class Order;
+class CartItem;
 
 class Customer : public User {
 public:
     Customer(const QString& firstName,
              const QString& lastName,
              const QString& phone,
-             const QString& password);
+             const QString& password,
+             bool isBlocked = false);  // ➕ پارامتر جدید
 
     QString getRole() const override;
 
-    // قابلیت‌های آینده
     void addToCart(const CartItem& item);
     void clearCart();
     QVector<CartItem> getCart() const;
