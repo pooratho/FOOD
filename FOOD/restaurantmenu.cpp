@@ -1,11 +1,12 @@
 #include "restaurantmenu.h"
 #include "ui_restaurantmenu.h"
+#include "restaurantmenuitemwidget.h"
 #include <QDebug>
 
 restaurantmenu::restaurantmenu(const QString& restaurantName, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::restaurantmenu)
-    , currentRestaurantName(restaurantName)
+    , restaurantName(restaurantName)
 {
     ui->setupUi(this);
 
@@ -13,7 +14,7 @@ restaurantmenu::restaurantmenu(const QString& restaurantName, QWidget *parent)
 
     connect(clientSocket, &ClientSocketManager::connected, this, [=]() {
         qDebug() << "📡 Connected to server from RestaurantMenu";
-        clientSocket->sendMessage("GET_MENU_FOR:" + currentRestaurantName);
+        clientSocket->sendMessage("GET_MENU_FOR:" + restaurantName);
     });
 
     connect(clientSocket, &ClientSocketManager::messageReceived,
@@ -30,6 +31,12 @@ restaurantmenu::~restaurantmenu()
 void restaurantmenu::handleServerMessage(const QString& msg)
 {
     if (msg.startsWith("MENU_LIST_FOR:")) {
+        ui->listWidgetMain->clear();
+        ui->listWidgetDessert->clear();
+        ui->listWidgetDrink->clear();
+        ui->listWidgetStarter->clear();
+        ui->listWidgetOthers->clear();
+
         QString raw = msg.mid(QString("MENU_LIST_FOR:").length());
         QStringList items = raw.split(";", Qt::SkipEmptyParts);
 
@@ -42,7 +49,6 @@ void restaurantmenu::handleServerMessage(const QString& msg)
             QString price = parts[2];
             QString cat = parts[3];
 
-            // مثلاً اضافه کن به تب مناسب در UI
             QListWidget* list = nullptr;
             if (cat == "غذا") list = ui->listWidgetMain;
             else if (cat == "دسر") list = ui->listWidgetDessert;
@@ -51,11 +57,22 @@ void restaurantmenu::handleServerMessage(const QString& msg)
             else list = ui->listWidgetOthers;
 
             if (list) {
-                QListWidgetItem* item = new QListWidgetItem(name + " - " + price + " تومان\n" + desc);
-                list->addItem(item);
+                RestaurantMenuItemWidget* itemWidget = new RestaurantMenuItemWidget(this);
+                itemWidget->setName(name);
+                itemWidget->setDescription(desc);
+                itemWidget->setPrice(price + " تومان");
+
+                QListWidgetItem* listItem = new QListWidgetItem(list);
+                listItem->setSizeHint(itemWidget->sizeHint());
+
+                list->addItem(listItem);
+                list->setItemWidget(listItem, itemWidget);
             }
         }
 
-        ui->label->setText("منوی رستوران: " + currentRestaurantName);
+        ui->label->setText("منوی رستوران: " + restaurantName);
     }
 }
+
+
+
