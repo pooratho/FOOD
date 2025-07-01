@@ -270,7 +270,79 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
     }
 
+    else if (msg.startsWith("ADD_FOOD:")) {
+        QStringList parts = msg.mid(QString("ADD_FOOD:").length()).split(":", Qt::KeepEmptyParts);
 
+        if (parts.size() != 4) {
+            sender->write("ADD_FOOD_FAIL:فرمت اشتباه\n");
+            return;
+        }
+
+        QString category = parts[0].trimmed();
+        QString name     = parts[1].trimmed();
+        QString priceStr = parts[2].trimmed();
+        QString desc     = parts[3].trimmed();
+        bool ok;
+        double price = priceStr.toDouble(&ok);
+
+        if (!ok) {
+            sender->write("ADD_FOOD_FAIL:قیمت نامعتبر\n");
+            return;
+        }
+
+        // مثال: درج در جدول foods
+        QSqlQuery query;
+        query.prepare("INSERT INTO foods (name, description, price, category, restaurant_id) "
+                      "VALUES (:name, :desc, :price, :cat, :rest_id)");
+        query.bindValue(":name", name);
+        query.bindValue(":desc", desc);
+        query.bindValue(":price", price);
+        query.bindValue(":cat", category);
+
+        // فعلاً ساده فرض کنیم id رستوران ثابت باشه یا از socket map بگیریم:
+        int restaurantId = restaurantSocketMap.value(sender, -1);
+        if (restaurantId == -1) {
+            sender->write("ADD_FOOD_FAIL:شناسه رستوران یافت نشد\n");
+            return;
+        }
+        query.bindValue(":rest_id", restaurantId);
+
+        if (query.exec()) {
+            sender->write("ADD_FOOD_OK\n");
+        } else {
+            sender->write("ADD_FOOD_FAIL:" + query.lastError().text().toUtf8() + "\n");
+        }
+    }
+
+    else if (msg == "GET_MENU") {
+        int restaurantId = restaurantSocketMap.value(sender, -1);
+        if (restaurantId == -1) {
+            sender->write("MENU_LIST_FAIL:شناسه رستوران یافت نشد\n");
+            return;
+        }
+
+        QSqlQuery query;
+        query.prepare("SELECT name, description, price, category FROM foods WHERE restaurant_id = :id");
+        query.bindValue(":id", restaurantId);
+
+        if (query.exec()) {
+            QStringList items;
+            while (query.next()) {
+                QString name = query.value(0).toString();
+                QString desc = query.value(1).toString();
+                double price = query.value(2).toDouble();
+                QString cat = query.value(3).toString();
+
+                items << name + "|" + desc + "|" + QString::number(price) + "|" + cat;
+            }
+
+            QString response = "MENU_LIST:" + items.join(";") + "\n";
+            sender->write(response.toUtf8());
+            sender->flush();
+        } else {
+            sender->write("MENU_LIST_FAIL\n");
+        }
+    }
 
     else {
         sender->write("ERROR:فرمان ناشناخته\n");

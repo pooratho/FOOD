@@ -17,10 +17,12 @@ public:
                     const Restaurant& restaurant,
                     bool isBlocked = false); // ➕ این پارامتر اضافه شد
 
-    Restaurant getRestaurant() const;
+    Restaurant& getRestaurant() ;
     void setRestaurant(const Restaurant& r);
 
     QString getRole() const override;
+
+
 };
 
 #endif // RESTAURANTOWNER_H

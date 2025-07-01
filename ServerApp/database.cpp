@@ -94,6 +94,22 @@ void DatabaseManager::createTables() {
             qDebug() << "Insert default admin failed:" << query.lastError().text();
         }
     }
+
+    // جدول غذاها (منو)
+    bool successFoods = query.exec(
+        "CREATE TABLE IF NOT EXISTS foods ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "name TEXT NOT NULL, "
+        "description TEXT, "
+        "price REAL NOT NULL, "
+        "category TEXT NOT NULL, "
+        "restaurant_id INTEGER NOT NULL, "
+        "FOREIGN KEY (restaurant_id) REFERENCES restaurants(id))"
+        );
+
+    if (!successFoods)
+        qDebug() << "Create foods table error:" << query.lastError().text();
+
 }
 
 
