@@ -233,11 +233,7 @@ font: 13pt &quot;B Farnaz&quot;;
 color: rgb(255, 85, 0);</string>
      </property>
      <property name="currentIndex">
-<<<<<<< HEAD
-      <number>0</number>
-=======
-      <number>2</number>
->>>>>>> 17cce26c68a70de082c542b85b85a7f308aaa886
+      <number>4</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">

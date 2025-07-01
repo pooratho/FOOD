@@ -1802,6 +1802,7 @@ release/moc_restaurantownermainpage.cpp: ../../restaurantownermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qinputmethod.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qlocale.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		../../restaurantowner.h \
 		../../user.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
@@ -1810,6 +1811,14 @@ release/moc_restaurantownermainpage.cpp: ../../restaurantownermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
 		../../menuitem.h \
 		../../food.h \
+		../../clientsocketmanager.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/QTcpSocket \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qhostaddress.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.3/mingw_64/bin/moc.exe
 	C:\Qt\6.7.3\mingw_64\bin\moc.exe $(DEFINES) --include "C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/release/moc_predefs.h" -IC:/Qt/6.7.3/mingw_64/mkspecs/win32-g++ -I"C:/Users/Taheri/OneDrive/دسکتاپ/home works/term 2/FOOD/FOOD" -IC:/Qt/6.7.3/mingw_64/include -IC:/Qt/6.7.3/mingw_64/include/QtWidgets -IC:/Qt/6.7.3/mingw_64/include/QtGui -IC:/Qt/6.7.3/mingw_64/include/QtSql -IC:/Qt/6.7.3/mingw_64/include/QtNetwork -IC:/Qt/6.7.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\restaurantownermainpage.h -o release\moc_restaurantownermainpage.cpp
@@ -4727,6 +4736,7 @@ release/restaurantownermainpage.o: ../../restaurantownermainpage.cpp ../../resta
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qinputmethod.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qlocale.h \
 		C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
 		../../restaurantowner.h \
 		../../user.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
@@ -4735,6 +4745,14 @@ release/restaurantownermainpage.o: ../../restaurantownermainpage.cpp ../../resta
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qvector.h \
 		../../menuitem.h \
 		../../food.h \
+		../../clientsocketmanager.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/QTcpSocket \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+		C:/Qt/6.7.3/mingw_64/include/QtNetwork/qhostaddress.h \
 		ui_restaurantownermainpage.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
@@ -4773,7 +4791,12 @@ release/restaurantownermainpage.o: ../../restaurantownermainpage.cpp ../../resta
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
+		../../restaurantownermenuitemwidget.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialog.h \
+		C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\restaurantownermainpage.o ..\..\restaurantownermainpage.cpp
 
 release/restaurantownermenuitemwidget.o: ../../restaurantownermenuitemwidget.cpp ../../restaurantownermenuitemwidget.h \
@@ -5541,6 +5564,10 @@ release/restaurant.o: ../../restaurant.cpp ../../restaurant.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qstringlist.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qalgorithms.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qstringmatcher.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qmap.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qshareddata.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qshareddata_impl.h \
 		../../menuitem.h \
 		../../food.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\restaurant.o ..\..\restaurant.cpp
@@ -5630,6 +5657,10 @@ release/restaurantowner.o: ../../restaurantowner.cpp ../../restaurantowner.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qstringlist.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qalgorithms.h \
 		C:/Qt/6.7.3/mingw_64/include/QtCore/qstringmatcher.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/QMap \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qmap.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qshareddata.h \
+		C:/Qt/6.7.3/mingw_64/include/QtCore/qshareddata_impl.h \
 		../../menuitem.h \
 		../../food.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\restaurantowner.o ..\..\restaurantowner.cpp

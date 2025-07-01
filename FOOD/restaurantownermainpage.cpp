@@ -1,5 +1,7 @@
 #include "restaurantownermainpage.h"
 #include "ui_restaurantownermainpage.h"
+#include "restaurantownermenuitemwidget.h"
+
 #include <QMessageBox>
 
 RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget *parent)
@@ -94,18 +96,46 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
             Food food(name, desc, price, cat);
             menuByCategory[cat].addFood(food);
 
-            QString display = name + " - " + QString::number(price) + "\n" + desc;
+            // ساخت ویجت سفارشی
+            RestaurantOwnerMenuItemWidget* itemWidget = new RestaurantOwnerMenuItemWidget(this);
+            itemWidget->setItemInfo("  " + name, "  " + desc, QString::number(price));
 
-            if (cat == "دسر")
-                ui->listWidgetDessert->addItem(display);
-            else if (cat == "نوشیدنی")
-                ui->listWidgetDrink->addItem(display);
-            else if (cat == "پیش غذا")
-                ui->listWidgetStarter->addItem(display);
-            else if (cat == "غذا")
-                ui->listWidgetMain->addItem(display);
-            else
-                ui->listWidgetOthers->addItem(display);
+            QListWidgetItem* listItem = new QListWidgetItem();
+            listItem->setSizeHint(QSize(610, 102));  // تعیین سایز آیتم
+
+            QListWidget* targetListWidget = nullptr;
+            if (cat == "دسر") {
+                targetListWidget = ui->listWidgetDessert;
+            } else if (cat == "نوشیدنی") {
+                targetListWidget = ui->listWidgetDrink;
+            } else if (cat == "پیش غذا") {
+                targetListWidget = ui->listWidgetStarter;
+            } else if (cat == "غذا") {
+                targetListWidget = ui->listWidgetMain;
+            } else {
+                targetListWidget = ui->listWidgetOthers;
+            }
+
+            targetListWidget->addItem(listItem);
+            targetListWidget->setItemWidget(listItem, itemWidget);
+
+            // *** اینجا اتصال سیگنال حذف را اضافه کن ***
+            connect(itemWidget, &RestaurantOwnerMenuItemWidget::removeRequested, this, [=]() {
+                QMessageBox::StandardButton reply = QMessageBox::question(this, "تأیید حذف",
+                                                                          "آیا مطمئن هستید که می‌خواهید این آیتم را حذف کنید؟",
+                                                                          QMessageBox::Yes | QMessageBox::No);
+                if (reply == QMessageBox::Yes) {
+                    for (int i = 0; i < targetListWidget->count(); ++i) {
+                        QListWidgetItem* listItemIter = targetListWidget->item(i);
+                        QWidget* w = targetListWidget->itemWidget(listItemIter);
+                        if (w == itemWidget) {
+                            delete targetListWidget->takeItem(i);  // حذف آیتم و ویجت مرتبط
+                            break;
+                        }
+                    }
+                }
+            });
+
         }
     }
 
@@ -119,4 +149,11 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
         QString reason = msg.section(':', 1);
         QMessageBox::warning(this, "❌ خطا در افزودن غذا", reason);
     }
+
+    ui->label_5->setVisible(ui->listWidgetMain->count() == 0);
+    ui->label_9->setVisible(ui->listWidgetDessert->count() == 0);
+    ui->label_8->setVisible(ui->listWidgetDrink->count() == 0);
+    ui->label_7->setVisible(ui->listWidgetStarter->count() == 0);
+    ui->label_6->setVisible(ui->listWidgetOthers->count() == 0);
+
 }

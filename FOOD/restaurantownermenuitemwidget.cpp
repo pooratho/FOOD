@@ -7,7 +7,7 @@ RestaurantOwnerMenuItemWidget::RestaurantOwnerMenuItemWidget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->pushButton, &QPushButton::clicked, this, &RestaurantOwnerMenuItemWidget::on_removeButton_clicked);
+    connect(ui->pushButton, &QPushButton::clicked, this, &RestaurantOwnerMenuItemWidget::on_pushButton_clicked);
 }
 
 RestaurantOwnerMenuItemWidget::~RestaurantOwnerMenuItemWidget()
@@ -22,7 +22,8 @@ void RestaurantOwnerMenuItemWidget::setItemInfo(const QString &name, const QStri
     ui->price->setText(priceText);
 }
 
-void RestaurantOwnerMenuItemWidget::on_removeButton_clicked()
+void RestaurantOwnerMenuItemWidget::on_pushButton_clicked()
 {
     emit removeRequested(); // وقتی کاربر روی دکمه حذف میزنه
 }
+

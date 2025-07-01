@@ -21,7 +21,8 @@ signals:
     void removeRequested();  // سیگنال برای وقتی که دکمه حذف زده میشه
 
 private slots:
-    void on_removeButton_clicked(); // اسلات برای دکمه حذف
+
+    void on_pushButton_clicked();
 
 private:
     Ui::restaurantownermenuitemwidget *ui;
