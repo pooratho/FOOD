@@ -48,11 +48,11 @@ font: 14pt &quot;B Farnaz&quot;;</string>
     <enum>Qt::LayoutDirection::RightToLeft</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
-     <string>                                 افزودن                                  </string>
+     <string>                  افزودن                   </string>
     </attribute>
     <widget class="QWidget" name="widget" native="true">
      <property name="geometry">
@@ -231,7 +231,7 @@ background-position: center;
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
-     <string>                                  منو                                 </string>
+     <string>                    منو                   </string>
     </attribute>
     <widget class="QTabWidget" name="tabWidget_2">
      <property name="geometry">
@@ -433,6 +433,42 @@ font: 18pt &quot;B Farnaz&quot;;</string>
        </property>
       </widget>
      </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_8">
+    <attribute name="title">
+     <string>          وضعیت سفارش          </string>
+    </attribute>
+    <widget class="QListWidget" name="listWidgetOthers_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>615</width>
+       <height>511</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 126, 52);</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>200</y>
+       <width>291</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 126, 52);
+color: rgb(60, 60, 60);
+font: 18pt &quot;B Farnaz&quot;;</string>
+     </property>
+     <property name="text">
+      <string>  سفارشی ثبت نشده است...</string>
+     </property>
     </widget>
    </widget>
   </widget>
