@@ -43,4 +43,4 @@ void Restaurant::addMenuItem(const QString& category, const Food& food) {
 QMap<QString, MenuItem>& Restaurant::getMenu() {
     return menu;
 }
-
+void Restaurant::setName(const QString& newName) { name = newName; }

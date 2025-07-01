@@ -228,5 +228,57 @@ DatabaseManager::UserRole DatabaseManager::checkUserLogin(const QString& firstNa
     return UserRole::None;
 }
 
+int DatabaseManager::getRestaurantId(const QString& firstName, const QString& lastName, const QString& password) {
+    QString hashedPass = hashPassword(password);
 
+    QSqlQuery query;
+    query.prepare("SELECT id FROM restaurants WHERE owner_firstname = :first AND owner_lastname = :last AND password = :pass LIMIT 1");
+    query.bindValue(":first", firstName);
+    query.bindValue(":last", lastName);
+    query.bindValue(":pass", hashedPass);
 
+    if (!query.exec()) {
+        qDebug() << "Error in getRestaurantIdByOwner query:" << query.lastError().text();
+        return -1;
+    }
+
+    if (query.next()) {
+        int id = query.value(0).toInt();
+        qDebug() << "Found restaurant ID:" << id;
+        return id;
+    } else {
+        qDebug() << "No restaurant found for given owner info";
+        return -1;
+    }
+}
+
+int DatabaseManager::getRestaurantIdByRestaurantName(const QString& restaurantName)
+{
+    QSqlQuery query;
+    query.prepare("SELECT id FROM restaurants WHERE TRIM(restaurant_name) = :name LIMIT 1");
+    query.bindValue(":name", restaurantName.trimmed());
+
+    if (!query.exec()) {
+        qDebug() << "Error in getRestaurantIdByRestaurantName:" << query.lastError().text();
+        return -1;
+    }
+
+    if (query.next()) {
+        int id = query.value(0).toInt();
+        qDebug() << "Found restaurant ID:" << id;
+        return id;
+    } else {
+        qDebug() << "No restaurant found for name:" << restaurantName;
+        return -1;
+    }
+}
+
+QString DatabaseManager::getRestaurantNameById(int restaurantId) {
+    QSqlQuery query(db);
+    query.prepare("SELECT restaurant_name FROM restaurants WHERE id = :id LIMIT 1");
+    query.bindValue(":id", restaurantId);
+    if (query.exec() && query.next()) {
+        return query.value(0).toString();
+    }
+    return QString();
+}

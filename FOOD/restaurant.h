@@ -28,7 +28,7 @@ public:
     void setActive(bool active);
     void addMenuItem(const QString& category, const Food& food);
     QMap<QString, MenuItem>& getMenu() ;
-
+    void setName(const QString& newName) ;
 private:
     int id;
     QString name;

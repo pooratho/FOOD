@@ -5,20 +5,28 @@
 RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget *parent)
     : QWidget(parent),
     ui(new Ui::restaurantOwnerMainPage),
-    currentOwner(owner)
+    currentOwner(owner),
+    clientSocket(new ClientSocketManager(this))
 {
     ui->setupUi(this);
 
     connect(clientSocket, &ClientSocketManager::messageReceived,
             this, &RestaurantOwnerMainPage::handleServerMessage);
 
-    // بعد از اتصال موفق:
     connect(clientSocket, &ClientSocketManager::connected, this, [=]() {
-        clientSocket->sendMessage("GET_MENU");
+        qDebug() << "Connected to server, sending REGISTER_RESTAURANT_SOCKET";
+        qDebug() << "Registering restaurant name:" << currentOwner->getRestaurant().getName();
+
+        // ارسال پیام ثبت نام رستوران به سرور
+        clientSocket->sendMessage("REGISTER_RESTAURANT_SOCKET:" + currentOwner->getRestaurant().getName());
+        // حذف ارسال GET_MENU از اینجا، بعد از دریافت REGISTER_OK ارسال می‌کنیم
     });
 
-
+    clientSocket->connectToServer("127.0.0.1", 1234);
 }
+
+
+
 
 RestaurantOwnerMainPage::~RestaurantOwnerMainPage()
 {
@@ -32,7 +40,6 @@ void RestaurantOwnerMainPage::on_pushButton_clicked()
     QString priceStr = ui->lineEditPrice->text().trimmed();
     QString desc = ui->textEditDescription->text().trimmed();
 
-    // بررسی مقادیر ورودی و ساخت منو
     if (name.isEmpty() || priceStr.isEmpty()) {
         QMessageBox::warning(this, "خطا", "لطفا نام غذا و قیمت را وارد کنید.");
         return;
@@ -45,34 +52,30 @@ void RestaurantOwnerMainPage::on_pushButton_clicked()
         return;
     }
 
-    Food food(name, desc, price, category);
+    // فرستادن غذا به سرور برای ذخیره در دیتابیس
+    QString msg = "ADD_FOOD:" + category + ":" + name + ":" + QString::number(price) + ":" + desc;
+    clientSocket->sendMessage(msg);
 
-    currentOwner->getRestaurant().getMenu()[category].addFood(food);
-
-
-
-    QMessageBox::information(this, "موفقیت", "غذا به منو اضافه شد.");
-
-    // پاک کردن فیلدها برای وارد کردن غذاهای جدید
+    QMessageBox::information(this, "موفقیت", "غذا به سرور ارسال شد.");
     ui->lineEditFoodName->clear();
     ui->lineEditPrice->clear();
     ui->textEditDescription->clear();
     ui->comboBoxCategory->setCurrentIndex(0);
-
-
 }
 
 
 
 void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
 {
+    if (msg.startsWith("REGISTER_OK")) {
+        // وقتی سرور تایید ثبت نام رستوران رو داد، منو رو بگیر
+        clientSocket->sendMessage("GET_MENU");
+    }
+
     if (msg.startsWith("MENU_LIST:")) {
         QStringList items = msg.mid(QString("MENU_LIST:").length()).split(";", Qt::SkipEmptyParts);
 
-        // پاک کردن منوی قبلی
         menuByCategory.clear();
-
-        // پاک کردن لیست‌ویجت‌ها
         ui->listWidgetMain->clear();
         ui->listWidgetDessert->clear();
         ui->listWidgetDrink->clear();
@@ -89,8 +92,6 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
             QString cat = parts[3];
 
             Food food(name, desc, price, cat);
-
-            // اضافه کردن غذا به منوی دسته‌بندی شده
             menuByCategory[cat].addFood(food);
 
             QString display = name + " - " + QString::number(price) + "\n" + desc;
@@ -106,5 +107,16 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
             else
                 ui->listWidgetOthers->addItem(display);
         }
+    }
+
+    // ✅ واکنش به پاسخ سرور برای اضافه شدن غذا
+    else if (msg.startsWith("ADD_FOOD_OK")) {
+        QMessageBox::information(this, "✅ موفق", "غذا با موفقیت ذخیره شد.");
+        clientSocket->sendMessage("GET_MENU");  // درخواست منوی جدید از سرور
+    }
+
+    else if (msg.startsWith("ADD_FOOD_FAIL:")) {
+        QString reason = msg.section(':', 1);
+        QMessageBox::warning(this, "❌ خطا در افزودن غذا", reason);
     }
 }
