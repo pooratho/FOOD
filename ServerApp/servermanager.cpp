@@ -67,6 +67,16 @@ void ServerManager::onDisconnected()
     client->deleteLater();
 }
 
+QString normalizePhoneNumber(const QString& phone) {
+    QString p = phone.trimmed();
+    if (!p.startsWith("+98")) {
+        if (p.startsWith("0")) {
+            p = "+98" + p.mid(1);
+        }
+    }
+    return p;
+}
+
 void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 {
     if (msg.startsWith("LOGIN:")) {
@@ -111,6 +121,7 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
 
         if (matched) {
+
             if (dbRole == DatabaseManager::UserRole::Restaurant) {
                 QString hashedPassword = dbManager.hashPassword(password);
                 int restaurantId = dbManager.getRestaurantId(firstName, lastName, password);  // بدون هش تست کن
@@ -132,7 +143,15 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
                 } else {
                     sender->write("LOGIN_FAIL:شناسه رستوران یافت نشد\n");
                 }
-      } else {
+      }
+            else if (dbRole == DatabaseManager::UserRole::Customer) {
+                QString phone = dbManager.getPhoneByName(firstName, lastName);
+          qDebug ()<<"رر"<<phone;
+                QString response = QString("LOGIN_OK:%1:%2\n").arg(roleStr).arg(phone);
+                sender->write(response.toUtf8());
+                emit logMessage("✅ ورود موفق: " + firstName + " " + lastName + " (" + roleStr + ")");
+            }
+            else {
                 // برای سایر نقش‌ها مثل Customer یا Admin فقط نقش بفرست
                 sender->write(("LOGIN_OK:" + roleStr + "\n").toUtf8());
                 emit logMessage("✅ ورود موفق: " + firstName + " " + lastName + " (" + roleStr + ")");
@@ -410,6 +429,59 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
     }
 
+    else if (msg.startsWith("ADD_TO_CART:")) {
+        QString data = msg.mid(QString("ADD_TO_CART:").length());
+        QStringList parts = data.split("#");
+        if (parts.size() != 2) {
+            sender->write("ADD_TO_CART_FAIL:فرمت نادرست\n");
+            return;
+        }
+
+       QString phone = normalizePhoneNumber(parts[0].trimmed());
+        QStringList itemParts = parts[1].split("|");
+
+
+        if (itemParts.size() != 4) {
+            sender->write("ADD_TO_CART_FAIL:فرمت آیتم نادرست\n");
+            return;
+        }
+
+        QString restaurantName = itemParts[0].trimmed();
+        QString foodName = itemParts[1].trimmed();
+        int quantity = itemParts[2].toInt();
+        double unitPrice = itemParts[3].toDouble();
+
+        // پیدا کردن id مشتری از روی شماره تلفن
+        QSqlQuery query;
+           qDebug() << "Phone received for add to cart:" << phone;
+        query.prepare("SELECT id FROM customers WHERE phone = ?");
+        query.addBindValue(phone);
+
+        if (!query.exec() || !query.next()) {
+            sender->write("ADD_TO_CART_FAIL:مشتری یافت نشد\n");
+            return;
+        }
+
+        int customerId = query.value(0).toInt();
+
+        qDebug() << "Customer ID found:" << customerId;
+        // اضافه کردن آیتم به جدول cart_items
+        QSqlQuery insertQuery;
+        insertQuery.prepare("INSERT INTO cart_items (customer_id, restaurant_name, food_name, quantity, unit_price) "
+                            "VALUES (?, ?, ?, ?, ?)");
+        insertQuery.addBindValue(customerId);
+        insertQuery.addBindValue(restaurantName);
+        insertQuery.addBindValue(foodName);
+        insertQuery.addBindValue(quantity);
+        insertQuery.addBindValue(unitPrice);
+
+        if (!insertQuery.exec()) {
+            sender->write("ADD_TO_CART_FAIL:خطا در درج\n");
+            return;
+        }
+
+        sender->write("ADD_TO_CART_OK\n");
+    }
 
     else {
         sender->write("ERROR:فرمان ناشناخته\n");

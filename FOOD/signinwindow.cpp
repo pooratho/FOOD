@@ -73,15 +73,21 @@ void SignInWindow::handleServerMessage(const QString &msg)
 
                 this->close(); // بستن صفحه ورود
             }
-            else if (role.toLower() == "customer") {
+
+            else if (role.toLower() == "customer" && parts.size() >= 3) {
+                QString phone = parts[2].trimmed();
+
+                qDebug()<<"زز"<<phone;
+
                 QMessageBox::information(this, "ورود موفق", "خوش آمدید مشتری عزیز!");
-                Customer* customer = new Customer(cachedFirstName, cachedLastName, cachedPhone, cachedPassword);
+                Customer* customer = new Customer(cachedFirstName, cachedLastName, phone, cachedPassword);
                 CustomerMainPage* page = new CustomerMainPage(customer);
                 page->setAttribute(Qt::WA_DeleteOnClose);
                 page->show();
 
                 this->close();
             }
+
             else if (role.toLower() == "admin") {
                 QMessageBox::information(this, "ورود موفق", "خوش آمدید مدیر سیستم!");
                 AdminMainPage* page = new AdminMainPage();

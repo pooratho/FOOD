@@ -19,6 +19,10 @@ public:
     void setDescription(const QString& desc);
     void setPrice(const QString& price);
     bool isSelected() const;
+public:
+    QString getName() const;
+    double getPriceValue() const;
+
 
 private:
     Ui::restaurantmenuitemwidget *ui;

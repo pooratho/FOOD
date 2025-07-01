@@ -32,3 +32,13 @@ bool RestaurantMenuItemWidget::isSelected() const
 {
     return ui->checkBox->isChecked();
 }
+
+QString RestaurantMenuItemWidget::getName() const {
+    return ui->name->text();  // یا هر ویجتی که برای نام استفاده کردی
+}
+
+double RestaurantMenuItemWidget::getPriceValue() const {
+    QString priceText = ui->price->text(); // مثلاً: " 32000 تومان"
+    QString clean = priceText.remove("تومان").trimmed();
+    return clean.toDouble();
+}

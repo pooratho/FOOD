@@ -164,13 +164,41 @@ void CustomerMainPage::onTableItemDoubleClicked(int row, int)
 
     qDebug() << "رستوران انتخاب‌شده:" << restaurantName;
 
-    // نمایش منوی رستوران: فرض کن کلاس RestaurantMenu ساخته‌ای
-    restaurantmenu* menuPage = new restaurantmenu(restaurantName, nullptr);
-    menuPage->setAttribute(Qt::WA_DeleteOnClose); // اختیاری: وقتی بسته شد، حافظه آزاد شود
+    QString customerPhone =customer->getPhone() + "#";   // شماره تلفن مشتری
+
+    restaurantmenu* menuPage = new restaurantmenu(restaurantName, customerPhone, nullptr);
+    menuPage->setWindowFlag(Qt::Window);
+    menuPage->setAttribute(Qt::WA_DeleteOnClose);  // تنظیم قبل از نمایش
     menuPage->show();
 
-    connect(menuPage, &restaurantmenu::requestShowCart, this, [=]() {
-        ui->tabWidget->setCurrentWidget(ui->tab_2);
+    connect(menuPage, &restaurantmenu::cartItemsReady, this, [=](const QList<CartItem>& newItems) {
+        for (const CartItem& item : newItems) {
+            bool found = false;
+            for (CartItem* existing : cartItems) {
+                if (existing->getFoodName() == item.getFoodName()
+                    && existing->getRestaurantName() == item.getRestaurantName()) {
+                    existing->setQuantity(existing->getQuantity() + item.getQuantity());
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                cartItems.append(new CartItem(item));
+            }
+            qDebug() <<"وو"<< (customer->getPhone());
+            // ✅ ارسال پیام به سرور برای ثبت در دیتابیس
+            QString message = "ADD_TO_CART:";
+            message += customer->getPhone() + "#";            // شماره تلفن به عنوان شناسه
+            message += item.getRestaurantName() + "|"
+                       + item.getFoodName() + "|"
+                       + QString::number(item.getQuantity()) + "|"
+                       + QString::number(item.getUnitPrice());
+
+            clientSocket->sendMessage(message);
+        }
+
+        qDebug() << "📦 سبد خرید آپدیت شد. تعداد آیتم‌ها:" << cartItems.size();
     });
 
 

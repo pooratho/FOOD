@@ -8,6 +8,7 @@
 
 #include "customer.h"
 #include "clientsocketmanager.h"  // برای اتصال به سرور
+#include "cartitem.h"
 
 namespace Ui {
 class CustomerMainPage;
@@ -32,10 +33,15 @@ private slots:
 
     //void handleCartItemsFromRestaurant(const QList<CartItem>& items);
 
+signals:
+    void foodSelectedForCart(const CartItem& item);
+
 private:
     Ui::CustomerMainPage *ui;
     QMap<QString, QStringList> provinceCitiesMap;
     Customer* customer;
+
+    QList<CartItem*> cartItems;
 
     ClientSocketManager* clientSocket;
 };
