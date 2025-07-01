@@ -19,7 +19,9 @@ void RestaurantOwnerMenuItemWidget::setItemInfo(const Food& food)
     currentFood = food;
     ui->name->setText("  " + food.getName());
     ui->description->setText("  " + food.getDescription());
-    ui->price->setText(QString::number(food.getPrice()));
+
+    // افزودن «تومان» به قیمت
+    ui->price->setText("  " + QString::number(food.getPrice()) + " تومان");
 }
 
 

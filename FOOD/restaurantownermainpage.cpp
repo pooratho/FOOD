@@ -12,6 +12,9 @@ RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget
 {
     ui->setupUi(this);
 
+    QString restaurantName = currentOwner->getRestaurant().getName();
+    ui->label_10->setText("رستوران:  " + restaurantName);
+
     connect(clientSocket, &ClientSocketManager::messageReceived,
             this, &RestaurantOwnerMainPage::handleServerMessage);
 

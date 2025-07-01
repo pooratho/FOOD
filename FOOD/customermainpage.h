@@ -27,6 +27,9 @@ private slots:
 
     void handleServerMessage(const QString &msg); //  اسلات برای گرفتن پیام‌های سرور
     void sendFilteredRequest();
+
+    void onTableItemDoubleClicked(int row, int column);
+
 private:
     Ui::CustomerMainPage *ui;
     QMap<QString, QStringList> provinceCitiesMap;

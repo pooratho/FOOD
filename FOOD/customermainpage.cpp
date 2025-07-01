@@ -1,5 +1,7 @@
 #include "customermainpage.h"
 #include "ui_customermainpage.h"
+#include "restaurantmenu.h"
+
 #include <QDebug>
 #include<QMessageBox>
 
@@ -9,6 +11,9 @@ CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
     , customer(customer)
 {
     ui->setupUi(this);
+
+    connect(ui->tableWidget, &QTableWidget::cellDoubleClicked,
+            this, &CustomerMainPage::onTableItemDoubleClicked);
 
     // مقداردهی به clientSocket
     clientSocket = new ClientSocketManager(this);
@@ -151,5 +156,19 @@ void CustomerMainPage::sendFilteredRequest()
     clientSocket->sendMessage(msg);
 }
 
+void CustomerMainPage::onTableItemDoubleClicked(int row, int)
+{
+    QString restaurantName = ui->tableWidget->item(row, 0)->text();
+    QString foodType = ui->tableWidget->item(row, 1)->text();
+    QString address = ui->tableWidget->item(row, 2)->text();
+
+    qDebug() << "رستوران انتخاب‌شده:" << restaurantName;
+
+    // نمایش منوی رستوران: فرض کن کلاس RestaurantMenu ساخته‌ای
+    restaurantmenu* menuPage = new restaurantmenu(restaurantName, nullptr);
+    menuPage->setAttribute(Qt::WA_DeleteOnClose); // اختیاری: وقتی بسته شد، حافظه آزاد شود
+    menuPage->show();
+
+}
 
 
