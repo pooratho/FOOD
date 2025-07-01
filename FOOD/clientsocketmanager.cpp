@@ -28,9 +28,18 @@ void ClientSocketManager::sendMessage(const QString &msg)
 
 void ClientSocketManager::onReadyRead()
 {
-    QString msg = QString::fromUtf8(socket->readAll()).trimmed();
-    emit messageReceived(msg);
+    static QString buffer;
+
+    buffer += QString::fromUtf8(socket->readAll());
+
+    while (buffer.contains("\n")) {
+        int idx = buffer.indexOf("\n");
+        QString msg = buffer.left(idx).trimmed();
+        buffer = buffer.mid(idx + 1);
+        emit messageReceived(msg);
+    }
 }
+
 
 void ClientSocketManager::onConnected()
 {
