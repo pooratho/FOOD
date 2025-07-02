@@ -274,6 +274,6 @@ void CustomerMainPage::updateTotalPriceDisplay()
     for (CartItem* item : cartItems) {
         totalPrice += item->getQuantity() * item->getUnitPrice();
     }
-    ui->label_7->setText(QString::number(totalPrice) + " تومان");
+    ui->label_7->setText("  " + QString::number(totalPrice) + " تومان");
 }
 
