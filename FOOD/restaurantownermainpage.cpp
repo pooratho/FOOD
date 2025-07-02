@@ -32,6 +32,8 @@ RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget
     });
 
     clientSocket->connectToServer("127.0.0.1", 1234);
+
+    ui->tabWidget->setCurrentIndex(1);
 }
 
 
@@ -140,7 +142,7 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
         for (int i = 4; i < orderParts.size(); ++i) {
             QStringList food = orderParts[i].split(",");
             if (food.size() != 3) continue;
-            foodDetails += food[0] + " × " + food[1] + " - " + food[2] + " تومان\n";
+            foodDetails += "  " + food[0] + " × " + food[1] + " - " + food[2] + " تومان\n";
         }
 
         // ساخت ویجت سفارش رستوران
@@ -153,7 +155,7 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
 
 
         QListWidgetItem* item = new QListWidgetItem(ui->orderListWidget);
-        item->setSizeHint(widget->sizeHint());
+        item->setSizeHint(QSize(600, 100));
         ui->orderListWidget->addItem(item);
         ui->orderListWidget->setItemWidget(item, widget);
 
@@ -171,8 +173,7 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
     ui->label_7->setVisible(ui->listWidgetStarter->count() == 0);
     ui->label_6->setVisible(ui->listWidgetOthers->count() == 0);
 
-
-
+    ui->label_11->setVisible(ui->orderListWidget->count() == 0);
 }
 
 void RestaurantOwnerMainPage::populateMenuItems(const QStringList& items)
