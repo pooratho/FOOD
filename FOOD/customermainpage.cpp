@@ -69,6 +69,8 @@ CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
 
     if (!provinces.isEmpty())
         on_comboBox_2_currentTextChanged(provinces.first());
+
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 CustomerMainPage::~CustomerMainPage()
