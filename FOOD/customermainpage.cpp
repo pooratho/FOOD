@@ -186,10 +186,10 @@ void CustomerMainPage::onTableItemDoubleClicked(int row, int)
             if (!found) {
                 cartItems.append(new CartItem(item));
             }
-
+            qDebug() <<"وو"<< (customer->getPhone());
             // ✅ ارسال پیام به سرور برای ثبت در دیتابیس
             QString message = "ADD_TO_CART:";
-            message += customer->getPhone() + "#";  // شماره تلفن به عنوان شناسه
+            message += customer->getPhone() + "#";            // شماره تلفن به عنوان شناسه
             message += item.getRestaurantName() + "|"
                        + item.getFoodName() + "|"
                        + QString::number(item.getQuantity()) + "|"

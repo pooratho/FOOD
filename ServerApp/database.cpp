@@ -478,7 +478,7 @@ QList<DatabaseManager::CartItem> DatabaseManager::getCartItemsByPhone(const QStr
 
 QString DatabaseManager::getPhoneByName(const QString& firstName, const QString& lastName) {
     QSqlQuery query;
-    query.prepare("SELECT phone FROM customers WHERE first_name = ? AND last_name = ?");
+    query.prepare("SELECT phone FROM customers WHERE firstname = ? AND lastname = ?");
     query.addBindValue(firstName);
     query.addBindValue(lastName);
 

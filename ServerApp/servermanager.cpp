@@ -146,6 +146,7 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
       }
             else if (dbRole == DatabaseManager::UserRole::Customer) {
                 QString phone = dbManager.getPhoneByName(firstName, lastName);
+          qDebug ()<<"رر"<<phone;
                 QString response = QString("LOGIN_OK:%1:%2\n").arg(roleStr).arg(phone);
                 sender->write(response.toUtf8());
                 emit logMessage("✅ ورود موفق: " + firstName + " " + lastName + " (" + roleStr + ")");
