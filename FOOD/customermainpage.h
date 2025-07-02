@@ -30,6 +30,8 @@ private slots:
 
     void onTableItemDoubleClicked(int row, int column);
 
+    void handleCartItemsFromRestaurant(const QList<CartItem>& items);
+
 private:
     Ui::CustomerMainPage *ui;
     QMap<QString, QStringList> provinceCitiesMap;
