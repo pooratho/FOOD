@@ -139,9 +139,15 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
         QString createdAt = orderParts[3];
 
         QString foodDetails;
-        for (int i = 4; i < orderParts.size(); ++i) {
+        for (int i = 3; i < orderParts.size(); ++i) {
+                    qDebug() << "[RAW FOOD PART]" << orderParts[i];
             QStringList food = orderParts[i].split(",");
-            if (food.size() != 3) continue;
+                            qDebug() << "split size =" << food.size() << "parts =" << food;
+            if (food.size() != 3) {
+                                            qWarning() << "⚠️  آیتم رد شد (size != 3)";
+                continue;
+            }
+
             foodDetails += "  " + food[0] + " × " + food[1] + " - " + food[2] + " تومان\n";
         }
 
