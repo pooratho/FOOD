@@ -1,4 +1,5 @@
 #include "customermainpage.h"
+#include "qtimer.h"
 #include "ui_customermainpage.h"
 #include "restaurantmenu.h"
 #include "shoppingcartitemwidget.h"
@@ -26,8 +27,17 @@ CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
 
     connect(clientSocket, &ClientSocketManager::connected, this, [=]() {
         qDebug() << "✅ اتصال به سرور برقرار شد";
-        clientSocket->sendMessage("GET_RESTAURANTS");  // اینجا بفرست، نه بالا!
+        clientSocket->sendMessage("GET_RESTAURANTS");
+
+        QTimer::singleShot(100, this, [=]() {
+            QString msg = "GET_CART:" + customer->getPhone();
+            clientSocket->sendMessage(msg);
+        });
+
+
     });
+
+
 
     connect(ui->comboBoxProvince, &QComboBox::currentTextChanged,
             this, &CustomerMainPage::sendFilteredRequest);
@@ -121,9 +131,41 @@ void CustomerMainPage::handleServerMessage(const QString& msg)
     else if (msg.startsWith("RESTAURANT_LIST_FAIL")) {
         QMessageBox::warning(this, "خطا", "دریافت لیست رستوران‌ها ناموفق بود!");
     }
+
+    else if (msg.startsWith("GET_CART_OK:")) {
+        QString data = msg.mid(QString("GET_CART_OK:").length());
+        QStringList items = data.split("#", Qt::SkipEmptyParts);
+
+        for (const QString& itemStr : items) {
+            QStringList parts = itemStr.split("|");
+            if (parts.size() == 4) {
+                QString rest = parts[0];
+                QString food = parts[1];
+                int qty = parts[2].toInt();
+                double price = parts[3].toDouble();
+
+                CartItem* item = new CartItem(food, rest, qty, price);
+                cartItems.append(item);
+            }
+        }
+
+        updateCartDisplay();
+    }
+    else if (msg.startsWith("UPDATE_CART_OK:")) {
+        qDebug() << "✅ به‌روزرسانی سبد خرید با موفقیت انجام شد.";
+    }
+    else if (msg.startsWith("UPDATE_CART_FAIL:")) {
+        QString reason = msg.mid(QString("UPDATE_CART_FAIL:").length());
+        QMessageBox::warning(this, "خطا در به‌روزرسانی سبد خرید", reason);
+    }
+    else if (msg.startsWith("ORDER_ITEM:")) {
+        handleIncomingOrderItem(msg);
+    }
+
     else {
         qDebug() << "پیام ناشناخته از سرور دریافت شد.";
     }
+
 }
 
 
@@ -174,33 +216,24 @@ void CustomerMainPage::onTableItemDoubleClicked(int row, int)
 
     connect(menuPage, &restaurantmenu::cartItemsReady, this, [=](const QList<CartItem>& newItems) {
         for (const CartItem& item : newItems) {
-            bool found = false;
-            for (CartItem* existing : cartItems) {
-                if (existing->getFoodName() == item.getFoodName()
-                    && existing->getRestaurantName() == item.getRestaurantName()) {
-                    existing->setQuantity(existing->getQuantity() + item.getQuantity());
-                    found = true;
-                    break;
-                }
+            if (isFoodInCart(item.getRestaurantName(), item.getFoodName())) {
+                QMessageBox::warning(this, "تکراری",
+                                     QString("غذای %1 قبلاً به سبد خرید اضافه شده است.").arg(item.getFoodName()));
+                continue;
             }
 
-            if (!found) {
-                cartItems.append(new CartItem(item));
-            }
-            qDebug() <<"وو"<< (customer->getPhone());
-            // ✅ ارسال پیام به سرور برای ثبت در دیتابیس
-            QString message = "ADD_TO_CART:";
-            message += customer->getPhone() + "#";            // شماره تلفن به عنوان شناسه
-            message += item.getRestaurantName() + "|"
-                       + item.getFoodName() + "|"
-                       + QString::number(item.getQuantity()) + "|"
-                       + QString::number(item.getUnitPrice());
+            cartItems.append(new CartItem(item));
+
+            QString message = "ADD_TO_CART:" + customer->getPhone() + "#" +
+                              item.getRestaurantName() + "|" +
+                              item.getFoodName() + "|" +
+                              QString::number(item.getQuantity()) + "|" +
+                              QString::number(item.getUnitPrice());
 
             clientSocket->sendMessage(message);
         }
 
         qDebug() << "📦 سبد خرید آپدیت شد. تعداد آیتم‌ها:" << cartItems.size();
-
         updateCartDisplay();
     });
 
@@ -231,11 +264,23 @@ void CustomerMainPage::updateCartDisplay()
             removeCartItem(widget);  // تابعش رو پایین تعریف می‌کنیم
         });
 
-        // اتصال برای تغییر تعداد
         connect(itemWidget, &ShoppingCartItemWidget::quantityChanged, this, [=](int newQty){
             item->setQuantity(newQty);
-            updateTotalPriceDisplay();   // ← این تابع را اضافه کن تا قیمت کل را به‌روز کند
+            updateTotalPriceDisplay();
+
+            QString phone = customer->getPhone().trimmed(); // شماره موبایل
+            QString rest = item->getRestaurantName().trimmed();
+            QString food = item->getFoodName().trimmed();
+
+            qDebug() << "📞 شماره موبایل در پیام:" << phone;
+
+            QString message = "UPDATE_CART:" + phone + "#" + rest + "|" + food + "|" + QString::number(newQty);
+
+            qDebug() << "⬆️ پیام UPDATE_CART: " << message;
+            clientSocket->sendMessage(message);
         });
+
+
 
         totalPrice += item->getQuantity() * item->getUnitPrice();
     }
@@ -254,6 +299,16 @@ void CustomerMainPage::removeCartItem(ShoppingCartItemWidget* widget)
             for (int j = 0; j < cartItems.size(); ++j) {
                 if (cartItems[j]->getFoodName() == widget->getCartItem().getFoodName()
                     && cartItems[j]->getRestaurantName() == widget->getCartItem().getRestaurantName()) {
+                    QString phone = customer->getPhone().trimmed();
+                    QString rest = widget->getCartItem().getRestaurantName().trimmed();
+                    QString food = widget->getCartItem().getFoodName().trimmed();
+                    qDebug() << "شماره موبایل در پیام:" << customer->getPhone();
+
+                    QString message = "REMOVE_FROM_CART:" + phone + "#" + rest + "|" + food;
+                    qDebug() << "❌ پیام REMOVE_FROM_CART: " << message;
+                    clientSocket->sendMessage(message);
+
+
                     delete cartItems[j];
                     cartItems.removeAt(j);
                     break;
@@ -277,3 +332,103 @@ void CustomerMainPage::updateTotalPriceDisplay()
     ui->label_7->setText("  " + QString::number(totalPrice) + " تومان");
 }
 
+bool CustomerMainPage::isFoodInCart(const QString& restaurantName, const QString& foodName) const {
+    for (const CartItem* existing : cartItems) {
+        if (existing->getFoodName() == foodName && existing->getRestaurantName() == restaurantName) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void CustomerMainPage::on_pushButton_clicked()
+{ if (cartItems.isEmpty()) {
+        QMessageBox::information(this, "سبد خرید خالی", "هیچ آیتمی در سبد خرید وجود ندارد.");
+        return;
+    }
+
+    // مرحله ۱: دسته‌بندی بر اساس رستوران
+    QMap<QString, QVector<CartItem>> restaurantOrders;
+
+    for (CartItem* item : cartItems) {
+        restaurantOrders[item->getRestaurantName()].append(*item);  // کپی از آیتم
+    }
+
+    QString phone = customer->getPhone().trimmed();
+
+    // مرحله ۲: ساخت سفارش برای هر رستوران و ارسال به سرور
+    for (auto it = restaurantOrders.begin(); it != restaurantOrders.end(); ++it) {
+        QString restaurantName = it.key();
+        QVector<CartItem> items = it.value();
+
+        int fakeOrderId = QDateTime::currentSecsSinceEpoch();  // ID موقت
+        Order order(fakeOrderId, phone, items);
+
+        // مرحله ۳: ساخت پیام
+        QString message = "SUBMIT_ORDER:" + phone + "#" + restaurantName;
+
+        for (const CartItem& item : order.getItems()) {
+            message += "|" + item.getFoodName() + "," +
+                       QString::number(item.getQuantity()) + "," +
+                       QString::number(item.getUnitPrice());
+        }
+
+        qDebug() << "📤 ارسال سفارش به سرور: " << message;
+        clientSocket->sendMessage(message);
+    }
+
+    QMessageBox::information(this, "ثبت سفارش", "سفارش شما با موفقیت ثبت شد.");
+    cartItems.clear();
+    updateCartDisplay();
+}
+
+void CustomerMainPage::on_tabWidget_currentChanged(int index)
+{
+    if (index == 2) {  // فرض: تب ۲ مربوط به "وضعیت سفارش"
+        QString msg = "GET_CUSTOMER_ORDERS:" + customer->getPhone();
+        clientSocket->sendMessage(msg);
+    }
+}
+
+void CustomerMainPage::handleIncomingOrderItem(const QString& msg)
+{
+    QString data = msg.mid(QString("ORDER_ITEM:").length()).trimmed();
+    QStringList parts = data.split("#");
+    if (parts.size() != 2) return;  // فقط دو بخش داریم: رستوران و بقیه
+
+    QString restaurantName = parts[0];
+    QStringList orderDataParts = parts[1].split("|");
+    if(orderDataParts.size() < 4) return; // حداقل 4 بخش نیاز داریم
+
+    QString orderIdStr = orderDataParts[0]; // شاید لازم باشه تبدیل کنی
+    double totalPrice = orderDataParts[1].toDouble();
+    QString status = orderDataParts[2];
+    QString dateStr = orderDataParts[3];
+
+    // بقیه بخش‌ها مربوط به غذاها هستن که از index 4 شروع میشن
+    QStringList foodList = orderDataParts.mid(4);
+
+    QString foodText;
+    for (const QString& foodRaw : foodList) {
+        QStringList foodParts = foodRaw.split(",");
+        if (foodParts.size() != 3) continue;
+        QString name = foodParts[0];
+        int qty = foodParts[1].toInt();
+        double price = foodParts[2].toDouble();
+
+        foodText += name + " × " + QString::number(qty) +
+                    " - " + QString::number(price) + " تومان\n";
+    }
+
+    orderitemwidgett* widget = new orderitemwidgett(this);
+    widget->setRestaurantName(restaurantName);
+    widget->setFoodListText(foodText);
+    //widget->setTotalPrice(totalPrice);  // اگر داری این تابعو استفاده کن
+    widget->setStatus(status);
+
+    QListWidgetItem* listItem = new QListWidgetItem(ui->orderListWidget);
+    listItem->setSizeHint(widget->sizeHint());
+
+    ui->orderListWidget->addItem(listItem);
+    ui->orderListWidget->setItemWidget(listItem, widget);
+}

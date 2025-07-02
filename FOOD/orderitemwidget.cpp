@@ -1,23 +1,43 @@
 // orderitemwidget.cpp
 #include "orderitemwidget.h"
+#include "ui_orderitemwidget.h"
 
-OrderItemWidget::OrderItemWidget(QWidget *parent) :
-    QWidget(parent)
+orderitemwidgett::orderitemwidgett(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::orderitemwidgett)
 {
-    ui.setupUi(this);
+    ui->setupUi(this);
 }
 
-OrderItemWidget::~OrderItemWidget()
+orderitemwidgett::~orderitemwidgett()
 {
+    delete ui;
 }
 
-// متدهای تنظیم نام و کد
-void OrderItemWidget::setName(const QString& name)
-{
-    ui.name->setText(name);
+void orderitemwidgett::setRestaurantName(const QString& name) {
+    ui->labelRestaurant->setText(name);
 }
 
-void OrderItemWidget::setCode(const QString& code)
-{
-    ui.code->setText(code);
+void orderitemwidgett::setFoodListText(const QString& text) {
+    ui->labelFoods->setText(text);
+}
+
+// void orderitemwidgett::setTotalPrice(double price) {
+//     ui->labelPrice->setText(QString::number(price) + " تومان");
+// }
+
+void orderitemwidgett::setStatus(const QString& status) {
+    ui->labelPreparing->setStyleSheet("color: gray; font-weight: normal;");
+    ui->labelDelivering->setStyleSheet("color: gray; font-weight: normal;");
+    ui->labelDelivered->setStyleSheet("color: gray; font-weight: normal;");
+
+    if (status == "در حال آماده‌سازی") {
+        ui->labelPreparing->setStyleSheet("color: orange; font-weight: bold;");
+    }
+    else if (status == "ارسال شد") {
+        ui->labelDelivering->setStyleSheet("color: blue; font-weight: bold;");
+    }
+    else if (status == "تحویل داده شد") {
+        ui->labelDelivered->setStyleSheet("color: green; font-weight: bold;");
+    }
 }

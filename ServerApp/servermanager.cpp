@@ -48,13 +48,23 @@ void ServerManager::onReadyRead()
     if (!client)
         return;
 
-    QByteArray data = client->readAll();
-    QString msg = QString::fromUtf8(data).trimmed();
+    static QMap<QTcpSocket*, QByteArray> bufferMap;  // بافر جدا برای هر کلاینت
 
-    emit logMessage("📨 پیام دریافتی: " + msg);
+    bufferMap[client] += client->readAll();  // داده جدید رو به بافر اضافه کن
 
-    processMessage(client, msg);
+    while (bufferMap[client].contains('\n')) {
+        int newlineIndex = bufferMap[client].indexOf('\n');
+        QByteArray rawMsg = bufferMap[client].left(newlineIndex);
+        bufferMap[client] = bufferMap[client].mid(newlineIndex + 1);  // حذف پیام پردازش‌شده
+
+        QString msg = QString::fromUtf8(rawMsg).trimmed();
+        if (!msg.isEmpty()) {
+            emit logMessage("📨 پیام دریافتی: " + msg);
+            processMessage(client, msg);  // پردازش پیام تکی
+        }
+    }
 }
+
 
 void ServerManager::onDisconnected()
 {
@@ -482,6 +492,225 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 
         sender->write("ADD_TO_CART_OK\n");
     }
+
+    else if (msg.startsWith("REMOVE_FROM_CART:")) {
+        QString data = msg.mid(QString("REMOVE_FROM_CART:").length());
+        QStringList parts = data.split("#");
+        if (parts.size() != 2) {
+            sender->write("REMOVE_CART_FAIL:فرمت نادرست\n");
+            return;
+        }
+
+        QString phone = normalizePhoneNumber(parts[0].trimmed());
+        QStringList itemParts = parts[1].split("|");
+        if (itemParts.size() != 2) {
+            sender->write("REMOVE_CART_FAIL:آیتم نادرست\n");
+            return;
+        }
+
+        QString restaurantName = itemParts[0].trimmed();
+        QString foodName = itemParts[1].trimmed();
+
+        QSqlQuery query;
+        query.prepare("SELECT id FROM customers WHERE phone = ?");
+        query.addBindValue(phone);
+
+        if (!query.exec() || !query.next()) {
+            sender->write("REMOVE_CART_FAIL:مشتری یافت نشد\n");
+            return;
+        }
+
+        int customerId = query.value(0).toInt();
+
+        QSqlQuery deleteQuery;
+        deleteQuery.prepare("DELETE FROM cart_items WHERE customer_id = ? AND restaurant_name = ? AND food_name = ?");
+        deleteQuery.addBindValue(customerId);
+        deleteQuery.addBindValue(restaurantName);
+        deleteQuery.addBindValue(foodName);
+
+        if (!deleteQuery.exec()) {
+            sender->write("REMOVE_CART_FAIL:حذف ناموفق\n");
+            return;
+        }
+
+        sender->write("REMOVE_CART_OK\n");
+    }
+
+
+    else if (msg.startsWith("GET_CART:")) {
+        QString phone = msg.mid(QString("GET_CART:").length()).trimmed();
+
+        QList<DatabaseManager::CartItem> items = dbManager.getCartItemsByPhone(phone);
+        if (items.isEmpty()) {
+            sender->write("GET_CART_FAIL:هیچ آیتمی یافت نشد\n");
+            return;
+        }
+
+        QStringList serializedItems;
+        for (const auto& item : items) {
+            // فرمت: restaurantName|foodName|quantity|unitPrice
+            serializedItems.append(item.restaurantName + "|" +
+                                   item.foodName + "|" +
+                                   QString::number(item.quantity) + "|" +
+                                   QString::number(item.unitPrice));
+        }
+
+        QString response = "GET_CART_OK:" + serializedItems.join("#") + "\n";
+        sender->write(response.toUtf8());
+    }
+    else if (msg.startsWith("UPDATE_CART:")) {
+        QString data = msg.mid(QString("UPDATE_CART:").length()).trimmed();
+        qDebug() << "📥 UPDATE_CART raw data:" << data;
+
+        QStringList parts = data.split("#");
+        if (parts.size() != 2) {
+            sender->write("UPDATE_CART_FAIL:فرمت نادرست\n");
+            return;
+        }
+
+        QString phone = normalizePhoneNumber(parts[0].trimmed());
+        QStringList itemParts = parts[1].split("|");
+
+        if (itemParts.size() != 3) {
+            sender->write("UPDATE_CART_FAIL:فرمت نادرست\n");
+            return;
+        }
+
+        QString restaurant = itemParts[0].trimmed();
+        QString food = itemParts[1].trimmed();
+
+        bool ok = false;
+        int quantity = itemParts[2].toInt(&ok);
+
+        if (!ok || quantity < 0 || restaurant.isEmpty() || food.isEmpty()) {
+            sender->write("UPDATE_CART_FAIL:مقادیر نامعتبر\n");
+            return;
+        }
+
+        // گرفتن customer_id از روی شماره تلفن
+        QSqlQuery query;
+        query.prepare("SELECT id FROM customers WHERE phone = ?");
+        query.addBindValue(phone);
+
+        if (!query.exec() || !query.next()) {
+            sender->write("UPDATE_CART_FAIL:مشتری یافت نشد\n");
+            return;
+        }
+
+        int customerId = query.value(0).toInt();
+
+        // به‌روزرسانی مقدار quantity (قیمت رو تغییر نمی‌دیم)
+        QSqlQuery updateQuery;
+        updateQuery.prepare(R"(
+        INSERT INTO cart_items (customer_id, restaurant_name, food_name, quantity, unit_price)
+        VALUES (?, ?, ?, ?, 0)
+        ON CONFLICT(customer_id, restaurant_name, food_name)
+        DO UPDATE SET quantity = excluded.quantity
+    )");
+
+        updateQuery.addBindValue(customerId);
+        updateQuery.addBindValue(restaurant);
+        updateQuery.addBindValue(food);
+        updateQuery.addBindValue(quantity);
+
+        if (!updateQuery.exec()) {
+            qDebug() << "❌ UPDATE_CART خطا در اجرا:" << updateQuery.lastError().text();
+            sender->write("UPDATE_CART_FAIL:خطا در به‌روزرسانی\n");
+            return;
+        }
+
+        sender->write("UPDATE_CART_OK:به‌روزرسانی موفق\n");
+    }
+
+    else if (msg.startsWith("SUBMIT_ORDER:")) {
+        QString data = msg.mid(QString("SUBMIT_ORDER:").length()).trimmed();
+        QStringList parts = data.split("#");
+        if (parts.size() != 2) {
+            sender->write("SUBMIT_ORDER_FAIL:فرمت نادرست\n");
+            return;
+        }
+
+        QString phone = normalizePhoneNumber(parts[0].trimmed());
+        QStringList orderParts = parts[1].split("|");
+
+        if (orderParts.isEmpty()) {
+            sender->write("SUBMIT_ORDER_FAIL:اطلاعات سفارش خالی است\n");
+            return;
+        }
+
+        QString restaurantName = orderParts[0].trimmed();
+        int customerId = dbManager.getCustomerIdByPhone(phone);
+        if (customerId == -1) {
+            sender->write("SUBMIT_ORDER_FAIL:مشتری یافت نشد\n");
+            return;
+        }
+
+        int restaurantId = dbManager.getRestaurantIdByRestaurantName(restaurantName);
+        if (restaurantId == -1) {
+            sender->write("SUBMIT_ORDER_FAIL:رستوران یافت نشد\n");
+            return;
+        }
+
+        double totalPrice = 0;
+        QList<DatabaseManager::TempCartItem> items;
+
+        for (int i = 1; i < orderParts.size(); ++i) {
+            QStringList foodData = orderParts[i].split(",");
+            if (foodData.size() != 3) continue;
+
+            QString foodName = foodData[0].trimmed();
+            int quantity = foodData[1].toInt();
+            double price = foodData[2].toDouble();
+            totalPrice += quantity * price;
+
+            items.append({restaurantId, foodName, quantity, price});
+        }
+
+        if (!dbManager.submitSplitOrder(customerId, totalPrice, items)) {
+            sender->write("SUBMIT_ORDER_FAIL:ثبت سفارش ناموفق\n");
+            return;
+        }
+
+        dbManager.clearCartByCustomerId(customerId);
+
+        sender->write("SUBMIT_ORDER_OK\n");
+    }
+    else if (msg.startsWith("GET_CUSTOMER_ORDERS:")) {
+        QString phone = normalizePhoneNumber(msg.mid(QString("GET_CUSTOMER_ORDERS:").length()).trimmed());
+        int customerId = dbManager.getCustomerIdByPhone(phone);
+
+        if (customerId == -1) {
+            sender->write("ORDERS_FAIL:مشتری یافت نشد\n");
+            return;
+        }
+
+        QList<DatabaseManager::OrderData> orders = dbManager.getOrdersByCustomerId(customerId);
+
+        if (orders.isEmpty()) {
+            sender->write("ORDERS_EMPTY:سفارشی یافت نشد\n");
+            return;
+        }
+
+        for (const DatabaseManager::OrderData& order : orders) {
+            QString message = "ORDER_ITEM:" +
+                              dbManager.getRestaurantNameById(order.restaurantId) + "#" +
+                              QString::number(order.orderId) + "|" +
+                              QString::number(order.totalPrice) + "|" +
+                              order.status + "|" +
+                              order.createdAt;
+
+            for (const auto& item : order.items) {
+                message += "|" + item.foodName + "," +
+                           QString::number(item.quantity) + "," +
+                           QString::number(item.unitPrice);
+            }
+
+            sender->write(message.toUtf8() + "\n");
+        }
+
+        sender->write("ORDERS_DONE\n");
+    }
+
 
     else {
         sender->write("ERROR:فرمان ناشناخته\n");
