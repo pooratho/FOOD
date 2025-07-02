@@ -391,6 +391,25 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
 
     }
+    else if (msg.startsWith("DELETE_FOOD:")) {
+        QStringList parts = msg.split(":");
+        if (parts.size() != 3) {
+            sender->write("DELETE_FOOD_FAIL:فرمت اشتباه\n");
+            return;
+        }
+
+        QString category = parts[1].trimmed();
+        QString foodName = parts[2].trimmed();
+
+        bool success = dbManager.deleteFood(category, foodName); // این تابع رو می‌سازیم پایین
+        if (success) {
+            sender->write("DELETE_FOOD_OK\n");
+            emit logMessage("🍽️ غذا حذف شد: " + foodName + " (" + category + ")");
+        } else {
+            sender->write("DELETE_FOOD_FAIL:حذف از دیتابیس ناموفق بود\n");
+        }
+    }
+
 
     else {
         sender->write("ERROR:فرمان ناشناخته\n");

@@ -44,6 +44,7 @@ public:
     int getRestaurantId(const QString& firstName, const QString& lastName, const QString& password);
       int getRestaurantIdByRestaurantName(const QString& name);
     QString getRestaurantNameById(int restaurantId);
+      bool deleteFood(const QString& category, const QString& name);
 private:
     QSqlDatabase db;
 

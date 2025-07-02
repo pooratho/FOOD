@@ -2,7 +2,8 @@
 #define RESTAURANTOWNERMAINPAGE_H
 
 #include <QWidget>
-#include <QMap>   // ⬅️ لازم برای نگه‌داری منو دسته‌بندی‌شده
+#include <QMap>   // ⬅ لازم برای نگه‌داری منو دسته‌بندی‌شده
+#include "qlistwidget.h"
 #include "restaurantowner.h"
 #include "food.h"
 #include "menuitem.h"
@@ -29,9 +30,11 @@ private:
     RestaurantOwner* currentOwner;
 
     // به جای فقط یک MenuItem، همه‌ی دسته‌ها رو نگه داریم:
-    QMap<QString, MenuItem> menuByCategory;   // ⬅ این نگه‌دارنده منوی دسته‌بندی شده‌ست
-
+    QMap<QString, MenuItem> menuByCategory;   //  این نگه‌دارنده منوی دسته‌بندی شده‌ست
+QVector<QPair<QListWidget*, QWidget*>> pendingDeletions;
     ClientSocketManager *clientSocket;
+void populateMenuItems(const QStringList& items);
+    void clearListWidgetCompletely(QListWidget* listWidget);
 };
 
 #endif // RESTAURANTOWNERMAINPAGE_H

@@ -69,85 +69,118 @@ void RestaurantOwnerMainPage::on_pushButton_clicked()
 
 void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
 {
+        qDebug() << "handleServerMessage called with msg:" << msg;
     if (msg.startsWith("REGISTER_OK")) {
-        // وقتی سرور تایید ثبت نام رستوران رو داد، منو رو بگیر
         clientSocket->sendMessage("GET_MENU");
     }
+    else if (msg.startsWith("MENU_LIST:")) {
+        QString rawItems = msg.mid(QString("MENU_LIST:").length());
 
-    if (msg.startsWith("MENU_LIST:")) {
-        QStringList items = msg.mid(QString("MENU_LIST:").length()).split(";", Qt::SkipEmptyParts);
-
-        menuByCategory.clear();
-        ui->listWidgetMain->clear();
-        ui->listWidgetDessert->clear();
-        ui->listWidgetDrink->clear();
-        ui->listWidgetStarter->clear();
-        ui->listWidgetOthers->clear();
-
-        for (const QString& item : items) {
-            QStringList parts = item.split("|");
-            if (parts.size() != 4) continue;
-
-            QString name = parts[0];
-            QString desc = parts[1];
-            double price = parts[2].toDouble();
-            QString cat = parts[3];
-
-            Food food(name, desc, price, cat);
-            menuByCategory[cat].addFood(food);
-
-            // ساخت ویجت سفارشی
-            RestaurantOwnerMenuItemWidget* itemWidget = new RestaurantOwnerMenuItemWidget(this);
-            itemWidget->setItemInfo("  " + name, "  " + desc, QString::number(price));
-
-            QListWidgetItem* listItem = new QListWidgetItem();
-            listItem->setSizeHint(QSize(610, 102));  // تعیین سایز آیتم
-
-            QListWidget* targetListWidget = nullptr;
-            if (cat == "دسر") {
-                targetListWidget = ui->listWidgetDessert;
-            } else if (cat == "نوشیدنی") {
-                targetListWidget = ui->listWidgetDrink;
-            } else if (cat == "پیش غذا") {
-                targetListWidget = ui->listWidgetStarter;
-            } else if (cat == "غذا") {
-                targetListWidget = ui->listWidgetMain;
-            } else {
-                targetListWidget = ui->listWidgetOthers;
-            }
-
-            targetListWidget->addItem(listItem);
-            targetListWidget->setItemWidget(listItem, itemWidget);
-
-            // *** اینجا اتصال سیگنال حذف را اضافه کن ***
-            connect(itemWidget, &RestaurantOwnerMenuItemWidget::removeRequested, this, [=]() {
-                QMessageBox::StandardButton reply = QMessageBox::question(this, "تأیید حذف",
-                                                                          "آیا مطمئن هستید که می‌خواهید این آیتم را حذف کنید؟",
-                                                                          QMessageBox::Yes | QMessageBox::No);
-                if (reply == QMessageBox::Yes) {
-                    for (int i = 0; i < targetListWidget->count(); ++i) {
-                        QListWidgetItem* listItemIter = targetListWidget->item(i);
-                        QWidget* w = targetListWidget->itemWidget(listItemIter);
-                        if (w == itemWidget) {
-                            delete targetListWidget->takeItem(i);  // حذف آیتم و ویجت مرتبط
-                            break;
-                        }
-                    }
-                }
-            });
-
+        if (rawItems.trimmed().isEmpty()) {
+            qDebug() << "Empty menu received, skipping populate.";
+            return;  // منو خالیه، پس چیزی نشون نده
         }
+
+        QStringList items = rawItems.split(";", Qt::SkipEmptyParts);
+        populateMenuItems(items);
     }
 
-    // ✅ واکنش به پاسخ سرور برای اضافه شدن غذا
     else if (msg.startsWith("ADD_FOOD_OK")) {
-        QMessageBox::information(this, "✅ موفق", "غذا با موفقیت ذخیره شد.");
-        clientSocket->sendMessage("GET_MENU");  // درخواست منوی جدید از سرور
+        QMessageBox::information(this, "موفق", "غذا با موفقیت ذخیره شد.");
+        clientSocket->sendMessage("GET_MENU");
     }
-
     else if (msg.startsWith("ADD_FOOD_FAIL:")) {
         QString reason = msg.section(':', 1);
-        QMessageBox::warning(this, "❌ خطا در افزودن غذا", reason);
+        QMessageBox::warning(this, "خطا در افزودن غذا", reason);
+    }
+    else if (msg.startsWith("DELETE_FOOD_OK")) {
+        if (!pendingDeletions.isEmpty()) {
+            auto [listWidget, itemWidget] = pendingDeletions.takeLast();
+
+            for (int i = 0; i < listWidget->count(); ++i) {
+                QListWidgetItem* listItem = listWidget->item(i);
+                if (listWidget->itemWidget(listItem) == itemWidget) {
+                    listWidget->removeItemWidget(listItem); // قطع ارتباط ویجت با آیتم
+                    delete listItem;                         // حذف آیتم لیست
+                    itemWidget->deleteLater();               // حذف امن ویجت
+                    break;
+                }
+            }
+        }
+
+        QMessageBox::information(this, "موفق", "غذا با موفقیت حذف شد.");
+      //  clientSocket->sendMessage("GET_MENU");
+    }
+    else if (msg.startsWith("DELETE_FOOD_FAIL:")) {
+        QString reason = msg.section(':', 1);
+        QMessageBox::warning(this, "خطا", reason);
+    }
+
+    // به‌روزرسانی نمایش برچسب‌ها
+    ui->label_5->setVisible(ui->listWidgetMain->count() == 0);
+    ui->label_9->setVisible(ui->listWidgetDessert->count() == 0);
+    ui->label_8->setVisible(ui->listWidgetDrink->count() == 0);
+    ui->label_7->setVisible(ui->listWidgetStarter->count() == 0);
+    ui->label_6->setVisible(ui->listWidgetOthers->count() == 0);
+}
+
+void RestaurantOwnerMainPage::populateMenuItems(const QStringList& items)
+{
+      qDebug() << "populateMenuItems called with" << items.size() << "items";
+    menuByCategory.clear();
+
+    clearListWidgetCompletely(ui->listWidgetMain);
+    clearListWidgetCompletely(ui->listWidgetDessert);
+    clearListWidgetCompletely(ui->listWidgetDrink);
+    clearListWidgetCompletely(ui->listWidgetStarter);
+    clearListWidgetCompletely(ui->listWidgetOthers);
+
+    for (const QString& item : items) {
+        QStringList parts = item.split("|");
+        if (parts.size() != 4) continue;
+
+        QString name = parts[0];
+        QString desc = parts[1];
+        double price = parts[2].toDouble();
+        QString cat = parts[3];
+
+        Food food(name, desc, price, cat);
+        menuByCategory[cat].addFood(food);
+
+        RestaurantOwnerMenuItemWidget* itemWidget = new RestaurantOwnerMenuItemWidget(this);
+        itemWidget->setFood(food);
+        itemWidget->setItemInfo(food);
+
+        QListWidgetItem* listItem = new QListWidgetItem();
+        listItem->setSizeHint(QSize(610, 102));
+
+        QListWidget* targetListWidget = nullptr;
+        if (cat == "دسر")        targetListWidget = ui->listWidgetDessert;
+        else if (cat == "نوشیدنی") targetListWidget = ui->listWidgetDrink;
+        else if (cat == "پیش غذا") targetListWidget = ui->listWidgetStarter;
+        else if (cat == "غذا")     targetListWidget = ui->listWidgetMain;
+        else                      targetListWidget = ui->listWidgetOthers;
+
+        targetListWidget->addItem(listItem);
+        targetListWidget->setItemWidget(listItem, itemWidget);
+
+        connect(itemWidget, &RestaurantOwnerMenuItemWidget::removeRequested, this, [=]() {
+            disconnect(itemWidget, nullptr, nullptr, nullptr);
+
+             QMessageBox::StandardButton reply = QMessageBox::question(this, "تأیید حذف",
+                                                                       "آیا مطمئن هستید که می‌خواهید این آیتم را حذف کنید؟",
+                                                                       QMessageBox::Yes | QMessageBox::No);
+             if (reply == QMessageBox::Yes) {
+                QString foodName = itemWidget->getFood().getName();
+                QString category = itemWidget->getFood().getCategory();
+                QString deleteMsg = "DELETE_FOOD:" + category + ":" + foodName;
+
+                // ثبت حذف در pendingDeletions برای حذف امن بعد از پاسخ سرور
+                pendingDeletions.append(qMakePair(targetListWidget, itemWidget));
+
+                clientSocket->sendMessage(deleteMsg);
+           }
+        });
     }
 
     ui->label_5->setVisible(ui->listWidgetMain->count() == 0);
@@ -155,5 +188,17 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
     ui->label_8->setVisible(ui->listWidgetDrink->count() == 0);
     ui->label_7->setVisible(ui->listWidgetStarter->count() == 0);
     ui->label_6->setVisible(ui->listWidgetOthers->count() == 0);
-
 }
+
+void RestaurantOwnerMainPage::clearListWidgetCompletely(QListWidget* listWidget)
+{
+    while (listWidget->count() > 0) {
+        QListWidgetItem* item = listWidget->takeItem(0);
+        if (item) {
+            QWidget* w = listWidget->itemWidget(item);
+            if (w) w->deleteLater();  // حذف امن ویجت
+            delete item;              // حذف آیتم لیست
+        }
+    }
+}
+

@@ -14,16 +14,27 @@ RestaurantOwnerMenuItemWidget::~RestaurantOwnerMenuItemWidget()
 {
     delete ui;
 }
-
-void RestaurantOwnerMenuItemWidget::setItemInfo(const QString &name, const QString &description, const QString &priceText)
+void RestaurantOwnerMenuItemWidget::setItemInfo(const Food& food)
 {
-    ui->name->setText(name);
-    ui->description->setText(description);
-    ui->price->setText(priceText);
+    currentFood = food;
+    ui->name->setText("  " + food.getName());
+    ui->description->setText("  " + food.getDescription());
+    ui->price->setText(QString::number(food.getPrice()));
 }
+
 
 void RestaurantOwnerMenuItemWidget::on_pushButton_clicked()
 {
     emit removeRequested(); // وقتی کاربر روی دکمه حذف میزنه
+}
+void RestaurantOwnerMenuItemWidget::setFood(const Food& food)
+{
+    currentFood = food;
+  setItemInfo(food);
+}
+
+Food RestaurantOwnerMenuItemWidget::getFood() const
+{
+    return currentFood;
 }
 
