@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>611</width>
-    <height>80</height>
+    <height>123</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@ color: rgb(255, 85, 0);</string>
      <x>0</x>
      <y>0</y>
      <width>611</width>
-     <height>81</height>
+     <height>121</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">

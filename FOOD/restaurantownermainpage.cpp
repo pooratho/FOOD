@@ -161,7 +161,7 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
 
 
         QListWidgetItem* item = new QListWidgetItem(ui->orderListWidget);
-        item->setSizeHint(QSize(600, 100));
+        item->setSizeHint(QSize(600, 130));
         ui->orderListWidget->addItem(item);
         ui->orderListWidget->setItemWidget(item, widget);
 
