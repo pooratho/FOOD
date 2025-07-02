@@ -109,6 +109,46 @@ void DatabaseManager::createTables() {
 
     if (!successFoods)
         qDebug() << "Create foods table error:" << query.lastError().text();
+    // جدول سفارش‌ها
+    bool successOrder = query.exec(
+        "CREATE TABLE IF NOT EXISTS orders ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "customer_id INTEGER NOT NULL, "
+        "total_price REAL NOT NULL, "
+        "status TEXT DEFAULT 'ثبت شده', "
+        "created_at DATETIME DEFAULT CURRENT_TIMESTAMP, "
+        "FOREIGN KEY (customer_id) REFERENCES customers(id))"
+        );
+    if (!successOrder)
+        qDebug() << "Create orders table error:" << query.lastError().text();
+
+    // جدول آیتم‌های سفارش
+    bool successOrderItems = query.exec(
+        "CREATE TABLE IF NOT EXISTS order_items ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "order_id INTEGER NOT NULL, "
+        "restaurant_id INTEGER NOT NULL, "
+        "food_name TEXT NOT NULL, "
+        "quantity INTEGER NOT NULL, "
+        "unit_price REAL NOT NULL, "
+        "FOREIGN KEY (order_id) REFERENCES orders(id))"
+        );
+    if (!successOrderItems)
+        qDebug() << "Create order_items table error:" << query.lastError().text();
+    bool successCart = query.exec(
+        "CREATE TABLE IF NOT EXISTS cart_items ("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "customer_id INTEGER NOT NULL, "
+        "restaurant_name TEXT NOT NULL, "
+        "food_name TEXT NOT NULL, "
+        "quantity INTEGER NOT NULL, "
+        "unit_price REAL NOT NULL, "
+        "FOREIGN KEY (customer_id) REFERENCES customers(id), "
+        "UNIQUE (customer_id, restaurant_name, food_name))"
+        );
+    if (!successCart)
+        qDebug() << "Create cart_items table error:" << query.lastError().text();
+
 
 }
 
@@ -296,3 +336,154 @@ bool DatabaseManager::deleteFood(const QString& category, const QString& name) {
     return true;
 }
 
+
+
+bool DatabaseManager::addOrUpdateCartItem(int customerId,
+                                          const QString& restaurantName,
+                                          const QString& foodName,
+                                          int quantity,
+                                          double unitPrice)
+{
+    QSqlQuery checkQuery;
+    checkQuery.prepare("SELECT id, quantity FROM cart_items WHERE customer_id = ? AND restaurant_name = ? AND food_name = ?");
+    checkQuery.addBindValue(customerId);
+    checkQuery.addBindValue(restaurantName);
+    checkQuery.addBindValue(foodName);
+
+    if (!checkQuery.exec()) {
+        qDebug() << "Check cart item error:" << checkQuery.lastError().text();
+        return false;
+    }
+
+    if (checkQuery.next()) {
+        int id = checkQuery.value(0).toInt();
+        int existingQuantity = checkQuery.value(1).toInt();
+
+        int newQuantity = existingQuantity + quantity;
+        if (newQuantity <= 0) {
+            QSqlQuery deleteQuery;
+            deleteQuery.prepare("DELETE FROM cart_items WHERE id = ?");
+            deleteQuery.addBindValue(id);
+            if (!deleteQuery.exec()) {
+                qDebug() << "Delete cart item error:" << deleteQuery.lastError().text();
+                return false;
+            }
+        } else {
+            QSqlQuery updateQuery;
+            updateQuery.prepare("UPDATE cart_items SET quantity = ? WHERE id = ?");
+            updateQuery.addBindValue(newQuantity);
+            updateQuery.addBindValue(id);
+            if (!updateQuery.exec()) {
+                qDebug() << "Update cart item error:" << updateQuery.lastError().text();
+                return false;
+            }
+        }
+    } else {
+        if (quantity > 0) {
+            QSqlQuery insertQuery;
+            insertQuery.prepare("INSERT INTO cart_items (customer_id, restaurant_name, food_name, quantity, unit_price) VALUES (?, ?, ?, ?, ?)");
+            insertQuery.addBindValue(customerId);
+            insertQuery.addBindValue(restaurantName);
+            insertQuery.addBindValue(foodName);
+            insertQuery.addBindValue(quantity);
+            insertQuery.addBindValue(unitPrice);
+
+            if (!insertQuery.exec()) {
+                qDebug() << "Insert cart item error:" << insertQuery.lastError().text();
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+
+bool DatabaseManager::addOrUpdateCartItemByPhone(const QString& phone,
+                                                 const QString& restaurantName,
+                                                 const QString& foodName,
+                                                 int quantity,
+                                                 double unitPrice)
+{
+    QSqlQuery customerQuery;
+    customerQuery.prepare("SELECT id FROM customers WHERE phone = ?");
+    customerQuery.addBindValue(phone);
+
+    if (!customerQuery.exec() || !customerQuery.next()) {
+        qDebug() << "❌ پیدا نکردن مشتری با شماره تلفن:" << phone << customerQuery.lastError().text();
+        return false;
+    }
+
+    int customerId = customerQuery.value(0).toInt();
+
+    return addOrUpdateCartItem(customerId, restaurantName, foodName, quantity, unitPrice);
+}
+
+bool DatabaseManager::removeCartItem(int customerId,
+                                     const QString& restaurantName,
+                                     const QString& foodName)
+{
+    QSqlQuery query;
+
+    if (!query.exec()) {
+        query.prepare("DELETE FROM cart_items WHERE customer_id = ? AND restaurant_name = ? AND food_name = ?");
+        query.addBindValue(customerId);
+        query.addBindValue(restaurantName);
+        query.addBindValue(foodName);
+        qDebug() << "Remove cart item error:" << query.lastError().text();
+        return false;
+    }
+    return true;
+}
+
+
+
+QList<DatabaseManager::CartItem> DatabaseManager::getCartItemsByCustomerId(int customerId) {
+    QList<CartItem> list;
+    QSqlQuery query;
+    query.prepare("SELECT restaurant_name, food_name, quantity, unit_price FROM cart_items WHERE customer_id = ?");
+    query.addBindValue(customerId);
+
+    if (!query.exec()) {
+        qDebug() << "Get cart items error:" << query.lastError().text();
+        return list;
+    }
+
+    while (query.next()) {
+        QString restName = query.value(0).toString();
+        QString foodName = query.value(1).toString();
+        int quantity = query.value(2).toInt();
+        double unitPrice = query.value(3).toDouble();
+
+        list.append(CartItem(foodName, restName, quantity, unitPrice));
+    }
+    return list;
+}
+
+QList<DatabaseManager::CartItem> DatabaseManager::getCartItemsByPhone(const QString& phone)
+{
+    QSqlQuery customerQuery;
+    customerQuery.prepare("SELECT id FROM customers WHERE phone = ?");
+    customerQuery.addBindValue(phone);
+
+    if (!customerQuery.exec() || !customerQuery.next()) {
+        qDebug() << "❌ پیدا نکردن مشتری برای گرفتن سبد خرید:" << phone << customerQuery.lastError().text();
+        return {};
+    }
+
+    int customerId = customerQuery.value(0).toInt();
+    return  getCartItemsByCustomerId(customerId);
+}
+
+
+QString DatabaseManager::getPhoneByName(const QString& firstName, const QString& lastName) {
+    QSqlQuery query;
+    query.prepare("SELECT phone FROM customers WHERE first_name = ? AND last_name = ?");
+    query.addBindValue(firstName);
+    query.addBindValue(lastName);
+
+    if (query.exec() && query.next()) {
+        return query.value(0).toString();
+    }
+    return "";
+}
