@@ -380,7 +380,7 @@ color: rgb(255, 255, 255);</string>
        <x>0</x>
        <y>0</y>
        <width>950</width>
-       <height>571</height>
+       <height>500</height>
       </rect>
      </property>
     </widget>
@@ -398,6 +398,24 @@ color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>  سفارشی ثبت نشده است...</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>510</y>
+       <width>191</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 85, 0);
+color: rgb(255, 255, 255);
+font: 12pt &quot;B Farnaz&quot;;</string>
+     </property>
+     <property name="text">
+      <string>به روزرسانی</string>
      </property>
     </widget>
    </widget>

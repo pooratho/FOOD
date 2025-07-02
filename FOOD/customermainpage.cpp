@@ -416,7 +416,7 @@ void CustomerMainPage::handleIncomingOrderItem(const QString& msg)
         int qty = foodParts[1].toInt();
         double price = foodParts[2].toDouble();
 
-        foodText += name + " × " + QString::number(qty) +
+        foodText += "  " + name + " × " + QString::number(qty) +
                     " - " + QString::number(price) + " تومان\n";
     }
 
@@ -427,8 +427,14 @@ void CustomerMainPage::handleIncomingOrderItem(const QString& msg)
     widget->setStatus(status);
 
     QListWidgetItem* listItem = new QListWidgetItem(ui->orderListWidget);
-    listItem->setSizeHint(widget->sizeHint());
+    listItem->setSizeHint(QSize(890, 115));  // سایز آیتم در لیست
 
     ui->orderListWidget->addItem(listItem);
     ui->orderListWidget->setItemWidget(listItem, widget);
+
+    if (ui->orderListWidget->count() == 0) {
+        ui->label_5->show();   // اگر خالیه، پیام "سفارشی وجود ندارد" رو نمایش بده
+    } else {
+        ui->label_5->hide();   // اگر چیزی هست، مخفیش کن
+    }
 }

@@ -14,7 +14,7 @@ orderitemwidgett::~orderitemwidgett()
 }
 
 void orderitemwidgett::setRestaurantName(const QString& name) {
-    ui->labelRestaurant->setText(name);
+    ui->labelRestaurant->setText("  " + name);
 }
 
 void orderitemwidgett::setFoodListText(const QString& text) {
@@ -26,9 +26,9 @@ void orderitemwidgett::setFoodListText(const QString& text) {
 // }
 
 void orderitemwidgett::setStatus(const QString& status) {
-    ui->labelPreparing->setStyleSheet("color: gray; font-weight: normal;");
-    ui->labelDelivering->setStyleSheet("color: gray; font-weight: normal;");
-    ui->labelDelivered->setStyleSheet("color: gray; font-weight: normal;");
+    ui->labelPreparing->setStyleSheet("color: white; font-weight: normal;");
+    ui->labelDelivering->setStyleSheet("color: white; font-weight: normal;");
+    ui->labelDelivered->setStyleSheet("color: white; font-weight: normal;");
 
     if (status == "در حال آماده‌سازی") {
         ui->labelPreparing->setStyleSheet("color: orange; font-weight: bold;");

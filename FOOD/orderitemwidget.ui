@@ -6,32 +6,57 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>735</width>
-    <height>98</height>
+    <width>922</width>
+    <height>115</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(60, 60, 60);
+font: 12pt &quot;B Farnaz&quot;;
+color: rgb(255, 85, 0);</string>
+  </property>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>10</y>
-     <width>731</width>
-     <height>81</height>
+     <y>0</y>
+     <width>921</width>
+     <height>115</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QLabel" name="labelPreparing">
+       <widget class="QLabel" name="labelRestaurant">
+        <property name="layoutDirection">
+         <enum>Qt::LayoutDirection::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>  لذزبذبلذ</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelFoods">
+        <property name="layoutDirection">
+         <enum>Qt::LayoutDirection::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>  بیبلاتن</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelDelivered">
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
-         <string>  در حال آماده سازی🧑‍🍳</string>
+         <string>  تحویل داده شد🤝</string>
         </property>
        </widget>
       </item>
@@ -39,7 +64,7 @@
        <widget class="QLabel" name="label_5">
         <property name="styleSheet">
          <string notr="true">color: rgb(255, 255, 255);
-font: 20pt &quot;Segoe UI&quot;;</string>
+font: 30pt &quot;Segoe UI&quot;;</string>
         </property>
         <property name="text">
          <string>→</string>
@@ -58,9 +83,20 @@ font: 20pt &quot;Segoe UI&quot;;</string>
       </item>
       <item>
        <widget class="QLabel" name="label_6">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>30</pointsize>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LayoutDirection::LeftToRight</enum>
+        </property>
         <property name="styleSheet">
          <string notr="true">color: rgb(255, 255, 255);
-font: 20pt &quot;Segoe UI&quot;;</string>
+font: 30pt &quot;Segoe UI&quot;;</string>
         </property>
         <property name="text">
          <string>→</string>
@@ -68,36 +104,16 @@ font: 20pt &quot;Segoe UI&quot;;</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="labelDelivered">
+       <widget class="QLabel" name="labelPreparing">
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
-         <string>  تحویل داده شد🤝</string>
+         <string>  در حال آماده سازی🧑‍🍳</string>
         </property>
        </widget>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QLabel" name="labelRestaurant">
-      <property name="layoutDirection">
-       <enum>Qt::LayoutDirection::RightToLeft</enum>
-      </property>
-      <property name="text">
-       <string>  لذزبذبلذ</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="labelFoods">
-      <property name="layoutDirection">
-       <enum>Qt::LayoutDirection::RightToLeft</enum>
-      </property>
-      <property name="text">
-       <string>  بیبلاتن</string>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
