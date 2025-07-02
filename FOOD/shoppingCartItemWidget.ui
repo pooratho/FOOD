@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>730</width>
+    <width>930</width>
     <height>73</height>
    </rect>
   </property>
@@ -19,14 +19,14 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(60, 60, 60);
 color: rgb(255, 85, 0);
-font: 10pt &quot;B Farnaz&quot;;</string>
+font: 15pt &quot;B Farnaz&quot;;</string>
   </property>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>731</width>
+     <width>931</width>
      <height>71</height>
     </rect>
    </property>

@@ -9,6 +9,7 @@
 #include "customer.h"
 #include "clientsocketmanager.h"  // برای اتصال به سرور
 #include "cartitem.h"
+#include "shoppingcartitemwidget.h"
 
 namespace Ui {
 class CustomerMainPage;
@@ -44,6 +45,11 @@ private:
     QList<CartItem*> cartItems;
 
     ClientSocketManager* clientSocket;
+
+    void updateCartDisplay();
+    void removeCartItem(ShoppingCartItemWidget* widget);
+    void updateTotalPriceDisplay();
+
 };
 
 #endif // CUSTOMERMAINPAGE_H

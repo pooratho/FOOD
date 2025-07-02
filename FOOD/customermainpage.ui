@@ -292,7 +292,7 @@ color: rgb(255, 85, 0);</string>
        <x>0</x>
        <y>0</y>
        <width>950</width>
-       <height>501</height>
+       <height>431</height>
       </rect>
      </property>
     </widget>
@@ -329,6 +329,45 @@ color: rgb(255, 255, 255);</string>
      <property name="text">
       <string>ثبت نهایی</string>
      </property>
+    </widget>
+    <widget class="QWidget" name="widget_3" native="true">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>449</y>
+       <width>311</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 255, 0);</string>
+     </property>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>311</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>  مبلغ قابل پرداخت: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_3">

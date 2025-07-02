@@ -120,6 +120,47 @@ void restaurantmenu::clearListWidgetCompletely(QListWidget* listWidget)
 
 
 
+// void restaurantmenu::collectSelectedItems()
+// {
+//     cartItems.clear();
+
+//     QList<QListWidget*> allLists = {
+//         ui->listWidgetMain,
+//         ui->listWidgetDessert,
+//         ui->listWidgetDrink,
+//         ui->listWidgetStarter,
+//         ui->listWidgetOthers
+//     };
+
+//     for (QListWidget* list : allLists) {
+//         for (int i = 0; i < list->count(); ++i) {
+//             QListWidgetItem* listItem = list->item(i);
+//             RestaurantMenuItemWidget* itemWidget = qobject_cast<RestaurantMenuItemWidget*>(list->itemWidget(listItem));
+//             if (itemWidget && itemWidget->isSelected()) {
+//                 // اینجا اطلاعات رو می‌گیری
+//                 QString foodName = itemWidget->getName();
+//                 QString restaurant = restaurantName;
+//                 int quantity = 1;  // الان یک عدد ثابت گذاشتی، بهتره امکان انتخاب تعداد هم باشه
+//                 double unitPrice = itemWidget->getPriceValue();
+
+//                 // اضافه کردن به لیست کارت آیتم‌ها
+//                 bool found = false;
+//                 for (CartItem& ci : cartItems) {
+//                     if (ci.getFoodName() == foodName && ci.getRestaurantName() == restaurant) {
+//                         ci.setQuantity(ci.getQuantity() + quantity);
+//                         found = true;
+//                         break;
+//                     }
+//                 }
+
+//                 if (!found) {
+//                     cartItems.append(CartItem(foodName, restaurant, quantity, unitPrice));
+//                 }
+//             }
+//         }
+//     }
+// }
+
 void restaurantmenu::collectSelectedItems()
 {
     cartItems.clear();
@@ -136,14 +177,13 @@ void restaurantmenu::collectSelectedItems()
         for (int i = 0; i < list->count(); ++i) {
             QListWidgetItem* listItem = list->item(i);
             RestaurantMenuItemWidget* itemWidget = qobject_cast<RestaurantMenuItemWidget*>(list->itemWidget(listItem));
-            if (itemWidget && itemWidget->isSelected()) {
-                // اینجا اطلاعات رو می‌گیری
+            if (itemWidget && itemWidget->isSelected()) {  // بررسی وضعیت چک‌باکس با تابع isSelected
                 QString foodName = itemWidget->getName();
                 QString restaurant = restaurantName;
-                int quantity = 1;  // الان یک عدد ثابت گذاشتی، بهتره امکان انتخاب تعداد هم باشه
+                int quantity = 1;  // اگر در آینده تعداد انتخابی داشتید، اینجا مقدارش رو بگیرید
                 double unitPrice = itemWidget->getPriceValue();
 
-                // اضافه کردن به لیست کارت آیتم‌ها
+                // اگر قبلاً این غذا و رستوران بود، تعداد رو اضافه کن
                 bool found = false;
                 for (CartItem& ci : cartItems) {
                     if (ci.getFoodName() == foodName && ci.getRestaurantName() == restaurant) {
@@ -160,7 +200,6 @@ void restaurantmenu::collectSelectedItems()
         }
     }
 }
-
 
 
 void restaurantmenu::on_pushButton_clicked()

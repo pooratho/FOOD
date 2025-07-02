@@ -1,6 +1,7 @@
 #include "customermainpage.h"
 #include "ui_customermainpage.h"
 #include "restaurantmenu.h"
+#include "shoppingcartitemwidget.h"
 
 #include <QDebug>
 #include<QMessageBox>
@@ -199,8 +200,80 @@ void CustomerMainPage::onTableItemDoubleClicked(int row, int)
         }
 
         qDebug() << "📦 سبد خرید آپدیت شد. تعداد آیتم‌ها:" << cartItems.size();
+
+        updateCartDisplay();
     });
 
+}
 
+void CustomerMainPage::updateCartDisplay()
+{
+    ui->listWidget_2->clear();  // این لیست‌ویجت در تب دوم باید تعریف شده باشه
+
+    if (cartItems.isEmpty()) {
+        ui->label_4->show();   // نمایش پیام خالی بودن
+    } else {
+        ui->label_4->hide();   // مخفی کردن پیام
+    }
+
+    int totalPrice = 0;
+
+    for (CartItem* item : cartItems) {
+        auto* listItem = new QListWidgetItem(ui->listWidget_2);
+        auto* itemWidget = new ShoppingCartItemWidget(*item);  // کپی از CartItem
+
+        listItem->setSizeHint(QSize(930, 73));  // عرض: 500، ارتفاع: 120 (به دلخواه خودت)
+        ui->listWidget_2->addItem(listItem);
+        ui->listWidget_2->setItemWidget(listItem, itemWidget);
+
+        // اتصال برای حذف آیتم
+        connect(itemWidget, &ShoppingCartItemWidget::removeClicked, this, [=](ShoppingCartItemWidget* widget){
+            removeCartItem(widget);  // تابعش رو پایین تعریف می‌کنیم
+        });
+
+        // اتصال برای تغییر تعداد
+        connect(itemWidget, &ShoppingCartItemWidget::quantityChanged, this, [=](int newQty){
+            item->setQuantity(newQty);
+            updateTotalPriceDisplay();   // ← این تابع را اضافه کن تا قیمت کل را به‌روز کند
+        });
+
+        totalPrice += item->getQuantity() * item->getUnitPrice();
+    }
+
+    ui->label_7->setText("  " + QString::number(totalPrice) + " تومان");
 
 }
+
+void CustomerMainPage::removeCartItem(ShoppingCartItemWidget* widget)
+{
+    for (int i = 0; i < ui->listWidget_2->count(); ++i) {
+        auto* listItem = ui->listWidget_2->item(i);
+        if (ui->listWidget_2->itemWidget(listItem) == widget) {
+
+            // حذف از cartItems
+            for (int j = 0; j < cartItems.size(); ++j) {
+                if (cartItems[j]->getFoodName() == widget->getCartItem().getFoodName()
+                    && cartItems[j]->getRestaurantName() == widget->getCartItem().getRestaurantName()) {
+                    delete cartItems[j];
+                    cartItems.removeAt(j);
+                    break;
+                }
+            }
+
+            delete widget;
+            delete listItem;
+            break;
+        }
+    }
+    updateTotalPriceDisplay();
+}
+
+void CustomerMainPage::updateTotalPriceDisplay()
+{
+    int totalPrice = 0;
+    for (CartItem* item : cartItems) {
+        totalPrice += item->getQuantity() * item->getUnitPrice();
+    }
+    ui->label_7->setText(QString::number(totalPrice) + " تومان");
+}
+
