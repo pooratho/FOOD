@@ -3,13 +3,20 @@
 
 #include <QWidget>
 
-class userstablewidget : public QWidget
+namespace Ui {
+class usertablewidget;          // این همون کلاسی است که uic از .ui می‌سازد
+}
+
+class UserTableWidget : public QWidget
 {
     Q_OBJECT
-public:
-    explicit userstablewidget(QWidget *parent = nullptr);
 
-signals:
+public:
+    explicit UserTableWidget(QWidget *parent = nullptr);
+    ~UserTableWidget();
+
+private:
+    Ui::usertablewidget *ui;    // اشاره‌گر به شیء تولیدی uic
 };
 
 #endif // USERSTABLEWIDGET_H

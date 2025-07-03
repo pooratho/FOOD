@@ -889,9 +889,43 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
             sender->write(("RESTAURANT_LIST_ALL:" + lines.join(";") + "\n").toUtf8());
     }
 
+    else if (msg == "GET_ALL_USERS") {
 
+        /* 1‑a) کوئری ترکیبی از هر دو جدول */
+        QSqlQuery q;
+        q.prepare(R"(
+        SELECT firstname || ' ' || lastname  AS full_name,
+               phone,
+               'مشتری'                   AS role
+        FROM   customers
+        UNION ALL
+        SELECT owner_firstname || ' ' || owner_lastname,
+               phone,
+               'رستوران دار'
+        FROM   restaurants
+    )");
 
+        if (!q.exec()) {
+            sender->write("USER_LIST_FAIL\n");
+            return;
+        }
 
+        /* 1‑b) رشتهٔ پاسخ را می‌سازیم */
+        QStringList lines;
+        while (q.next()) {
+            QString name  = q.value(0).toString();
+            QString phone = q.value(1).toString();
+            QString role  = q.value(2).toString();
+            lines << name + "|" + phone + "|" + role;
+        }
+
+        QString resp = lines.isEmpty()
+                           ? "USER_LIST:EMPTY\n"
+                           : "USER_LIST:" + lines.join(";") + "\n";
+
+        qDebug() << "→" << resp;
+        sender->write(resp.toUtf8());
+    }
 
     else {
         sender->write("ERROR:فرمان ناشناخته\n");

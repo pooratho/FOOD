@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "clientsocketmanager.h"
+#include "userstablewidget.h"  // ⬅️ برای پنجره جدول کاربران
 
 
 QT_BEGIN_NAMESPACE
@@ -28,5 +29,7 @@ private:
     Ui::AdminMainPage *ui;
     ClientSocketManager* clientSocket;
     RestaurantTableWidget *tableWin = nullptr;
+    UserTableWidget* userTableWin = nullptr;
+
 };
 #endif // ADMINMAINPAGE_H
