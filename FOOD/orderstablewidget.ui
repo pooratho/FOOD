@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>orderstablewidget</class>
+ <widget class="QWidget" name="orderstablewidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>602</width>
+    <height>449</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>602</width>
+     <height>451</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LayoutDirection::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="lineWidth">
+    <number>1</number>
+   </property>
+   <property name="midLineWidth">
+    <number>0</number>
+   </property>
+   <column>
+    <property name="text">
+     <string>کد پیگیری</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>نوع سفارش</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>تعداد</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>نقش</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>نام مشتری</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>وضعیت</string>
+    </property>
+   </column>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
