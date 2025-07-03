@@ -92,19 +92,7 @@ color: rgb(255, 255, 255);
 font: 10pt &quot;B Farnaz&quot;;</string>
       </property>
       <property name="text">
-       <string>مسدود</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="pushButton">
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 85, 0);
-color: rgb(255, 255, 255);
-font: 10pt &quot;B Farnaz&quot;;</string>
-      </property>
-      <property name="text">
-       <string>حذف</string>
+       <string>تغییر وضعیت</string>
       </property>
      </widget>
     </item>

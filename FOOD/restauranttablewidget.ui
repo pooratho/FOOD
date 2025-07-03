@@ -110,7 +110,7 @@ color: rgb(255, 255, 255);
 font: 10pt &quot;B Farnaz&quot;;</string>
       </property>
       <property name="text">
-       <string>مسدود</string>
+       <string>تغییر وضعیت</string>
       </property>
      </widget>
     </item>
