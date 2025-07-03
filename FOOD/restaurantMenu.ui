@@ -50,7 +50,7 @@ color: rgb(0, 0, 0);</string>
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>111</width>
+     <width>161</width>
      <height>41</height>
     </rect>
    </property>
@@ -59,7 +59,7 @@ color: rgb(0, 0, 0);</string>
 font: 10pt &quot;B Farnaz&quot;;</string>
    </property>
    <property name="text">
-    <string>سبد خرید</string>
+    <string>افزودن به سبد خرید</string>
    </property>
   </widget>
   <widget class="QWidget" name="widget_2" native="true">

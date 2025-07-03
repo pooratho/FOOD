@@ -4,6 +4,9 @@
 #include "restaurantownermenuitemwidget.h"
 
 #include <QMessageBox>
+#include <QQuickWidget>
+#include <QQmlContext>
+#include <QVBoxLayout>
 
 RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget *parent)
     : QWidget(parent),
@@ -334,7 +337,23 @@ void RestaurantOwnerMainPage::clearOrderListWidget()
 
 void RestaurantOwnerMainPage::showNewOrderNotification(const QString& msg)
 {
-    QMessageBox::information(this, "سفارش جدید", msg);
+    auto *dialog = new QDialog(this);
+    dialog->setWindowTitle("سفارش جدید");
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->resize(300, 150);
+
+    QVBoxLayout* layout = new QVBoxLayout(dialog);
+    QLabel* label = new QLabel(msg);
+    label->setWordWrap(true);
+    label->setAlignment(Qt::AlignRight);
+    layout->addWidget(label);
+
+    QPushButton* okButton = new QPushButton("باشه");
+    layout->addWidget(okButton, 0, Qt::AlignCenter);
+
+    connect(okButton, &QPushButton::clicked, dialog, &QDialog::accept);
+
+    dialog->show();
 }
 
 

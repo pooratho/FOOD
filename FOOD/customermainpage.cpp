@@ -6,6 +6,11 @@
 
 #include <QDebug>
 #include<QMessageBox>
+#include <QDialog>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QPushButton>
+
 
 CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
     : QWidget(parent)
@@ -498,7 +503,46 @@ void CustomerMainPage::refreshOrders()
 void CustomerMainPage::showOrderStatusNotification(int orderId, const QString& newStatus)
 {
     qDebug() << "🔔 نمایش نوتیف سفارش:" << orderId << "و وضعیت:" << newStatus;
-    QMessageBox::information(this, "به‌روزرسانی سفارش",
-                             QString("وضعیت سفارش شماره %1 تغییر کرد به:\n%2").arg(orderId).arg(newStatus));
+
+    auto *dialog = new QDialog(this);
+    dialog->setWindowTitle("به‌روزرسانی سفارش");
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->resize(320, 150);
+    dialog->setModal(false);
+
+    auto *layout = new QVBoxLayout(dialog);
+    layout->setContentsMargins(20, 20, 20, 20);
+    layout->setSpacing(15);
+
+    auto *label = new QLabel(
+        QString("وضعیت سفارش شماره %1 تغییر کرد به:\n«%2»")
+            .arg(orderId)
+            .arg(newStatus),
+        dialog);
+    label->setWordWrap(true);
+    label->setAlignment(Qt::AlignRight);
+    label->setStyleSheet(R"(
+        QLabel {
+            color: #ff6600;            /* نارنجی */
+            font-size: 16px;
+            font-weight: bold;
+        }
+    )");
+
+    layout->addWidget(label);
+
+    auto *okButton = new QPushButton("باشه", dialog);
+    okButton->setStyleSheet(R"(
+        QPushButton {
+            color: #ff6600;
+            font-size: 14px;
+            padding: 6px 20px;
+        }
+    )");
+
+    layout->addWidget(okButton, 0, Qt::AlignCenter);
+    connect(okButton, &QPushButton::clicked, dialog, &QDialog::accept);
+
+    dialog->show();
 }
 
