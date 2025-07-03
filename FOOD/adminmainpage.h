@@ -27,5 +27,6 @@ public:
 private:
     Ui::AdminMainPage *ui;
     ClientSocketManager* clientSocket;
+    RestaurantTableWidget *tableWin = nullptr;
 };
 #endif // ADMINMAINPAGE_H
