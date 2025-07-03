@@ -49,7 +49,7 @@ private:
     void updateCartDisplay();
     void removeCartItem(ShoppingCartItemWidget* widget);
     void updateTotalPriceDisplay();
-
+    bool isFoodInCart(const QString& restaurantName, const QString& foodName) const;
 };
 
 #endif // CUSTOMERMAINPAGE_H

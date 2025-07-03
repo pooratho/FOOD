@@ -1,4 +1,5 @@
 #include "customermainpage.h"
+#include "qtimer.h"
 #include "ui_customermainpage.h"
 #include "restaurantmenu.h"
 #include "shoppingcartitemwidget.h"
@@ -26,7 +27,14 @@ CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
 
     connect(clientSocket, &ClientSocketManager::connected, this, [=]() {
         qDebug() << "✅ اتصال به سرور برقرار شد";
-        clientSocket->sendMessage("GET_RESTAURANTS");  // اینجا بفرست، نه بالا!
+        clientSocket->sendMessage("GET_RESTAURANTS");
+
+        QTimer::singleShot(100, this, [=]() {
+            QString msg = "GET_CART:" + customer->getPhone();
+            clientSocket->sendMessage(msg);
+        });
+
+
     });
 
     connect(ui->comboBoxProvince, &QComboBox::currentTextChanged,
@@ -121,9 +129,38 @@ void CustomerMainPage::handleServerMessage(const QString& msg)
     else if (msg.startsWith("RESTAURANT_LIST_FAIL")) {
         QMessageBox::warning(this, "خطا", "دریافت لیست رستوران‌ها ناموفق بود!");
     }
+
+    else if (msg.startsWith("GET_CART_OK:")) {
+        QString data = msg.mid(QString("GET_CART_OK:").length());
+        QStringList items = data.split("#", Qt::SkipEmptyParts);
+
+        for (const QString& itemStr : items) {
+            QStringList parts = itemStr.split("|");
+            if (parts.size() == 4) {
+                QString rest = parts[0];
+                QString food = parts[1];
+                int qty = parts[2].toInt();
+                double price = parts[3].toDouble();
+
+                CartItem* item = new CartItem(food, rest, qty, price);
+                cartItems.append(item);
+            }
+        }
+
+        updateCartDisplay();
+    }
+    else if (msg.startsWith("UPDATE_CART_OK:")) {
+        qDebug() << "✅ به‌روزرسانی سبد خرید با موفقیت انجام شد.";
+    }
+    else if (msg.startsWith("UPDATE_CART_FAIL:")) {
+        QString reason = msg.mid(QString("UPDATE_CART_FAIL:").length());
+        QMessageBox::warning(this, "خطا در به‌روزرسانی سبد خرید", reason);
+    }
+
     else {
         qDebug() << "پیام ناشناخته از سرور دریافت شد.";
     }
+
 }
 
 
@@ -174,33 +211,24 @@ void CustomerMainPage::onTableItemDoubleClicked(int row, int)
 
     connect(menuPage, &restaurantmenu::cartItemsReady, this, [=](const QList<CartItem>& newItems) {
         for (const CartItem& item : newItems) {
-            bool found = false;
-            for (CartItem* existing : cartItems) {
-                if (existing->getFoodName() == item.getFoodName()
-                    && existing->getRestaurantName() == item.getRestaurantName()) {
-                    existing->setQuantity(existing->getQuantity() + item.getQuantity());
-                    found = true;
-                    break;
-                }
+            if (isFoodInCart(item.getRestaurantName(), item.getFoodName())) {
+                QMessageBox::warning(this, "تکراری",
+                                     QString("غذای %1 قبلاً به سبد خرید اضافه شده است.").arg(item.getFoodName()));
+                continue;
             }
 
-            if (!found) {
-                cartItems.append(new CartItem(item));
-            }
-            qDebug() <<"وو"<< (customer->getPhone());
-            // ✅ ارسال پیام به سرور برای ثبت در دیتابیس
-            QString message = "ADD_TO_CART:";
-            message += customer->getPhone() + "#";            // شماره تلفن به عنوان شناسه
-            message += item.getRestaurantName() + "|"
-                       + item.getFoodName() + "|"
-                       + QString::number(item.getQuantity()) + "|"
-                       + QString::number(item.getUnitPrice());
+            cartItems.append(new CartItem(item));
+
+            QString message = "ADD_TO_CART:" + customer->getPhone() + "#" +
+                              item.getRestaurantName() + "|" +
+                              item.getFoodName() + "|" +
+                              QString::number(item.getQuantity()) + "|" +
+                              QString::number(item.getUnitPrice());
 
             clientSocket->sendMessage(message);
         }
 
         qDebug() << "📦 سبد خرید آپدیت شد. تعداد آیتم‌ها:" << cartItems.size();
-
         updateCartDisplay();
     });
 
@@ -231,11 +259,23 @@ void CustomerMainPage::updateCartDisplay()
             removeCartItem(widget);  // تابعش رو پایین تعریف می‌کنیم
         });
 
-        // اتصال برای تغییر تعداد
         connect(itemWidget, &ShoppingCartItemWidget::quantityChanged, this, [=](int newQty){
             item->setQuantity(newQty);
-            updateTotalPriceDisplay();   // ← این تابع را اضافه کن تا قیمت کل را به‌روز کند
+            updateTotalPriceDisplay();
+
+            QString phone = customer->getPhone().trimmed(); // شماره موبایل
+            QString rest = item->getRestaurantName().trimmed();
+            QString food = item->getFoodName().trimmed();
+
+            qDebug() << "📞 شماره موبایل در پیام:" << phone;
+
+            QString message = "UPDATE_CART:" + phone + "#" + rest + "|" + food + "|" + QString::number(newQty);
+
+            qDebug() << "⬆️ پیام UPDATE_CART: " << message;
+            clientSocket->sendMessage(message);
         });
+
+
 
         totalPrice += item->getQuantity() * item->getUnitPrice();
     }
@@ -254,6 +294,16 @@ void CustomerMainPage::removeCartItem(ShoppingCartItemWidget* widget)
             for (int j = 0; j < cartItems.size(); ++j) {
                 if (cartItems[j]->getFoodName() == widget->getCartItem().getFoodName()
                     && cartItems[j]->getRestaurantName() == widget->getCartItem().getRestaurantName()) {
+                    QString phone = customer->getPhone().trimmed();
+                    QString rest = widget->getCartItem().getRestaurantName().trimmed();
+                    QString food = widget->getCartItem().getFoodName().trimmed();
+                    qDebug() << "شماره موبایل در پیام:" << customer->getPhone();
+
+                    QString message = "REMOVE_FROM_CART:" + phone + "#" + rest + "|" + food;
+                    qDebug() << "❌ پیام REMOVE_FROM_CART: " << message;
+                    clientSocket->sendMessage(message);
+
+
                     delete cartItems[j];
                     cartItems.removeAt(j);
                     break;
@@ -277,3 +327,11 @@ void CustomerMainPage::updateTotalPriceDisplay()
     ui->label_7->setText("  " + QString::number(totalPrice) + " تومان");
 }
 
+bool CustomerMainPage::isFoodInCart(const QString& restaurantName, const QString& foodName) const {
+    for (const CartItem* existing : cartItems) {
+        if (existing->getFoodName() == foodName && existing->getRestaurantName() == restaurantName) {
+            return true;
+        }
+    }
+    return false;
+}

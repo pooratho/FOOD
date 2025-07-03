@@ -337,64 +337,31 @@ bool DatabaseManager::deleteFood(const QString& category, const QString& name) {
 }
 
 
-
 bool DatabaseManager::addOrUpdateCartItem(int customerId,
-                                          const QString& restaurantName,
-                                          const QString& foodName,
-                                          int quantity,
-                                          double unitPrice)
-{
-    QSqlQuery checkQuery;
-    checkQuery.prepare("SELECT id, quantity FROM cart_items WHERE customer_id = ? AND restaurant_name = ? AND food_name = ?");
-    checkQuery.addBindValue(customerId);
-    checkQuery.addBindValue(restaurantName);
-    checkQuery.addBindValue(foodName);
+                                          const QString& restaurant,
+                                          const QString& food,
+                                          int qty,
+                                          double price) {
+    QSqlQuery q;
+    q.prepare(R"(
+        INSERT INTO cart_items
+            (customer_id, restaurant_name, food_name, quantity, unit_price)
+        VALUES (?,       ?,               ?,         ?,        ?)
+        ON CONFLICT(customer_id, restaurant_name, food_name)
+        DO UPDATE SET
+            quantity   = excluded.quantity,
+            unit_price = excluded.unit_price
+    )");
+    q.addBindValue(customerId);
+    q.addBindValue(restaurant);
+    q.addBindValue(food);
+    q.addBindValue(qty);
+    q.addBindValue(price);
 
-    if (!checkQuery.exec()) {
-        qDebug() << "Check cart item error:" << checkQuery.lastError().text();
+    if (!q.exec()) {
+        qDebug() << "upsert cart_items error:" << q.lastError().text();
         return false;
     }
-
-    if (checkQuery.next()) {
-        int id = checkQuery.value(0).toInt();
-        int existingQuantity = checkQuery.value(1).toInt();
-
-        int newQuantity = existingQuantity + quantity;
-        if (newQuantity <= 0) {
-            QSqlQuery deleteQuery;
-            deleteQuery.prepare("DELETE FROM cart_items WHERE id = ?");
-            deleteQuery.addBindValue(id);
-            if (!deleteQuery.exec()) {
-                qDebug() << "Delete cart item error:" << deleteQuery.lastError().text();
-                return false;
-            }
-        } else {
-            QSqlQuery updateQuery;
-            updateQuery.prepare("UPDATE cart_items SET quantity = ? WHERE id = ?");
-            updateQuery.addBindValue(newQuantity);
-            updateQuery.addBindValue(id);
-            if (!updateQuery.exec()) {
-                qDebug() << "Update cart item error:" << updateQuery.lastError().text();
-                return false;
-            }
-        }
-    } else {
-        if (quantity > 0) {
-            QSqlQuery insertQuery;
-            insertQuery.prepare("INSERT INTO cart_items (customer_id, restaurant_name, food_name, quantity, unit_price) VALUES (?, ?, ?, ?, ?)");
-            insertQuery.addBindValue(customerId);
-            insertQuery.addBindValue(restaurantName);
-            insertQuery.addBindValue(foodName);
-            insertQuery.addBindValue(quantity);
-            insertQuery.addBindValue(unitPrice);
-
-            if (!insertQuery.exec()) {
-                qDebug() << "Insert cart item error:" << insertQuery.lastError().text();
-                return false;
-            }
-        }
-    }
-
     return true;
 }
 
