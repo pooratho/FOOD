@@ -10,6 +10,7 @@
 #include "clientsocketmanager.h"
 #include "restaurantownerorderitemwidget.h"
 #include <QLabel>
+#include <QSystemTrayIcon>
 
 
 namespace Ui {
@@ -48,6 +49,7 @@ private:
     void clearListWidgetCompletely(QListWidget* listWidget);
     void clearOrderListWidget();
     void showNewOrderNotification(const QString& msg);
+    void registerRestaurantSocket();
 };
 
 #endif // RESTAURANTOWNERMAINPAGE_H

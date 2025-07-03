@@ -19,20 +19,15 @@ RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget
     QString restaurantName = currentOwner->getRestaurant().getName();
     ui->label_10->setText("رستوران:  " + restaurantName);
 
+    connect(ui->tabWidget, &QTabWidget::currentChanged,
+            this, &RestaurantOwnerMainPage::on_tabWidget_currentChanged);
     connect(clientSocket, &ClientSocketManager::messageReceived,
             this, &RestaurantOwnerMainPage::handleServerMessage);
 
-    connect(ui->tabWidget, &QTabWidget::currentChanged,
-            this, &RestaurantOwnerMainPage::on_tabWidget_currentChanged);
-
-
     connect(clientSocket, &ClientSocketManager::connected, this, [=]() {
-        qDebug() << "Connected to server, sending REGISTER_RESTAURANT_SOCKET";
-        qDebug() << "Registering restaurant name:" << currentOwner->getRestaurant().getName();
-
-        clientSocket->sendMessage("REGISTER_RESTAURANT_SOCKET:" + currentOwner->getRestaurant().getName());
-
-        QString loginMsg = QString("LOGIN:restaurant:%1:%2:%3")
+        qDebug() << "Connected to server";
+        // فقط لاگین رو ارسال کن، نه ثبت سوکت
+        QString loginMsg = QString("LOGIN:Restaurant:%1:%2:%3")
                                .arg(currentOwner->getFirstName())
                                .arg(currentOwner->getLastName())
                                .arg(currentOwner->getPassword());
@@ -87,7 +82,13 @@ void RestaurantOwnerMainPage::on_pushButton_clicked()
 void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
 {
         qDebug() << "handleServerMessage called with msg:" << msg;
-    if (msg.startsWith("REGISTER_OK")) {
+    if (msg.startsWith("LOGIN_OK")) {
+        qDebug() << "Login successful, registering restaurant socket...";
+        registerRestaurantSocket();
+        clientSocket->sendMessage("GET_MENU");
+    }
+    else if (msg.startsWith("REGISTER_OK")) {
+
         clientSocket->sendMessage("GET_MENU");
     }
     else if (msg.startsWith("MENU_LIST:")) {
@@ -211,9 +212,9 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
 
     }
     else if (msg.startsWith("NEW_ORDER_ALERT")) {
+        qDebug() << "New order alert received, showing notification.";
         showNewOrderNotification("📦 سفارش جدیدی ثبت شد!");
     }
-
     else {
         qDebug() << "پیام ناشناخته از سرور دریافت شد:" << msg;
     }
@@ -334,7 +335,6 @@ void RestaurantOwnerMainPage::clearOrderListWidget()
         }
     }
 }
-
 void RestaurantOwnerMainPage::showNewOrderNotification(const QString& msg)
 {
     auto *dialog = new QDialog(this);
@@ -357,5 +357,9 @@ void RestaurantOwnerMainPage::showNewOrderNotification(const QString& msg)
 }
 
 
-
-
+void RestaurantOwnerMainPage::registerRestaurantSocket()
+{
+    QString restaurantName = currentOwner->getRestaurant().getName();
+    qDebug() << "Registering restaurant socket:" << restaurantName;
+    clientSocket->sendMessage("REGISTER_RESTAURANT_SOCKET:" + restaurantName);
+}
