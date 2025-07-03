@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>orderitemwidgett</class>
- <widget class="QWidget" name="orderitemwidgett">
+ <class>orderitemwidget</class>
+ <widget class="QWidget" name="orderitemwidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -31,7 +31,7 @@ color: rgb(255, 85, 0);</string>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QLabel" name="labelPreparing">
+       <widget class="QLabel" name="label_4">
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
         </property>
@@ -52,7 +52,7 @@ font: 20pt &quot;Segoe UI&quot;;</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="labelDelivering">
+       <widget class="QLabel" name="label_3">
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
         </property>
@@ -73,7 +73,7 @@ font: 20pt &quot;Segoe UI&quot;;</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="labelDelivered">
+       <widget class="QLabel" name="label_2">
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
         </property>
@@ -85,7 +85,7 @@ font: 20pt &quot;Segoe UI&quot;;</string>
      </layout>
     </item>
     <item>
-     <widget class="QLabel" name="labelFoods">
+     <widget class="QLabel" name="name">
       <property name="layoutDirection">
        <enum>Qt::LayoutDirection::RightToLeft</enum>
       </property>
@@ -95,7 +95,7 @@ font: 20pt &quot;Segoe UI&quot;;</string>
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="labelRestaurant">
+     <widget class="QLabel" name="code">
       <property name="layoutDirection">
        <enum>Qt::LayoutDirection::RightToLeft</enum>
       </property>
