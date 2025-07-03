@@ -115,17 +115,17 @@ void ServerManager::notifyRestaurantNewOrder(int restaurantId, const DatabaseMan
 void ServerManager::notifyCustomerOrderStatusChanged(int orderId, const QString& newStatus)
 {
     int customerId = dbManager.getCustomerIdByOrderId(orderId);
-    QString customerPhone = dbManager.getCustomerPhoneById(customerId);
+    QString customerIdStr = QString::number(customerId);  // ✅
 
-    if (!connectedCustomerSockets.contains(customerPhone)) {
-        qDebug() << "مشتری متصل نیست، نمی‌توان اعلان وضعیت ارسال کرد:" << customerPhone;
+    if (!connectedCustomerSockets.contains(customerIdStr)) {
+        qDebug() << "❌ مشتری متصل نیست، نمی‌توان اعلان وضعیت ارسال کرد:" << customerIdStr;
         return;
     }
 
-    QTcpSocket* custSocket = connectedCustomerSockets[customerPhone];
+    QTcpSocket* custSocket = connectedCustomerSockets[customerIdStr];
 
-    // پیام شامل شماره سفارش و وضعیت جدید
     QString message = "ORDER_STATUS_CHANGED:" + QString::number(orderId) + "#" + newStatus;
+    qDebug() << "✅ پیام نوتیف برای مشتری:" << message;
 
     custSocket->write(message.toUtf8() + "\n");
 }
@@ -133,14 +133,13 @@ void ServerManager::notifyCustomerOrderStatusChanged(int orderId, const QString&
 void ServerManager::registerCustomerSocket(int customerId, QTcpSocket* socket) {
     customerSockets[customerId] = socket;
     connectedCustomerSockets[QString::number(customerId)] = socket;
-    emit logMessage(QString("Registered customer socket for customerId %1").arg(customerId));
 }
 
 QTcpSocket* ServerManager::findCustomerSocketById(int customerId) {
     if (customerSockets.contains(customerId)) {
         return customerSockets[customerId];
     }
-    return nullptr;  // اگر پیدا نشد
+    return nullptr;
 }
 
 void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
@@ -838,11 +837,19 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 
             // ارسال پیام به مشتری
             int customerId = dbManager.getCustomerIdByOrderId(orderId);
+            qDebug() << "✅ customerId: " << customerId;
+
             QTcpSocket* customerSocket = findCustomerSocketById(customerId);
             if (customerSocket) {
                 QString notifyMsg = QString("ORDER_STATUS_UPDATED:%1|%2\n").arg(orderId).arg(newStatus);
+                qDebug() << "✅ ارسال به مشتری: " << notifyMsg;
                 customerSocket->write(notifyMsg.toUtf8());
             }
+            else {
+                qDebug() << "❌ مشتری آنلاین نیست یا سوکت یافت نشد";
+            }
+
+
         }
       else {
             sender->write("UPDATE_STATUS_FAIL:به‌روزرسانی وضعیت ناموفق بود\n");
