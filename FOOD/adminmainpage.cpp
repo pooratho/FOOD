@@ -20,22 +20,25 @@ AdminMainPage::AdminMainPage(QWidget *parent)
 
     clientSocket->connectToServer("127.0.0.1", 1234);
 
+    connect(ui->pushButton, &QPushButton::clicked, this, [this]() {
+        if (!tableWin) {
+            tableWin = new RestaurantTableWidget(nullptr);  // یا اگر نیاز به clientSocket داشت، آن را هم بدهید
+            tableWin->setAttribute(Qt::WA_DeleteOnClose);
+            connect(tableWin, &QObject::destroyed, this, [this]() {
+                tableWin = nullptr;
+            });
+            tableWin->setWindowTitle("جدول رستوران‌ها");
+        }
+        tableWin->show();
+        tableWin->raise();
+
+        // ارسال درخواست به سرور
+        clientSocket->sendMessage("RESTAURANT_LIST_ALL\n");
+    });
+
     connect(ui->pushButton_2, &QPushButton::clicked, this, [this]() {
         if (!userTableWin) {
             userTableWin = new UserTableWidget(clientSocket);
-            userTableWin->setAttribute(Qt::WA_DeleteOnClose);
-            connect(userTableWin, &QObject::destroyed, this, [this]() {
-                userTableWin = nullptr;
-            });
-            userTableWin->setWindowTitle("جدول کاربران");
-        }
-        userTableWin->show();
-        userTableWin->raise();
-        clientSocket->sendMessage("GET_ALL_USERS\n");
-    });
-    connect(ui->pushButton_2, &QPushButton::clicked, this, [this]() {
-        if (!userTableWin) {
-            userTableWin = new UserTableWidget(nullptr);
             userTableWin->setAttribute(Qt::WA_DeleteOnClose);
             connect(userTableWin, &QObject::destroyed, this, [this]() {
                 userTableWin = nullptr;
