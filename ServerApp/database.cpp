@@ -638,3 +638,38 @@ QString DatabaseManager::getCustomerPhoneById(int customerId)
 
     return query.value(0).toString();
 }
+
+bool DatabaseManager::updateOrderStatus(int orderId, const QString& newStatus)
+{
+    qDebug() << "Updating orderId:" << orderId << "to status:" << newStatus;
+
+    QSqlQuery query;
+    query.prepare("UPDATE orders SET status = ? WHERE id = ?");
+    query.addBindValue(newStatus);
+    query.addBindValue(orderId);
+
+    if (!query.exec()) {
+        qDebug() << "Error updating order status:" << query.lastError().text();
+        return false;
+    }
+
+    if (query.numRowsAffected() == 0) {
+        qDebug() << "No rows were updated. Possible wrong orderId.";
+        return false;
+    }
+
+    return true;
+}
+
+
+int DatabaseManager::getCustomerIdByOrderId(int orderId)
+{
+    QSqlQuery query;
+    query.prepare("SELECT customer_id FROM orders WHERE id = ?");
+    query.addBindValue(orderId);
+
+    if (query.exec() && query.next()) {
+        return query.value(0).toInt();
+    }
+    return -1; // پیدا نشد
+}

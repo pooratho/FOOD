@@ -698,7 +698,6 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
                               QString::number(order.totalPrice) + "|" +
                               order.status + "|" +
                               order.createdAt;
-
             for (const auto& item : order.items) {
                 message += "|" + item.foodName + "," +
                            QString::number(item.quantity) + "," +
@@ -727,10 +726,11 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
 
         for (const DatabaseManager::OrderData& order : orders) {
-           QString customerPhone = dbManager.getCustomerPhoneById(order.customerId);
+            QString customerPhone = dbManager.getCustomerPhoneById(order.customerId);
 
             QString message = "RESTAURANT_ORDER:" +
-                              customerPhone + "#" +                    // اسم مشتری
+                              customerPhone + "#" +                    // شماره مشتری
+                              QString::number(order.orderId) + "|" +  // اینجا orderId اضافه شد
                               QString::number(order.totalPrice) + "|" +
                               order.status + "|" +
                               order.createdAt;
@@ -745,6 +745,28 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
 
         sender->write("REST_ORDERS_DONE\n");
+    }
+    else if (msg.startsWith("UPDATE_ORDER_STATUS:")) {
+        QString data = msg.mid(QString("UPDATE_ORDER_STATUS:").length()).trimmed();
+        QStringList parts = data.split("#");
+        if (parts.size() != 2) {
+            sender->write("UPDATE_STATUS_FAIL:فرمت پیام نادرست است\n");
+            return;
+        }
+
+        int orderId = parts[0].toInt();
+        QString newStatus = parts[1];
+
+        qDebug() << "UpdateOrderStatus request received. orderId:" << orderId << "newStatus:" << newStatus;
+
+        bool success = dbManager.updateOrderStatus(orderId, newStatus);
+        if (success) {
+            sender->write("UPDATE_STATUS_OK:\n");
+            qDebug() << "Order status updated successfully.";
+        } else {
+            sender->write("UPDATE_STATUS_FAIL:به‌روزرسانی وضعیت ناموفق بود\n");
+            qDebug() << "Failed to update order status!";
+        }
     }
 
 

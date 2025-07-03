@@ -94,8 +94,9 @@ public:
 
      QString getCustomerPhoneById(int customerId);
 
+    int getCustomerIdByOrderId(int orderId);
 
-
+     bool updateOrderStatus(int orderId, const QString& newStatus);
     bool addOrUpdateCartItemByPhone(const QString& phone,
                                     const QString& restaurantName,
                                     const QString& foodName,

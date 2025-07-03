@@ -30,8 +30,10 @@ private:
     QList<QTcpSocket*> clients;
     DatabaseManager dbManager;
     QMap<QTcpSocket*, int> restaurantSocketMap;
-
+    QTcpSocket* getSocketByCustomerId(int customerId);
     void processMessage(QTcpSocket *sender, const QString &msg);
+    QMap<int, QTcpSocket*> customerIdToSocketMap;
+
 };
 
 #endif // SERVERMANAGER_H

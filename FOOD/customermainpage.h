@@ -38,6 +38,8 @@ private slots:
     void on_pushButton_clicked();
     void on_tabWidget_currentChanged(int index);
     void handleIncomingOrderItem(const QString& msg);
+    void on_pushButton_2_clicked();
+
 signals:
     void foodSelectedForCart(const CartItem& item);
 
@@ -54,6 +56,9 @@ private:
     void removeCartItem(ShoppingCartItemWidget* widget);
     void updateTotalPriceDisplay();
     bool isFoodInCart(const QString& restaurantName, const QString& foodName) const;
+    void clearOrderWidgets();
+    void refreshOrders();
+     QSet<int> shownOrderIds;
 };
 
 #endif // CUSTOMERMAINPAGE_H

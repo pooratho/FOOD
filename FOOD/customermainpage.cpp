@@ -27,6 +27,8 @@ CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
 
     connect(clientSocket, &ClientSocketManager::connected, this, [=]() {
         qDebug() << "✅ اتصال به سرور برقرار شد";
+
+
         clientSocket->sendMessage("GET_RESTAURANTS");
 
         QTimer::singleShot(100, this, [=]() {
@@ -163,6 +165,7 @@ void CustomerMainPage::handleServerMessage(const QString& msg)
     else if (msg.startsWith("ORDER_ITEM:")) {
         handleIncomingOrderItem(msg);
     }
+
 
     else {
         qDebug() << "پیام ناشناخته از سرور دریافت شد.";
@@ -387,29 +390,41 @@ void CustomerMainPage::on_pushButton_clicked()
 void CustomerMainPage::on_tabWidget_currentChanged(int index)
 {
     if (index == 2) {  // فرض: تب ۲ مربوط به "وضعیت سفارش"
-        QString msg = "GET_CUSTOMER_ORDERS:" + customer->getPhone();
-        clientSocket->sendMessage(msg);
+        refreshOrders();
     }
 }
-
 void CustomerMainPage::handleIncomingOrderItem(const QString& msg)
 {
     QString data = msg.mid(QString("ORDER_ITEM:").length()).trimmed();
     QStringList parts = data.split("#");
-    if (parts.size() != 2) return;  // فقط دو بخش داریم: رستوران و بقیه
+    if (parts.size() != 2) {
+        qWarning() << "⚠️ پیام ORDER_ITEM فرمت درستی ندارد:" << msg;
+        return;
+    }
+
 
     QString restaurantName = parts[0];
     QStringList orderDataParts = parts[1].split("|");
-    if(orderDataParts.size() < 4) return; // حداقل 4 بخش نیاز داریم
+    if (orderDataParts.size() < 4) {
+        qWarning() << "⚠️ اطلاعات سفارش ناقص است:" << orderDataParts;
+        return;
+    }
 
-    QString orderIdStr = orderDataParts[0]; // شاید لازم باشه تبدیل کنی
+
+    int orderId = orderDataParts[0].toInt();
+
+    // ❗ بررسی اینکه این سفارش قبلاً نمایش داده شده یا نه
+    if (shownOrderIds.contains(orderId)) {
+        qDebug() << "ℹ️ سفارش تکراری نادیده گرفته شد:" << orderId;
+        return;
+    }
+    shownOrderIds.insert(orderId);  // اضافه کن که دیگه نشون داده نشه
+
     double totalPrice = orderDataParts[1].toDouble();
     QString status = orderDataParts[2];
     QString dateStr = orderDataParts[3];
 
-    // بقیه بخش‌ها مربوط به غذاها هستن که از index 4 شروع میشن
     QStringList foodList = orderDataParts.mid(4);
-
     QString foodText;
     for (const QString& foodRaw : foodList) {
         QStringList foodParts = foodRaw.split(",");
@@ -423,20 +438,39 @@ void CustomerMainPage::handleIncomingOrderItem(const QString& msg)
     }
 
     orderitemwidgett* widget = new orderitemwidgett(this);
+    widget->setOrderId(orderId);
     widget->setRestaurantName(restaurantName);
     widget->setFoodListText(foodText);
-    //widget->setTotalPrice(totalPrice);  // اگر داری این تابعو استفاده کن
     widget->setStatus(status);
 
-    QListWidgetItem* listItem = new QListWidgetItem(ui->orderListWidget);
-    listItem->setSizeHint(QSize(890, 115));  // سایز آیتم در لیست
-
+    QListWidgetItem* listItem = new QListWidgetItem();
+    listItem->setSizeHint(QSize(890, 115));
     ui->orderListWidget->addItem(listItem);
     ui->orderListWidget->setItemWidget(listItem, widget);
 
-    if (ui->orderListWidget->count() == 0) {
-        ui->label_5->show();   // اگر خالیه، پیام "سفارشی وجود ندارد" رو نمایش بده
-    } else {
-        ui->label_5->hide();   // اگر چیزی هست، مخفیش کن
+    ui->label_5->setVisible(ui->orderListWidget->count() == 0);
+}
+
+
+void CustomerMainPage::on_pushButton_2_clicked()
+{
+
+   refreshOrders();
+}
+
+void CustomerMainPage::clearOrderWidgets()
+{
+    while (ui->orderListWidget->count() > 0) {
+        QListWidgetItem* item = ui->orderListWidget->takeItem(0);
+        delete ui->orderListWidget->itemWidget(item); // پاک کردن ویجت
+        delete item; // پاک کردن آیتم
     }
+}
+
+void CustomerMainPage::refreshOrders()
+{
+    clearOrderWidgets();
+     shownOrderIds.clear();
+    QString msg = "GET_CUSTOMER_ORDERS:" + customer->getPhone();
+    clientSocket->sendMessage(msg);
 }
