@@ -5,16 +5,16 @@
 #include <QDialog>
 
 namespace Ui {
-class orderitemwidgett;
+class orderitemwidget;
 }
 
-class orderitemwidgett : public QDialog
+class orderitemwidget : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit orderitemwidgett(QWidget *parent = nullptr);
-    ~orderitemwidgett();
+    explicit orderitemwidget(QWidget *parent = nullptr);
+    ~orderitemwidget();
 
     void setOrderId(int id) ;
     int getOrderId() const ;
@@ -27,7 +27,7 @@ public slots:
 
 
 private:
-    Ui::orderitemwidgett *ui;
+    Ui::orderitemwidget *ui;
      int orderId;
 };
 

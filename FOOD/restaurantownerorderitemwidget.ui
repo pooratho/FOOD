@@ -46,16 +46,6 @@ color: rgb(255, 85, 0);</string>
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="labelRestaurantName">
-      <property name="layoutDirection">
-       <enum>Qt::LayoutDirection::RightToLeft</enum>
-      </property>
-      <property name="text">
-       <string>  بیبلاتن</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QComboBox" name="comboBoxStatus">
       <item>
        <property name="text">

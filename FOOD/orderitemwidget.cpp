@@ -2,23 +2,23 @@
 #include "orderitemwidget.h"
 #include "ui_orderitemwidget.h"
 
-orderitemwidgett::orderitemwidgett(QWidget *parent)
+orderitemwidget::orderitemwidget(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::orderitemwidgett)
+    , ui(new Ui::orderitemwidget)
 {
     ui->setupUi(this);
 }
 
-orderitemwidgett::~orderitemwidgett()
+orderitemwidget::~orderitemwidget()
 {
     delete ui;
 }
 
-void orderitemwidgett::setRestaurantName(const QString& name) {
+void orderitemwidget::setRestaurantName(const QString& name) {
     ui->labelRestaurant->setText("  " + name);
 }
 
-void orderitemwidgett::setFoodListText(const QString& text) {
+void orderitemwidget::setFoodListText(const QString& text) {
     ui->labelFoods->setText(text);
 }
 
@@ -26,7 +26,7 @@ void orderitemwidgett::setFoodListText(const QString& text) {
 //     ui->labelPrice->setText(QString::number(price) + " تومان");
 // }
 
-void orderitemwidgett::setStatus(const QString& status) {
+void orderitemwidget::setStatus(const QString& status) {
     ui->labelPreparing->setStyleSheet("color: white; font-weight: normal;");
     ui->labelDelivering->setStyleSheet("color: white; font-weight: normal;");
     ui->labelDelivered->setStyleSheet("color: white; font-weight: normal;");
@@ -34,13 +34,19 @@ void orderitemwidgett::setStatus(const QString& status) {
     if (status == "در حال آماده‌سازی") {
         ui->labelPreparing->setStyleSheet("color: orange; font-weight: bold;");
     }
-    else if (status == "ارسال شد") {
+    else if (status == "ارسال شده") {
+        ui->labelPreparing->setStyleSheet("color: orange; font-weight: bold;");
+
         ui->labelDelivering->setStyleSheet("color: blue; font-weight: bold;");
     }
-    else if (status == "تحویل داده شد") {
+    else if (status == "تحویل داده شده") {
+        ui->labelPreparing->setStyleSheet("color: orange; font-weight: bold;");
+
+        ui->labelDelivering->setStyleSheet("color: blue; font-weight: bold;");
+
         ui->labelDelivered->setStyleSheet("color: green; font-weight: bold;");
     }
 }
 
-void orderitemwidgett::setOrderId(int id) { orderId = id; }
-int orderitemwidgett::getOrderId() const  { return orderId; }
+void orderitemwidget::setOrderId(int id) { orderId = id; }
+int orderitemwidget::getOrderId() const  { return orderId; }

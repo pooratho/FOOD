@@ -41,11 +41,6 @@ void RestaurantOwnerOrderItemWidget::onStatusChanged(int index)
 }
 
 
-void RestaurantOwnerOrderItemWidget::setRestaurantName(const QString &name)
-{
-    ui->labelRestaurantName->setText(name);
-}
-
 void RestaurantOwnerOrderItemWidget::setFoodText(const QString &foods)
 {
     ui->labelFoodInfo->setText(foods);

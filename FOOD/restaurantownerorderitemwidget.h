@@ -15,7 +15,6 @@ public:
     explicit RestaurantOwnerOrderItemWidget(QWidget *parent = nullptr);
     ~RestaurantOwnerOrderItemWidget();
 
-    void setRestaurantName(const QString &name);
     void setFoodText(const QString &foods);
     void setCustomerPhone(const QString &phone);
     void setStatus(const QString &status);  // مقداردهی کامبوباکس به صورت اولیه

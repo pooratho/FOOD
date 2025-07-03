@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>730</width>
-    <height>80</height>
+    <width>890</width>
+    <height>111</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,20 +23,40 @@ color: rgb(255, 85, 0);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>731</width>
-     <height>81</height>
+     <width>891</width>
+     <height>111</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="labelRestaurant">
+        <property name="layoutDirection">
+         <enum>Qt::LayoutDirection::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>  بیبلاتن</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelFoods">
+        <property name="layoutDirection">
+         <enum>Qt::LayoutDirection::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>  لذزبذبلذ</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelDelivered">
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
-         <string>  در حال آماده سازی🧑‍🍳</string>
+         <string>  تحویل داده شد🤝</string>
         </property>
        </widget>
       </item>
@@ -44,7 +64,7 @@ color: rgb(255, 85, 0);</string>
        <widget class="QLabel" name="label_5">
         <property name="styleSheet">
          <string notr="true">color: rgb(255, 255, 255);
-font: 20pt &quot;Segoe UI&quot;;</string>
+font: 30pt &quot;Segoe UI&quot;;</string>
         </property>
         <property name="text">
          <string>→</string>
@@ -52,7 +72,7 @@ font: 20pt &quot;Segoe UI&quot;;</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="labelDelivering">
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
         </property>
@@ -65,7 +85,7 @@ font: 20pt &quot;Segoe UI&quot;;</string>
        <widget class="QLabel" name="label_6">
         <property name="styleSheet">
          <string notr="true">color: rgb(255, 255, 255);
-font: 20pt &quot;Segoe UI&quot;;</string>
+font: 30pt &quot;Segoe UI&quot;;</string>
         </property>
         <property name="text">
          <string>→</string>
@@ -73,36 +93,16 @@ font: 20pt &quot;Segoe UI&quot;;</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="labelPreparing">
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
-         <string>  تحویل داده شد🤝</string>
+         <string>  در حال آماده سازی🧑‍🍳</string>
         </property>
        </widget>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QLabel" name="name">
-      <property name="layoutDirection">
-       <enum>Qt::LayoutDirection::RightToLeft</enum>
-      </property>
-      <property name="text">
-       <string>  لذزبذبلذ</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="code">
-      <property name="layoutDirection">
-       <enum>Qt::LayoutDirection::RightToLeft</enum>
-      </property>
-      <property name="text">
-       <string>  بیبلاتن</string>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>

@@ -12,18 +12,18 @@ RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget
     clientSocket(new ClientSocketManager(this))
 {
     ui->setupUi(this);
-    notificationLabel = new QLabel("🔔 سفارش جدید دریافت شد!", this);
-    notificationLabel->setStyleSheet(
-        "background-color: orange; "
-        "color: black; "
-        "font-weight: bold; "
-        "padding: 6px; "
-        "border-radius: 8px;"
-        );
-    notificationLabel->setAlignment(Qt::AlignCenter);
-    notificationLabel->setFixedSize(200, 40);
-    notificationLabel->move(width() - 220, height() - 60);  // گوشه پایین راست
-    notificationLabel->hide();
+    // notificationLabel = new QLabel("🔔 سفارش جدید دریافت شد!", this);
+    // notificationLabel->setStyleSheet(
+    //     "background-color: orange; "
+    //     "color: black; "
+    //     "font-weight: bold; "
+    //     "padding: 6px; "
+    //     "border-radius: 8px;"
+    //     );
+    // notificationLabel->setAlignment(Qt::AlignCenter);
+    // notificationLabel->setFixedSize(200, 40);
+    // notificationLabel->move(width() - 220, height() - 60);  // گوشه پایین راست
+    // notificationLabel->hide();
 
     QString restaurantName = currentOwner->getRestaurant().getName();
     ui->label_10->setText("رستوران:  " + restaurantName);
@@ -160,7 +160,7 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
             return;
         }
         shownOrderIds.insert(norderId);
-        showNewOrderNotification("سفارش جدید از شماره " + customerPhone + " دریافت شد!");
+        //showNewOrderNotification("سفارش جدید از شماره " + customerPhone + " دریافت شد!");
 
         QString foodDetails;
         for (int i = 3; i < orderParts.size(); ++i) {
@@ -176,6 +176,10 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
         }
 
        // ثبت سفارش جدید
+        // ... بعد از استخراج status
+        if (status == u"تحویل داده شده") {
+            return;                  // 👈 نمایش داده نشود
+        }
 
         // ساخت ویجت سفارش رستوران
         RestaurantOwnerOrderItemWidget* widget = new RestaurantOwnerOrderItemWidget(this);
@@ -193,8 +197,20 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
             qDebug() << "Sending update status for orderId:" << orderId << "newStatus:" << newStatus;
             QString updateMsg = "UPDATE_ORDER_STATUS:" + orderId + "#" + newStatus;
             clientSocket->sendMessage(updateMsg);
-        });
 
+            if (newStatus == u"تحویل داده شده") {
+                for (int i = 0; i < ui->orderListWidget->count(); ++i) {
+                    QListWidgetItem* listItem = ui->orderListWidget->item(i);
+                    if (ui->orderListWidget->itemWidget(listItem) == widget) {
+                        ui->orderListWidget->removeItemWidget(listItem);
+                        delete listItem;
+                        widget->deleteLater();
+                        break;
+                    }
+                }
+                ui->label_11->setVisible(ui->orderListWidget->count() == 0);
+            }
+        });
     }
 
     // به‌روزرسانی نمایش برچسب‌ها
@@ -293,7 +309,7 @@ void RestaurantOwnerMainPage::on_tabWidget_currentChanged(int index)
         shownOrderIds.clear();         // ❗ پاک‌کردن سفارش‌هایی که قبلاً نشون داده بودیم
         QString msg = "GET_RESTAURANT_ORDERS:" + currentOwner->getRestaurant().getName();
         clientSocket->sendMessage(msg);
-        notificationLabel->hide();
+        //notificationLabel->hide();
     }
 }
 
@@ -313,14 +329,14 @@ void RestaurantOwnerMainPage::clearOrderListWidget()
     }
 }
 
-void RestaurantOwnerMainPage::showNewOrderNotification(const QString& msg)
-{
-    notificationLabel->setText("سفارش جدید دریافت شد!");
-    notificationLabel->show();
-    QTimer::singleShot(5000, this, [=]() {
-        notificationLabel->hide();
-    });
-}
+// void RestaurantOwnerMainPage::showNewOrderNotification(const QString& msg)
+// {
+//     notificationLabel->setText("سفارش جدید دریافت شد!");
+//     notificationLabel->show();
+//     QTimer::singleShot(5000, this, [=]() {
+//         notificationLabel->hide();
+//     });
+// }
 
 
 

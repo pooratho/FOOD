@@ -447,14 +447,14 @@ void CustomerMainPage::handleIncomingOrderItem(const QString& msg)
                     " - " + QString::number(price) + " تومان\n";
     }
 
-    orderitemwidgett* widget = new orderitemwidgett(this);
+    orderitemwidget* widget = new orderitemwidget(this);
     widget->setOrderId(orderId);
     widget->setRestaurantName(restaurantName);
     widget->setFoodListText(foodText);
     widget->setStatus(status);
 
     QListWidgetItem* listItem = new QListWidgetItem();
-    listItem->setSizeHint(QSize(890, 115));
+    listItem->setSizeHint(QSize(890, 120));
     ui->orderListWidget->addItem(listItem);
     ui->orderListWidget->setItemWidget(listItem, widget);
 
