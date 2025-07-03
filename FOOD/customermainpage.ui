@@ -44,7 +44,7 @@ color: rgb(255, 85, 0);
 </string>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <property name="iconSize">
     <size>
@@ -374,7 +374,7 @@ color: rgb(255, 255, 255);</string>
     <attribute name="title">
      <string>                        وضعیت سفارش                        </string>
     </attribute>
-    <widget class="QListWidget" name="listWidget_3">
+    <widget class="QListWidget" name="orderListWidget">
      <property name="geometry">
       <rect>
        <x>0</x>

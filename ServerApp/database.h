@@ -59,10 +59,22 @@ public:
         double unitPrice;
     };
 
+    struct TempOrderItem {
+        int restaurantId;
+        QString foodName;
+        int quantity;
+        double unitPrice;
+    };
+    struct OrderData {
+        int orderId;
+        int restaurantId;
+        double totalPrice;
+        QString status;
+        QString createdAt;
+        QList<TempOrderItem> items;
+    };
 
-
-
-
+    QList<OrderData> getOrdersByCustomerId(int customerId);
 
     UserRole checkUserLogin(const QString& firstName, const QString& lastName, const QString& password);
 

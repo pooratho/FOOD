@@ -63,14 +63,14 @@ FORMS += \
     customersignup.ui \
     loginwindow.ui \
     mainwindow.ui \
+    orderitemwidget.ui \
     restaurantownermainpage.ui \
     restaurantownersignup.ui \
     signinwindow.ui \
     restaurantmenuitemwidget.ui \
     restaurantownermenuitemwidget.ui \
     restaurantmenu.ui \
-    shoppingcartitemwidget.ui \
-    orderitemwidget.ui
+    shoppingcartitemwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

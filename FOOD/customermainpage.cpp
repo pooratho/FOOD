@@ -37,6 +37,8 @@ CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
 
     });
 
+
+
     connect(ui->comboBoxProvince, &QComboBox::currentTextChanged,
             this, &CustomerMainPage::sendFilteredRequest);
 
@@ -155,6 +157,9 @@ void CustomerMainPage::handleServerMessage(const QString& msg)
     else if (msg.startsWith("UPDATE_CART_FAIL:")) {
         QString reason = msg.mid(QString("UPDATE_CART_FAIL:").length());
         QMessageBox::warning(this, "خطا در به‌روزرسانی سبد خرید", reason);
+    }
+    else if (msg.startsWith("ORDER_ITEM:")) {
+        handleIncomingOrderItem(msg);
     }
 
     else {
@@ -377,3 +382,53 @@ void CustomerMainPage::on_pushButton_clicked()
     updateCartDisplay();
 }
 
+void CustomerMainPage::on_tabWidget_currentChanged(int index)
+{
+    if (index == 2) {  // فرض: تب ۲ مربوط به "وضعیت سفارش"
+        QString msg = "GET_CUSTOMER_ORDERS:" + customer->getPhone();
+        clientSocket->sendMessage(msg);
+    }
+}
+
+void CustomerMainPage::handleIncomingOrderItem(const QString& msg)
+{
+    QString data = msg.mid(QString("ORDER_ITEM:").length()).trimmed();
+    QStringList parts = data.split("#");
+    if (parts.size() != 2) return;  // فقط دو بخش داریم: رستوران و بقیه
+
+    QString restaurantName = parts[0];
+    QStringList orderDataParts = parts[1].split("|");
+    if(orderDataParts.size() < 4) return; // حداقل 4 بخش نیاز داریم
+
+    QString orderIdStr = orderDataParts[0]; // شاید لازم باشه تبدیل کنی
+    double totalPrice = orderDataParts[1].toDouble();
+    QString status = orderDataParts[2];
+    QString dateStr = orderDataParts[3];
+
+    // بقیه بخش‌ها مربوط به غذاها هستن که از index 4 شروع میشن
+    QStringList foodList = orderDataParts.mid(4);
+
+    QString foodText;
+    for (const QString& foodRaw : foodList) {
+        QStringList foodParts = foodRaw.split(",");
+        if (foodParts.size() != 3) continue;
+        QString name = foodParts[0];
+        int qty = foodParts[1].toInt();
+        double price = foodParts[2].toDouble();
+
+        foodText += name + " × " + QString::number(qty) +
+                    " - " + QString::number(price) + " تومان\n";
+    }
+
+    orderitemwidgett* widget = new orderitemwidgett(this);
+    widget->setRestaurantName(restaurantName);
+    widget->setFoodListText(foodText);
+    //widget->setTotalPrice(totalPrice);  // اگر داری این تابعو استفاده کن
+    widget->setStatus(status);
+
+    QListWidgetItem* listItem = new QListWidgetItem(ui->orderListWidget);
+    listItem->setSizeHint(widget->sizeHint());
+
+    ui->orderListWidget->addItem(listItem);
+    ui->orderListWidget->setItemWidget(listItem, widget);
+}

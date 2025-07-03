@@ -520,3 +520,45 @@ bool DatabaseManager::clearCartByCustomerId(int customerId)
     }
     return true;
 }
+
+QList<DatabaseManager::OrderData> DatabaseManager::getOrdersByCustomerId(int customerId) {
+    QList<OrderData> result;
+
+    QSqlQuery orderQuery;
+    orderQuery.prepare("SELECT id, total_price, status, created_at FROM orders WHERE customer_id = ?");
+    orderQuery.addBindValue(customerId);
+
+    if (!orderQuery.exec()) {
+        qDebug() << "❌ خطا در دریافت سفارشات:" << orderQuery.lastError().text();
+        return result;
+    }
+
+    while (orderQuery.next()) {
+        OrderData order;
+        order.orderId = orderQuery.value(0).toInt();
+        order.totalPrice = orderQuery.value(1).toDouble();
+        order.status = orderQuery.value(2).toString();
+        order.createdAt = orderQuery.value(3).toString();
+
+        // حالا آیتم‌های این سفارش
+        QSqlQuery itemsQuery;
+        itemsQuery.prepare("SELECT restaurant_id, food_name, quantity, unit_price FROM order_items WHERE order_id = ?");
+        itemsQuery.addBindValue(order.orderId);
+
+        if (itemsQuery.exec()) {
+            while (itemsQuery.next()) {
+                TempOrderItem item;
+                item.restaurantId = itemsQuery.value(0).toInt();
+                item.foodName = itemsQuery.value(1).toString();
+                item.quantity = itemsQuery.value(2).toInt();
+                item.unitPrice = itemsQuery.value(3).toDouble();
+                order.restaurantId = item.restaurantId;
+                order.items.append(item);
+            }
+        }
+
+        result.append(order);
+    }
+
+    return result;
+}

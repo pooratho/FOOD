@@ -10,6 +10,7 @@
 #include "clientsocketmanager.h"  // برای اتصال به سرور
 #include "cartitem.h"
 #include "shoppingcartitemwidget.h"
+#include "orderitemwidget.h"
 
 namespace Ui {
 class CustomerMainPage;
@@ -35,7 +36,8 @@ private slots:
     //void handleCartItemsFromRestaurant(const QList<CartItem>& items);
 
     void on_pushButton_clicked();
-
+    void on_tabWidget_currentChanged(int index);
+    void handleIncomingOrderItem(const QString& msg);
 signals:
     void foodSelectedForCart(const CartItem& item);
 

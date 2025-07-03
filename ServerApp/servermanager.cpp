@@ -675,6 +675,41 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 
         sender->write("SUBMIT_ORDER_OK\n");
     }
+    else if (msg.startsWith("GET_CUSTOMER_ORDERS:")) {
+        QString phone = normalizePhoneNumber(msg.mid(QString("GET_CUSTOMER_ORDERS:").length()).trimmed());
+        int customerId = dbManager.getCustomerIdByPhone(phone);
+
+        if (customerId == -1) {
+            sender->write("ORDERS_FAIL:مشتری یافت نشد\n");
+            return;
+        }
+
+        QList<DatabaseManager::OrderData> orders = dbManager.getOrdersByCustomerId(customerId);
+
+        if (orders.isEmpty()) {
+            sender->write("ORDERS_EMPTY:سفارشی یافت نشد\n");
+            return;
+        }
+
+        for (const DatabaseManager::OrderData& order : orders) {
+            QString message = "ORDER_ITEM:" +
+                              dbManager.getRestaurantNameById(order.restaurantId) + "#" +
+                              QString::number(order.orderId) + "|" +
+                              QString::number(order.totalPrice) + "|" +
+                              order.status + "|" +
+                              order.createdAt;
+
+            for (const auto& item : order.items) {
+                message += "|" + item.foodName + "," +
+                           QString::number(item.quantity) + "," +
+                           QString::number(item.unitPrice);
+            }
+
+            sender->write(message.toUtf8() + "\n");
+        }
+
+        sender->write("ORDERS_DONE\n");
+    }
 
 
     else {
