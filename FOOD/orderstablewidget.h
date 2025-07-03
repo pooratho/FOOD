@@ -3,13 +3,20 @@
 
 #include <QWidget>
 
-class orderstablewidget : public QWidget
+namespace Ui {
+class orderstablewidget;
+}
+
+class OrdersTableWidget : public QWidget
 {
     Q_OBJECT
-public:
-    explicit orderstablewidget(QWidget *parent = nullptr);
 
-signals:
+public:
+    explicit OrdersTableWidget(QWidget *parent = nullptr);
+    ~OrdersTableWidget();
+
+private:
+    Ui::orderstablewidget *ui;
 };
 
 #endif // ORDERSTABLEWIDGET_H

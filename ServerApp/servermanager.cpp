@@ -927,6 +927,89 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         sender->write(resp.toUtf8());
     }
 
+    else if (msg == "GET_ALL_ORDERS") {
+
+        /* 1) همهٔ سفارش‌ها همراه با نام/تلفن مشتری و نام رستوران */
+        QSqlQuery q(R"(
+        SELECT  o.id,                                  -- 0
+                c.firstname || ' ' || c.lastname,      -- 1  نام کامل مشتری
+                c.phone,                               -- 2
+                r.restaurant_name,                     -- 3
+                o.total_price,                         -- 4
+                o.status,                              -- 5
+                o.created_at                           -- 6
+        FROM    orders           o
+        JOIN    customers         c ON c.id = o.customer_id
+        JOIN    order_items      oi ON oi.order_id = o.id
+        JOIN    restaurants       r ON r.id = oi.restaurant_id
+        GROUP BY o.id             /* هر سفارش یک ردیف */
+        ORDER BY o.created_at DESC
+    )");
+
+        if (!q.exec()) {
+            qDebug() << "❌ GET_ALL_ORDERS query error:" << q.lastError().text();
+            sender->write("ORDER_LIST_FAIL\n");
+            return;
+        }
+
+        QStringList lines;
+        while (q.next()) {
+            int     orderId     = q.value(0).toInt();
+            QString custName    = q.value(1).toString();
+            QString phone       = q.value(2).toString();
+            QString restName    = q.value(3).toString();
+            QString totalPrice  = q.value(4).toString();
+            QString status      = q.value(5).toString();
+            QString createdAt   = q.value(6).toString();
+
+            /* 2) آیتم‌های این سفارش را جداگانه می‌خوانیم تا لیست آنها را
+              به‌صورت food,qty,unitPrice|food,qty,unitPrice,… بسازیم      */
+            QSqlQuery itemsQ;
+            itemsQ.prepare(R"(SELECT food_name, quantity, unit_price
+                          FROM   order_items
+                          WHERE  order_id = ?)");
+            itemsQ.addBindValue(orderId);
+
+            QStringList itemParts;
+            if (itemsQ.exec()) {
+                while (itemsQ.next()) {
+                    itemParts << itemsQ.value(0).toString() + "," +
+                                     itemsQ.value(1).toString() + "," +
+                                     itemsQ.value(2).toString();
+                }
+            }
+
+            /* فرمت نهایی:
+         * customerName|phone|restaurant|itemsConcat|totalPrice|status|createdAt
+         * هر سفارش با ; جدا می‌شود                                  */
+            lines << custName  + "|" + phone      + "|" + restName + "|" +
+                         itemParts.join("|")           + "|" + totalPrice + "|" +
+                         status     + "|" + createdAt;
+        }
+
+        if (lines.isEmpty())
+            sender->write("ORDER_LIST:EMPTY\n");
+        else
+            sender->write(("ORDER_LIST:" + lines.join(";") + "\n").toUtf8());
+
+        return;   // حتماً return کن تا به else نهایی نرسد
+    }
+
+    else if (msg.startsWith("GET_CUSTOMER_NAME_BY_PHONE:")) {
+        QString phone = msg.mid(QString("GET_CUSTOMER_NAME_BY_PHONE:").length()).trimmed();
+        QSqlQuery query;
+        query.prepare("SELECT firstname, lastname FROM customers WHERE phone = ?");
+        query.addBindValue(phone);
+
+        if (!query.exec() || !query.next()) {
+            sender->write("CUSTOMER_NAME_FAIL:مشتری یافت نشد\n");
+            return;
+        }
+
+        QString fullName = query.value(0).toString() + " " + query.value(1).toString();
+        sender->write(("CUSTOMER_NAME:" + fullName + "\n").toUtf8());
+    }
+
     else {
         sender->write("ERROR:فرمان ناشناخته\n");
     }

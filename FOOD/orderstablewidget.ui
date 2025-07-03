@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>602</width>
-    <height>449</height>
+    <width>762</width>
+    <height>500</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>761</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>762</width>
+    <height>500</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -18,8 +30,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>602</width>
-     <height>451</height>
+     <width>761</width>
+     <height>501</height>
     </rect>
    </property>
    <property name="layoutDirection">
@@ -34,24 +46,27 @@
    <property name="midLineWidth">
     <number>0</number>
    </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+   </property>
    <column>
     <property name="text">
-     <string>کد پیگیری</string>
+     <string>نام رستوران</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>نوع سفارش</string>
+     <string>نام سفارش</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>قیمت</string>
     </property>
    </column>
    <column>
     <property name="text">
      <string>تعداد</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>نقش</string>
     </property>
    </column>
    <column>

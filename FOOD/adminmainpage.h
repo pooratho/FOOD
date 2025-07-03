@@ -4,14 +4,15 @@
 #include <QWidget>
 
 #include "clientsocketmanager.h"
-#include "userstablewidget.h"  // ⬅️ برای پنجره جدول کاربران
+#include "userstablewidget.h"
+#include "orderstablewidget.h"
 
+#include <QMap>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class AdminMainPage; }
 QT_END_NAMESPACE
 
-// ↙ اگر RestaurantTableWidget را forward declare کنید نیازی به include داخل هدر نیست:
 class RestaurantTableWidget;
 
 class AdminMainPage : public QWidget
@@ -30,6 +31,8 @@ private:
     ClientSocketManager* clientSocket;
     RestaurantTableWidget *tableWin = nullptr;
     UserTableWidget* userTableWin = nullptr;
+    OrdersTableWidget *ordersTableWin = nullptr;
+    QMap<QString, QString> userPhoneToName;
 
 };
 #endif // ADMINMAINPAGE_H
