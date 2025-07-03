@@ -34,6 +34,8 @@ private slots:
 
     //void handleCartItemsFromRestaurant(const QList<CartItem>& items);
 
+    void on_pushButton_clicked();
+
 signals:
     void foodSelectedForCart(const CartItem& item);
 

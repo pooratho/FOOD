@@ -454,3 +454,69 @@ QString DatabaseManager::getPhoneByName(const QString& firstName, const QString&
     }
     return "";
 }
+
+bool DatabaseManager::submitSplitOrder(int customerId, double totalPrice, const QList<TempCartItem>& items)
+{
+    QSqlQuery insertOrder;
+    insertOrder.prepare("INSERT INTO orders (customer_id, total_price) VALUES (?, ?)");
+    insertOrder.addBindValue(customerId);
+    insertOrder.addBindValue(totalPrice);
+
+    if (!insertOrder.exec()) {
+        qDebug() << "❌ خطا در درج سفارش:" << insertOrder.lastError().text();
+        return false;
+    }
+
+    int orderId = insertOrder.lastInsertId().toInt();
+
+    for (const TempCartItem& item : items) {
+        QSqlQuery insertItem;
+        insertItem.prepare("INSERT INTO order_items (order_id, restaurant_id, food_name, quantity, unit_price) "
+                           "VALUES (?, ?, ?, ?, ?)");
+        insertItem.addBindValue(orderId);
+        insertItem.addBindValue(item.restaurantId);
+        insertItem.addBindValue(item.foodName);
+        insertItem.addBindValue(item.quantity);
+        insertItem.addBindValue(item.unitPrice);
+
+        if (!insertItem.exec()) {
+            qDebug() << "❌ خطا در درج آیتم سفارش:" << insertItem.lastError().text();
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+int DatabaseManager::getCustomerIdByPhone(const QString& phone)
+{
+    QSqlQuery query;
+    query.prepare("SELECT id FROM customers WHERE phone = ?");
+    query.addBindValue(phone);
+
+    if (!query.exec()) {
+        qDebug() << "خطا در اجرای کوئری getCustomerIdByPhone:" << query.lastError().text();
+        return -1;
+    }
+
+    if (query.next()) {
+        return query.value(0).toInt();
+    } else {
+        // مشتری پیدا نشد
+        return -1;
+    }
+}
+
+bool DatabaseManager::clearCartByCustomerId(int customerId)
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM cart_items WHERE customer_id = ?");
+    query.addBindValue(customerId);
+
+    if (!query.exec()) {
+        qDebug() << "❌ خطا در پاک کردن سبد خرید:" << query.lastError().text();
+        return false;
+    }
+    return true;
+}

@@ -622,6 +622,60 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         sender->write("UPDATE_CART_OK:به‌روزرسانی موفق\n");
     }
 
+    else if (msg.startsWith("SUBMIT_ORDER:")) {
+        QString data = msg.mid(QString("SUBMIT_ORDER:").length()).trimmed();
+        QStringList parts = data.split("#");
+        if (parts.size() != 2) {
+            sender->write("SUBMIT_ORDER_FAIL:فرمت نادرست\n");
+            return;
+        }
+
+        QString phone = normalizePhoneNumber(parts[0].trimmed());
+        QStringList orderParts = parts[1].split("|");
+
+        if (orderParts.isEmpty()) {
+            sender->write("SUBMIT_ORDER_FAIL:اطلاعات سفارش خالی است\n");
+            return;
+        }
+
+        QString restaurantName = orderParts[0].trimmed();
+        int customerId = dbManager.getCustomerIdByPhone(phone);
+        if (customerId == -1) {
+            sender->write("SUBMIT_ORDER_FAIL:مشتری یافت نشد\n");
+            return;
+        }
+
+        int restaurantId = dbManager.getRestaurantIdByRestaurantName(restaurantName);
+        if (restaurantId == -1) {
+            sender->write("SUBMIT_ORDER_FAIL:رستوران یافت نشد\n");
+            return;
+        }
+
+        double totalPrice = 0;
+        QList<DatabaseManager::TempCartItem> items;
+
+        for (int i = 1; i < orderParts.size(); ++i) {
+            QStringList foodData = orderParts[i].split(",");
+            if (foodData.size() != 3) continue;
+
+            QString foodName = foodData[0].trimmed();
+            int quantity = foodData[1].toInt();
+            double price = foodData[2].toDouble();
+            totalPrice += quantity * price;
+
+            items.append({restaurantId, foodName, quantity, price});
+        }
+
+        if (!dbManager.submitSplitOrder(customerId, totalPrice, items)) {
+            sender->write("SUBMIT_ORDER_FAIL:ثبت سفارش ناموفق\n");
+            return;
+        }
+
+        dbManager.clearCartByCustomerId(customerId);
+
+        sender->write("SUBMIT_ORDER_OK\n");
+    }
+
 
     else {
         sender->write("ERROR:فرمان ناشناخته\n");

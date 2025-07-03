@@ -335,3 +335,45 @@ bool CustomerMainPage::isFoodInCart(const QString& restaurantName, const QString
     }
     return false;
 }
+
+void CustomerMainPage::on_pushButton_clicked()
+{ if (cartItems.isEmpty()) {
+        QMessageBox::information(this, "سبد خرید خالی", "هیچ آیتمی در سبد خرید وجود ندارد.");
+        return;
+    }
+
+    // مرحله ۱: دسته‌بندی بر اساس رستوران
+    QMap<QString, QVector<CartItem>> restaurantOrders;
+
+    for (CartItem* item : cartItems) {
+        restaurantOrders[item->getRestaurantName()].append(*item);  // کپی از آیتم
+    }
+
+    QString phone = customer->getPhone().trimmed();
+
+    // مرحله ۲: ساخت سفارش برای هر رستوران و ارسال به سرور
+    for (auto it = restaurantOrders.begin(); it != restaurantOrders.end(); ++it) {
+        QString restaurantName = it.key();
+        QVector<CartItem> items = it.value();
+
+        int fakeOrderId = QDateTime::currentSecsSinceEpoch();  // ID موقت
+        Order order(fakeOrderId, phone, items);
+
+        // مرحله ۳: ساخت پیام
+        QString message = "SUBMIT_ORDER:" + phone + "#" + restaurantName;
+
+        for (const CartItem& item : order.getItems()) {
+            message += "|" + item.getFoodName() + "," +
+                       QString::number(item.getQuantity()) + "," +
+                       QString::number(item.getUnitPrice());
+        }
+
+        qDebug() << "📤 ارسال سفارش به سرور: " << message;
+        clientSocket->sendMessage(message);
+    }
+
+    QMessageBox::information(this, "ثبت سفارش", "سفارش شما با موفقیت ثبت شد.");
+    cartItems.clear();
+    updateCartDisplay();
+}
+

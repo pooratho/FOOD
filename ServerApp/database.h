@@ -33,6 +33,8 @@ public:
                                            const QString& password,
                           const QString& restaurantType);
 
+
+
     enum class UserRole {
         None,
         Customer,
@@ -49,6 +51,35 @@ public:
         CartItem(const QString& f, const QString& r, int q, double u)
             : foodName(f), restaurantName(r), quantity(q), unitPrice(u) {}
     };
+
+    struct TempCartItem {
+        int restaurantId;
+        QString foodName;
+        int quantity;
+        double unitPrice;
+    };
+
+
+
+
+
+
+    UserRole checkUserLogin(const QString& firstName, const QString& lastName, const QString& password);
+
+    int getRestaurantId(const QString& firstName, const QString& lastName, const QString& password);
+
+      int getRestaurantIdByRestaurantName(const QString& name);
+
+    QString getRestaurantNameById(int restaurantId);
+
+    bool deleteFood(const QString& category, const QString& name);
+
+    QString getPhoneByName(const QString& firstName, const QString& lastName);
+     int getCustomerIdByPhone(const QString& phone);
+
+
+
+
     bool addOrUpdateCartItemByPhone(const QString& phone,
                                     const QString& restaurantName,
                                     const QString& foodName,
@@ -60,26 +91,23 @@ public:
                                const QString& foodName);
 
     QList<CartItem> getCartItemsByPhone(const QString& phone);
-
-    UserRole checkUserLogin(const QString& firstName, const QString& lastName, const QString& password);
-    int getRestaurantId(const QString& firstName, const QString& lastName, const QString& password);
-      int getRestaurantIdByRestaurantName(const QString& name);
-    QString getRestaurantNameById(int restaurantId);
-      bool deleteFood(const QString& category, const QString& name);
-
-bool addOrUpdateCartItem(int customerId,
+    bool addOrUpdateCartItem(int customerId,
                                           const QString& restaurantName,
                                           const QString& foodName,
                                           int quantity,
                                double unitPrice) ;
 
-
-bool removeCartItem(int customerId,
+    bool removeCartItem(int customerId,
                                      const QString& restaurantName,
                     const QString& foodName);
-QList<DatabaseManager::CartItem> getCartItemsByCustomerId(int customerId) ;
+    QList<DatabaseManager::CartItem> getCartItemsByCustomerId(int customerId) ;
 
-QString getPhoneByName(const QString& firstName, const QString& lastName);
+
+
+
+    bool submitSplitOrder(int customerId, double totalPrice, const QList<TempCartItem>& items);
+    bool clearCartByCustomerId(int customerId);
+
 private:
     QSqlDatabase db;
 
