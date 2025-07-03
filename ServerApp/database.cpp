@@ -562,3 +562,79 @@ QList<DatabaseManager::OrderData> DatabaseManager::getOrdersByCustomerId(int cus
 
     return result;
 }
+
+QList<DatabaseManager::OrderData> DatabaseManager::getOrdersByRestaurantId(int restaurantId)
+{
+    QList<OrderData> orders;
+
+    QSqlQuery query;
+    query.prepare("SELECT o.id, o.customer_id, o.total_price, o.status, o.created_at "
+                  "FROM orders o "
+                  "JOIN order_items oi ON o.id = oi.order_id "
+                  "WHERE oi.restaurant_id = ? "
+                  "GROUP BY o.id");
+    query.addBindValue(restaurantId);
+
+    if (!query.exec()) {
+        qDebug() << "❌ خطا در واکشی سفارش‌های رستوران:" << query.lastError().text();
+        return orders;
+    }
+
+    while (query.next()) {
+        OrderData order;
+        order.orderId = query.value(0).toInt();
+        order.customerId = query.value(1).toInt();
+        order.totalPrice = query.value(2).toDouble();
+        order.status = query.value(3).toString();
+        order.createdAt = query.value(4).toString();
+
+        // آیتم‌های این سفارش
+        QSqlQuery itemQuery;
+        itemQuery.prepare("SELECT food_name, quantity, unit_price FROM order_items WHERE order_id = ?");
+        itemQuery.addBindValue(order.orderId);
+        itemQuery.exec();
+
+        while (itemQuery.next()) {
+          TempOrderItem item;
+            item.foodName = itemQuery.value(0).toString();
+            item.quantity = itemQuery.value(1).toInt();
+            item.unitPrice = itemQuery.value(2).toDouble();
+            order.items.append(item);
+        }
+
+        orders.append(order);
+    }
+
+    return orders;
+}
+
+QString DatabaseManager::getCustomerNameById(int customerId)
+{
+    QSqlQuery query;
+    query.prepare("SELECT firstname, lastname FROM customers WHERE id = ?");
+    query.addBindValue(customerId);
+
+    if (!query.exec() || !query.next()) {
+        qDebug() << "❌ خطا در دریافت نام مشتری:" << query.lastError().text();
+        return "نام نامشخص";
+    }
+
+    QString firstName = query.value(0).toString();
+    QString lastName = query.value(1).toString();
+    return firstName + " " + lastName;
+}
+
+
+QString DatabaseManager::getCustomerPhoneById(int customerId)
+{
+    QSqlQuery query;
+    query.prepare("SELECT phone FROM customers WHERE id = ?");
+    query.addBindValue(customerId);
+
+    if (!query.exec() || !query.next()) {
+        qDebug() << "❌ خطا در دریافت شماره مشتری:" << query.lastError().text();
+        return "شماره نامشخص";
+    }
+
+    return query.value(0).toString();
+}

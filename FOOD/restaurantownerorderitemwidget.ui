@@ -29,7 +29,7 @@ color: rgb(255, 85, 0);</string>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="comboBoxStatus">
       <item>
        <property name="text">
         <string>وضعیت سفارش</string>
@@ -48,14 +48,14 @@ color: rgb(255, 85, 0);</string>
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="customerName">
+     <widget class="QLabel" name="labelCustomerPhone">
       <property name="text">
        <string>TextLabel</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="foodText">
+     <widget class="QLabel" name="labelFoodInfo">
       <property name="layoutDirection">
        <enum>Qt::LayoutDirection::RightToLeft</enum>
       </property>
@@ -65,7 +65,7 @@ color: rgb(255, 85, 0);</string>
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="restaurantName">
+     <widget class="QLabel" name="labelRestaurantName">
       <property name="layoutDirection">
        <enum>Qt::LayoutDirection::RightToLeft</enum>
       </property>

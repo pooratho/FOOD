@@ -68,6 +68,7 @@ public:
     struct OrderData {
         int orderId;
         int restaurantId;
+        int customerId;
         double totalPrice;
         QString status;
         QString createdAt;
@@ -75,6 +76,7 @@ public:
     };
 
     QList<OrderData> getOrdersByCustomerId(int customerId);
+    QList<OrderData> getOrdersByRestaurantId(int restaurantId);
 
     UserRole checkUserLogin(const QString& firstName, const QString& lastName, const QString& password);
 
@@ -88,7 +90,9 @@ public:
 
     QString getPhoneByName(const QString& firstName, const QString& lastName);
      int getCustomerIdByPhone(const QString& phone);
+    QString getCustomerNameById(int customerId);
 
+     QString getCustomerPhoneById(int customerId);
 
 
 

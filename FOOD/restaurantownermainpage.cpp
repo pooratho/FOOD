@@ -18,6 +18,10 @@ RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget
     connect(clientSocket, &ClientSocketManager::messageReceived,
             this, &RestaurantOwnerMainPage::handleServerMessage);
 
+    connect(ui->tabWidget, &QTabWidget::currentChanged,
+            this, &RestaurantOwnerMainPage::on_tabWidget_currentChanged);
+
+
     connect(clientSocket, &ClientSocketManager::connected, this, [=]() {
         qDebug() << "Connected to server, sending REGISTER_RESTAURANT_SOCKET";
         qDebug() << "Registering restaurant name:" << currentOwner->getRestaurant().getName();
@@ -118,6 +122,47 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
         QString reason = msg.section(':', 1);
         QMessageBox::warning(this, "خطا", reason);
     }
+    else if (msg.startsWith("RESTAURANT_ORDER:")) {
+        QString data = msg.mid(QString("RESTAURANT_ORDER:").length()).trimmed();
+        QStringList parts = data.split("#");
+        if (parts.size() != 2) return;
+
+        QString customerPhone = parts[0];
+        QStringList orderParts = parts[1].split("|");
+        if (orderParts.size() < 4) return;
+
+        QString orderId = orderParts[0];
+        double totalPrice = orderParts[1].toDouble();
+        QString status = orderParts[2];
+        QString createdAt = orderParts[3];
+
+        QString foodDetails;
+        for (int i = 4; i < orderParts.size(); ++i) {
+            QStringList food = orderParts[i].split(",");
+            if (food.size() != 3) continue;
+            foodDetails += food[0] + " × " + food[1] + " - " + food[2] + " تومان\n";
+        }
+
+        // ساخت ویجت سفارش رستوران
+        RestaurantOwnerOrderItemWidget* widget = new RestaurantOwnerOrderItemWidget(this);
+
+        // مقداردهی فیلدها
+        widget->setCustomerPhone(customerPhone);
+        widget->setFoodText(foodDetails);
+        widget->setStatus(status);
+
+
+        QListWidgetItem* item = new QListWidgetItem(ui->orderListWidget);
+        item->setSizeHint(widget->sizeHint());
+        ui->orderListWidget->addItem(item);
+        ui->orderListWidget->setItemWidget(item, widget);
+
+        // اتصال سیگنال تغییر وضعیت به ارسال پیام به سرور
+        connect(widget, &RestaurantOwnerOrderItemWidget::updateStatusRequested, this, [=](const QString& newStatus) {
+            QString updateMsg = "UPDATE_ORDER_STATUS:" + orderId + "#" + newStatus;
+            clientSocket->sendMessage(updateMsg);
+        });
+    }
 
     // به‌روزرسانی نمایش برچسب‌ها
     ui->label_5->setVisible(ui->listWidgetMain->count() == 0);
@@ -125,6 +170,9 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
     ui->label_8->setVisible(ui->listWidgetDrink->count() == 0);
     ui->label_7->setVisible(ui->listWidgetStarter->count() == 0);
     ui->label_6->setVisible(ui->listWidgetOthers->count() == 0);
+
+
+
 }
 
 void RestaurantOwnerMainPage::populateMenuItems(const QStringList& items)
@@ -205,3 +253,15 @@ void RestaurantOwnerMainPage::clearListWidgetCompletely(QListWidget* listWidget)
     }
 }
 
+void RestaurantOwnerMainPage::on_tabWidget_currentChanged(int index)
+{
+    // فرض: تب دوم مربوط به سفارش‌هاست و index = 1
+    if (index == 2) {
+        QString msg = "GET_RESTAURANT_ORDERS:" + currentOwner->getRestaurant().getName();
+
+        clientSocket->sendMessage(msg);
+
+        // قبلش لیست سفارشات قبلی رو پاک کن:
+        ui->orderListWidget->clear();
+    }
+}

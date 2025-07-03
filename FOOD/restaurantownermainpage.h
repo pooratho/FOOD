@@ -8,6 +8,7 @@
 #include "food.h"
 #include "menuitem.h"
 #include "clientsocketmanager.h"
+#include "restaurantownerorderitemwidget.h"
 
 namespace Ui {
 class restaurantOwnerMainPage;
@@ -24,6 +25,7 @@ public:
 private slots:
     void on_pushButton_clicked();              // افزودن غذا
     void handleServerMessage(const QString &msg);  // پاسخ سرور
+    void on_tabWidget_currentChanged(int index);
 
 private:
     Ui::restaurantOwnerMainPage *ui;
