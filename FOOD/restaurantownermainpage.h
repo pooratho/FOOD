@@ -36,17 +36,17 @@ private:
     RestaurantOwner* currentOwner;
 
     QLabel* notificationLabel = nullptr;
-QSet<int> shownOrderIds;
+    QSet<int> shownOrderIds;
     int lastOrderId = 0;  // یا QString اگر آیدی رشته است
     int currentOrderCount = 0;
 
     // به جای فقط یک MenuItem، همه‌ی دسته‌ها رو نگه داریم:
     QMap<QString, MenuItem> menuByCategory;   //  این نگه‌دارنده منوی دسته‌بندی شده‌ست
-QVector<QPair<QListWidget*, QWidget*>> pendingDeletions;
+    QVector<QPair<QListWidget*, QWidget*>> pendingDeletions;
     ClientSocketManager *clientSocket;
-void populateMenuItems(const QStringList& items);
+    void populateMenuItems(const QStringList& items);
     void clearListWidgetCompletely(QListWidget* listWidget);
-void clearOrderListWidget();
+    void clearOrderListWidget();
     void showNewOrderNotification(const QString& msg);
 };
 

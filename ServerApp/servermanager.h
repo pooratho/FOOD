@@ -24,7 +24,7 @@ private slots:
     void onNewConnection();
     void onReadyRead();
     void onDisconnected();
-    void notifyRestaurantNewOrder(int restaurantId, const DatabaseManager::OrderData& order);
+    void notifyRestaurantNewOrderNotification(int restaurantId);
     void notifyCustomerOrderStatusChanged(int orderId, const QString& newStatus);
 private:
     QTcpServer *server;
@@ -38,6 +38,8 @@ private:
     QMap<int, QTcpSocket*> customerSockets;  // کلید: customerId، مقدار: سوکت مشتری
     QTcpSocket* findCustomerSocketById(int customerId);
     void registerCustomerSocket(int customerId, QTcpSocket* socket);
+    QTcpSocket* findRestaurantSocketById(int restaurantId);
+    void registerRestaurantSocket(int restaurantId, QTcpSocket* socket) ;
 
 };
 

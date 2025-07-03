@@ -122,6 +122,7 @@ public:
 
     OrderData getLastOrderForCustomer(int customerId);
 
+    QString getPhoneByCustomerId(int customerId);
 
     bool submitSplitOrder(int customerId, double totalPrice, const QList<TempCartItem>& items);
     bool clearCartByCustomerId(int customerId);

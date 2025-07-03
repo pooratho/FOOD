@@ -65,17 +65,36 @@ void ServerManager::onReadyRead()
     }
 }
 
-
 void ServerManager::onDisconnected()
 {
     QTcpSocket *client = qobject_cast<QTcpSocket*>(sender());
     if (!client)
         return;
-   restaurantSocketMap.remove(client);
+
+    // پاک کردن سوکت مشتری اگر وجود داره
+    int customerIdToRemove = -1;
+    for (auto it = customerSockets.begin(); it != customerSockets.end(); ++it) {
+        if (it.value() == client) {
+            customerIdToRemove = it.key();
+            break;
+        }
+    }
+    if (customerIdToRemove != -1) {
+        customerSockets.remove(customerIdToRemove);
+        qDebug() << "🔴 سوکت مشتری با ID" << customerIdToRemove << "حذف شد";
+    }
+
+    // پاک کردن سوکت رستوران اگر در restaurantSocketMap بود
+    if (restaurantSocketMap.contains(client)) {
+        restaurantSocketMap.remove(client);
+        qDebug() << "🔴 سوکت رستوران حذف شد";
+    }
+
     clients.removeAll(client);
     emit logMessage("❌ کلاینت قطع شد: " + client->peerAddress().toString());
     client->deleteLater();
 }
+
 
 QString normalizePhoneNumber(const QString& phone) {
     QString p = phone.trimmed();
@@ -86,59 +105,68 @@ QString normalizePhoneNumber(const QString& phone) {
     }
     return p;
 }
-void ServerManager::notifyRestaurantNewOrder(int restaurantId, const DatabaseManager::OrderData& order)
+QTcpSocket* ServerManager::findRestaurantSocketById(int restaurantId) {
+    for (auto it = restaurantSocketMap.begin(); it != restaurantSocketMap.end(); ++it) {
+        if (it.value() == restaurantId) {
+            return it.key();  // سوکت کلاینت
+        }
+    }
+    return nullptr;
+}
+
+void ServerManager::registerRestaurantSocket(int restaurantId, QTcpSocket* socket) {
+    restaurantSocketMap[socket] = restaurantId;
+    connectedRestaurantSockets[QString::number(restaurantId)] = socket;
+}
+void ServerManager::notifyRestaurantNewOrderNotification(int restaurantId)
 {
-    QString restaurantName = dbManager.getRestaurantNameById(restaurantId);
-    if (!connectedRestaurantSockets.contains(restaurantName)) {
-        qDebug() << "رستوران متصل نیست، نمی‌توان اعلان ارسال کرد:" << restaurantName;
+    QTcpSocket* restaurantSocket = findRestaurantSocketById(restaurantId);
+    if (!restaurantSocket) {
+        qDebug() << "❌ رستوران متصل نیست (نوتیف ساده)";
         return;
     }
-    QTcpSocket* restSocket = connectedRestaurantSockets[restaurantName];
 
-    QString customerPhone = dbManager.getCustomerPhoneById(order.customerId);
-
-    QString message = "RESTAURANT_ORDER:" +
-                      customerPhone + "#" +
-                      QString::number(order.orderId) + "|" + // حتما orderId رو هم ارسال کن
-                      QString::number(order.totalPrice) + "|" +
-                      order.status + "|" +
-                      order.createdAt;
-
-    for (const auto& item : order.items) {
-        message += "|" + item.foodName + "," +
-                   QString::number(item.quantity) + "," +
-                   QString::number(item.unitPrice);
-    }
-
-    restSocket->write(message.toUtf8() + "\n");
+    QString message = "NEW_ORDER_ALERT:\n";  // فقط پیام هشدار ساده
+    restaurantSocket->write(message.toUtf8());
+    restaurantSocket->flush();
+    qDebug() << "📨 نوتیف ساده ارسال شد به رستوران ID:" << restaurantId;
 }
+
+
 void ServerManager::notifyCustomerOrderStatusChanged(int orderId, const QString& newStatus)
 {
-    int customerId = dbManager.getCustomerIdByOrderId(orderId);
-    QString customerIdStr = QString::number(customerId);  // ✅
 
-    if (!connectedCustomerSockets.contains(customerIdStr)) {
-        qDebug() << "❌ مشتری متصل نیست، نمی‌توان اعلان وضعیت ارسال کرد:" << customerIdStr;
+    int customerId = dbManager.getCustomerIdByOrderId(orderId);
+    qDebug() << "🎯 در حال بررسی customerId:" << customerId;
+    qDebug() << "🎯 کلیدهای customerSockets: " << customerSockets.keys();
+
+    if (!customerSockets.contains(customerId)) {
+        qDebug() << "❌ مشتری متصل نیست، نمی‌توان اعلان وضعیت ارسال کرد:" << customerId;
         return;
     }
 
-    QTcpSocket* custSocket = connectedCustomerSockets[customerIdStr];
+    QTcpSocket* custSocket = customerSockets[customerId];
 
     QString message = "ORDER_STATUS_CHANGED:" + QString::number(orderId) + "#" + newStatus;
     qDebug() << "✅ پیام نوتیف برای مشتری:" << message;
 
     custSocket->write(message.toUtf8() + "\n");
+    custSocket->flush();
 }
+
 
 void ServerManager::registerCustomerSocket(int customerId, QTcpSocket* socket) {
     customerSockets[customerId] = socket;
-    connectedCustomerSockets[QString::number(customerId)] = socket;
 }
 
+//
 QTcpSocket* ServerManager::findCustomerSocketById(int customerId) {
+    qDebug() << "🔎 در حال جست‌وجوی customerId: " << customerId;
     if (customerSockets.contains(customerId)) {
+        qDebug() << "✅ سوکت مشتری یافت شد!";
         return customerSockets[customerId];
     }
+    qDebug() << "❌ سوکت مشتری یافت نشد!";
     return nullptr;
 }
 
@@ -188,27 +216,25 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         if (matched) {
 
             if (dbRole == DatabaseManager::UserRole::Restaurant) {
-                QString hashedPassword = dbManager.hashPassword(password);
-                int restaurantId = dbManager.getRestaurantId(firstName, lastName, password);  // بدون هش تست کن
-                qDebug() << "Restaurant ID (no hash):" << restaurantId;
+                int restaurantId = dbManager.getRestaurantId(firstName, lastName, password);
 
                 if (restaurantId == -1) {
-                    QString hashedPassword = dbManager.hashPassword(password);
-                    restaurantId = dbManager.getRestaurantId(firstName, lastName, hashedPassword);
-                    qDebug() << "Restaurant ID (with hash):" << restaurantId;
+                    qDebug() << "❌ رستوران یافت نشد برای نام و پسورد داده شده.";
+                    sender->write("LOGIN_FAIL:شناسه رستوران یافت نشد\n");
+                    return;
                 }
 
-                if (restaurantId != -1) {
-                    // ادامه روند لاگین موفق
-                    restaurantSocketMap[sender] = restaurantId;
-                    QString restaurantName = dbManager.getRestaurantNameById(restaurantId);
-                    QString response = QString("LOGIN_OK:%1:%2\n").arg(roleStr).arg(restaurantName);
-                    sender->write(response.toUtf8());
-                    emit logMessage("🍽️ شناسه و نام رستوران به نگاشت سوکت اضافه شد: " + QString::number(restaurantId) + ", " + restaurantName);
-                } else {
-                    sender->write("LOGIN_FAIL:شناسه رستوران یافت نشد\n");
-                }
-      }
+                // ثبت سوکت
+                registerRestaurantSocket(restaurantId, sender);
+                qDebug() << "✅ رستوران لاگین کرد، ID:" << restaurantId;
+
+                QString restaurantName = dbManager.getRestaurantNameById(restaurantId);
+                QString response = QString("LOGIN_OK:%1:%2\n").arg(roleStr).arg(restaurantName);
+                sender->write(response.toUtf8());
+
+                emit logMessage("🍽️ سوکت رستوران ثبت شد: " + QString::number(restaurantId) + " / " + restaurantName);
+            }
+
             else if (dbRole == DatabaseManager::UserRole::Customer) {
                 QString phone = dbManager.getPhoneByName(firstName, lastName);
           qDebug ()<<"رر"<<phone;
@@ -735,15 +761,17 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
             sender->write("SUBMIT_ORDER_FAIL:ثبت سفارش ناموفق\n");
             return;
         }
-        // گرفتن آخرین سفارش ثبت‌شده برای این مشتری
+
         DatabaseManager::OrderData newOrder = dbManager.getLastOrderForCustomer(customerId);
 
-        // اطلاع‌رسانی به رستوران
-        notifyRestaurantNewOrder(restaurantId, newOrder);
+        // فقط یک نوتیف ساده ارسال کن
+        notifyRestaurantNewOrderNotification(restaurantId);
 
         dbManager.clearCartByCustomerId(customerId);
 
         sender->write("SUBMIT_ORDER_OK\n");
+        sender->flush();
+
     }
     else if (msg.startsWith("GET_CUSTOMER_ORDERS:")) {
         QString phone = normalizePhoneNumber(msg.mid(QString("GET_CUSTOMER_ORDERS:").length()).trimmed());
@@ -838,6 +866,9 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
             // ارسال پیام به مشتری
             int customerId = dbManager.getCustomerIdByOrderId(orderId);
             qDebug() << "✅ customerId: " << customerId;
+            //
+            qDebug() << "🧪 customerId to find: " << customerId;
+            qDebug() << "🧪 current customerSockets keys: " << customerSockets.keys();
 
             QTcpSocket* customerSocket = findCustomerSocketById(customerId);
             if (customerSocket) {

@@ -25,19 +25,26 @@ CustomerMainPage::CustomerMainPage(Customer* customer, QWidget *parent)
     connect(clientSocket, &ClientSocketManager::messageReceived,
             this, &CustomerMainPage::handleServerMessage);
 
+    //تغییر
     connect(clientSocket, &ClientSocketManager::connected, this, [=]() {
         qDebug() << "✅ اتصال به سرور برقرار شد";
 
+        // 🔻🔻 ثبت لاگین مشتری در سرور
+        QString loginMsg = QString("LOGIN:Customer:%1:%2:%3")
+                               .arg(customer->getFirstName())
+                               .arg(customer->getLastName())
+                               .arg(customer->getPassword());
+        clientSocket->sendMessage(loginMsg);
 
+        // درخواست‌های بعدی
         clientSocket->sendMessage("GET_RESTAURANTS");
 
         QTimer::singleShot(100, this, [=]() {
             QString msg = "GET_CART:" + customer->getPhone();
             clientSocket->sendMessage(msg);
         });
-
-
     });
+
 
 
 
@@ -165,13 +172,15 @@ void CustomerMainPage::handleServerMessage(const QString& msg)
     else if (msg.startsWith("ORDER_ITEM:")) {
         handleIncomingOrderItem(msg);
     }
-    else if (msg.startsWith("ORDER_STATUS_UPDATE:")) {
-        QString data = msg.mid(QString("ORDER_STATUS_UPDATE:").length());
+    //
+    else if (msg.startsWith("ORDER_STATUS_UPDATED:")) {
+        QString data = msg.mid(QString("ORDER_STATUS_UPDATED:").length());
         QStringList parts = data.split("|");
         if (parts.size() == 2) {
             int orderId = parts[0].toInt();
             QString newStatus = parts[1];
-            showOrderStatusNotification(orderId, newStatus); // تابع نوتیف نمایش
+            showOrderStatusNotification(orderId, newStatus); // نمایش نوتیف
+            qDebug() << "✅ پیام نوتیف پردازش شد برای سفارش:" << orderId << "و وضعیت:" << newStatus;
         }
     }
 
@@ -488,6 +497,7 @@ void CustomerMainPage::refreshOrders()
 
 void CustomerMainPage::showOrderStatusNotification(int orderId, const QString& newStatus)
 {
+    qDebug() << "🔔 نمایش نوتیف سفارش:" << orderId << "و وضعیت:" << newStatus;
     QMessageBox::information(this, "به‌روزرسانی سفارش",
                              QString("وضعیت سفارش شماره %1 تغییر کرد به:\n%2").arg(orderId).arg(newStatus));
 }
