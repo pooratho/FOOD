@@ -35,7 +35,7 @@ AdminMainPage::AdminMainPage(QWidget *parent)
         tableWin->show();
         tableWin->raise();
 
-        clientSocket->sendMessage("GET_RESTAURANTS\n");
+        clientSocket->sendMessage("GET_ALL_RESTAURANTS\n");
     });
 
 }
@@ -43,41 +43,42 @@ AdminMainPage::AdminMainPage(QWidget *parent)
 void AdminMainPage::handleServerMessage(const QString &msg)
 {
     /* --- حالت‌های خطا یا خالی --- */
-    if (msg == "RESTAURANT_LIST:EMPTY") {
+    if (msg == "RESTAURANT_LIST_ALL:EMPTY") {
         QMessageBox::information(this, u"اطلاع"_qs,
                                  u"هیچ رستورانی ثبت نشده است."_qs);
         return;
     }
-    if (msg == "RESTAURANT_LIST_FAIL") {
+    if (msg == "RESTAURANT_LIST_ALL_FAIL") {
         QMessageBox::warning(this, u"خطا"_qs,
                              u"دریافت فهرست رستوران‌ها ناموفق بود."_qs);
         return;
     }
 
     /* --- حالت موفق --- */
-    if (msg.startsWith("RESTAURANT_LIST:")) {
+    if (msg.startsWith("RESTAURANT_LIST_ALL:")) {
 
-        QString data = msg.mid(QStringLiteral("RESTAURANT_LIST:").size()).trimmed();
+        QString data = msg.mid(QStringLiteral("RESTAURANT_LIST_ALL:").size()).trimmed();
         QStringList rows = data.split(';', Qt::SkipEmptyParts);
 
-        /* از پوینتر عضو که در سازنده ساختیم استفاده می‌کنیم */
-        if (!tableWin) return;                             // شاید کاربر پنجره را بسته
+        if (!tableWin) return;
         QTableWidget* table = tableWin->findChild<QTableWidget*>("tableWidget");
         if (!table) return;
 
-        table->clearContents();            // پاک کردن قبلی
-        table->setRowCount(rows.size());   // تعداد ردیف‌ها
+        table->clearContents();
+        table->setRowCount(rows.size());
 
         for (int r = 0; r < rows.size(); ++r) {
             QStringList parts = rows[r].split('|');
-            if (parts.size() != 3) continue;   // دادهٔ خراب
+            if (parts.size() != 4) continue; // حالا 4 قسمت داریم
 
-            table->setItem(r, 0, new QTableWidgetItem(QString::number(r + 1))); // ردیف
+            table->setItem(r, 0, new QTableWidgetItem(QString::number(r + 1))); // شماره ردیف
             table->setItem(r, 1, new QTableWidgetItem(parts[0]));               // نام رستوران
-            table->setItem(r, 2, new QTableWidgetItem(parts[1]));               // نام مالک یا نوع
-            table->setItem(r, 3, new QTableWidgetItem(parts[2]));               // وضعیت / آدرس
+            table->setItem(r, 2, new QTableWidgetItem(parts[1]));               // نوع رستوران
+            table->setItem(r, 3, new QTableWidgetItem(parts[2]));               // آدرس کامل
+            table->setItem(r, 4, new QTableWidgetItem(parts[3]));               // وضعیت (Blocked/Active)
         }
     }
+
 }
 
 

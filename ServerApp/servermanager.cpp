@@ -857,6 +857,40 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
     }
 
+    else if (msg == "GET_ALL_RESTAURANTS") {
+        QSqlQuery query;
+        query.prepare("SELECT restaurant_name, restaurant_type, province, city, is_blocked FROM restaurants");
+
+        if (query.exec()) {
+            QStringList restaurantLines;
+            while (query.next()) {
+                QString name = query.value(0).toString();
+                QString type = query.value(1).toString();
+                QString province = query.value(2).toString();
+                QString city = query.value(3).toString();
+                bool isBlocked = query.value(4).toBool();
+
+                QString fullAddress = province + " - " + city;
+                QString status = isBlocked ? "Blocked" : "Active";
+
+                restaurantLines << name + "|" + type + "|" + fullAddress + "|" + status;
+            }
+
+            if (!restaurantLines.isEmpty()) {
+                QString response = "RESTAURANT_LIST_ALL:" + restaurantLines.join(";") + "\n";
+                sender->write(response.toUtf8());
+                sender->flush();
+            } else {
+                sender->write("RESTAURANT_LIST_ALL:EMPTY\n");
+                sender->flush();
+            }
+        } else {
+            sender->write("RESTAURANT_LIST_ALL_FAIL\n");
+            sender->flush();
+        }
+    }
+
+
 
     else {
         sender->write("ERROR:فرمان ناشناخته\n");
