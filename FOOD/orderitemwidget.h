@@ -15,6 +15,10 @@ class orderitemwidgett : public QDialog
 public:
     explicit orderitemwidgett(QWidget *parent = nullptr);
     ~orderitemwidgett();
+
+    void setOrderId(int id) ;
+    int getOrderId() const ;
+
 public slots:
     void setRestaurantName(const QString& name);
     void setFoodListText(const QString& text);
@@ -24,6 +28,7 @@ public slots:
 
 private:
     Ui::orderitemwidgett *ui;
+     int orderId;
 };
 
 #endif // ORDERITEMWIDGET_H

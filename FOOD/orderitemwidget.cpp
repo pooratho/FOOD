@@ -41,3 +41,6 @@ void orderitemwidgett::setStatus(const QString& status) {
         ui->labelDelivered->setStyleSheet("color: green; font-weight: bold;");
     }
 }
+
+void orderitemwidgett::setOrderId(int id) { orderId = id; }
+int orderitemwidgett::getOrderId() const  { return orderId; }

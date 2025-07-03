@@ -9,6 +9,8 @@
 #include "menuitem.h"
 #include "clientsocketmanager.h"
 #include "restaurantownerorderitemwidget.h"
+#include <QLabel>
+
 
 namespace Ui {
 class restaurantOwnerMainPage;
@@ -27,9 +29,16 @@ private slots:
     void handleServerMessage(const QString &msg);  // پاسخ سرور
     void on_tabWidget_currentChanged(int index);
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::restaurantOwnerMainPage *ui;
     RestaurantOwner* currentOwner;
+
+    QLabel* notificationLabel = nullptr;
+QSet<int> shownOrderIds;
+    int lastOrderId = 0;  // یا QString اگر آیدی رشته است
+    int currentOrderCount = 0;
 
     // به جای فقط یک MenuItem، همه‌ی دسته‌ها رو نگه داریم:
     QMap<QString, MenuItem> menuByCategory;   //  این نگه‌دارنده منوی دسته‌بندی شده‌ست
@@ -37,6 +46,8 @@ QVector<QPair<QListWidget*, QWidget*>> pendingDeletions;
     ClientSocketManager *clientSocket;
 void populateMenuItems(const QStringList& items);
     void clearListWidgetCompletely(QListWidget* listWidget);
+void clearOrderListWidget();
+    void showNewOrderNotification(const QString& msg);
 };
 
 #endif // RESTAURANTOWNERMAINPAGE_H

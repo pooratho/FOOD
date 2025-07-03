@@ -1,4 +1,5 @@
 #include "restaurantownermainpage.h"
+#include "qtimer.h"
 #include "ui_restaurantownermainpage.h"
 #include "restaurantownermenuitemwidget.h"
 
@@ -11,6 +12,18 @@ RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget
     clientSocket(new ClientSocketManager(this))
 {
     ui->setupUi(this);
+    notificationLabel = new QLabel("🔔 سفارش جدید دریافت شد!", this);
+    notificationLabel->setStyleSheet(
+        "background-color: orange; "
+        "color: black; "
+        "font-weight: bold; "
+        "padding: 6px; "
+        "border-radius: 8px;"
+        );
+    notificationLabel->setAlignment(Qt::AlignCenter);
+    notificationLabel->setFixedSize(200, 40);
+    notificationLabel->move(width() - 220, height() - 60);  // گوشه پایین راست
+    notificationLabel->hide();
 
     QString restaurantName = currentOwner->getRestaurant().getName();
     ui->label_10->setText("رستوران:  " + restaurantName);
@@ -129,14 +142,25 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
         QStringList parts = data.split("#");
         if (parts.size() != 2) return;
 
-        QString customerPhone = parts[0];
-        QStringList orderParts = parts[1].split("|");
+        QString customerPhone = parts[0];   // شماره مشتری
+        QString orderDataStr = parts[1];   // رشته شامل orderId و بقیه اطلاعات
+
+        QStringList orderParts = orderDataStr.split("|");
         if (orderParts.size() < 4) return;
 
-        QString orderId = orderParts[0];
+        QString orderId = orderParts[0];          // اینجا orderId دقیق استخراج میشه
         double totalPrice = orderParts[1].toDouble();
         QString status = orderParts[2];
         QString createdAt = orderParts[3];
+
+        int norderId = orderId.toInt();
+
+        if (shownOrderIds.contains(norderId)) {
+            qDebug() << "❗ سفارش تکراری نادیده گرفته شد:" << norderId;
+            return;
+        }
+        shownOrderIds.insert(norderId);
+        showNewOrderNotification("سفارش جدید از شماره " + customerPhone + " دریافت شد!");
 
         QString foodDetails;
         for (int i = 3; i < orderParts.size(); ++i) {
@@ -151,25 +175,26 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
             foodDetails += "  " + food[0] + " × " + food[1] + " - " + food[2] + " تومان\n";
         }
 
+       // ثبت سفارش جدید
+
         // ساخت ویجت سفارش رستوران
         RestaurantOwnerOrderItemWidget* widget = new RestaurantOwnerOrderItemWidget(this);
 
-        // مقداردهی فیلدها
         widget->setCustomerPhone(customerPhone);
         widget->setFoodText(foodDetails);
         widget->setStatus(status);
-
 
         QListWidgetItem* item = new QListWidgetItem(ui->orderListWidget);
         item->setSizeHint(QSize(600, 130));
         ui->orderListWidget->addItem(item);
         ui->orderListWidget->setItemWidget(item, widget);
 
-        // اتصال سیگنال تغییر وضعیت به ارسال پیام به سرور
         connect(widget, &RestaurantOwnerOrderItemWidget::updateStatusRequested, this, [=](const QString& newStatus) {
+            qDebug() << "Sending update status for orderId:" << orderId << "newStatus:" << newStatus;
             QString updateMsg = "UPDATE_ORDER_STATUS:" + orderId + "#" + newStatus;
             clientSocket->sendMessage(updateMsg);
         });
+
     }
 
     // به‌روزرسانی نمایش برچسب‌ها
@@ -264,11 +289,38 @@ void RestaurantOwnerMainPage::on_tabWidget_currentChanged(int index)
 {
     // فرض: تب دوم مربوط به سفارش‌هاست و index = 1
     if (index == 2) {
+        clearOrderListWidget(); // پاک‌کردن آیتم‌ها
+        shownOrderIds.clear();         // ❗ پاک‌کردن سفارش‌هایی که قبلاً نشون داده بودیم
         QString msg = "GET_RESTAURANT_ORDERS:" + currentOwner->getRestaurant().getName();
-
         clientSocket->sendMessage(msg);
-
-        // قبلش لیست سفارشات قبلی رو پاک کن:
-        ui->orderListWidget->clear();
+        notificationLabel->hide();
     }
 }
+
+void RestaurantOwnerMainPage::on_pushButton_2_clicked()
+{
+
+}
+void RestaurantOwnerMainPage::clearOrderListWidget()
+{
+    while (ui->orderListWidget->count() > 0) {
+        QListWidgetItem* item = ui->orderListWidget->takeItem(0);
+        if (item) {
+            QWidget* w = ui->orderListWidget->itemWidget(item);
+            if (w) w->deleteLater();  // حذف امن ویجت
+            delete item;
+        }
+    }
+}
+
+void RestaurantOwnerMainPage::showNewOrderNotification(const QString& msg)
+{
+    notificationLabel->setText("سفارش جدید دریافت شد!");
+    notificationLabel->show();
+    QTimer::singleShot(5000, this, [=]() {
+        notificationLabel->hide();
+    });
+}
+
+
+

@@ -638,3 +638,73 @@ QString DatabaseManager::getCustomerPhoneById(int customerId)
 
     return query.value(0).toString();
 }
+
+bool DatabaseManager::updateOrderStatus(int orderId, const QString& newStatus)
+{
+    qDebug() << "Updating orderId:" << orderId << "to status:" << newStatus;
+
+    QSqlQuery query;
+    query.prepare("UPDATE orders SET status = ? WHERE id = ?");
+    query.addBindValue(newStatus);
+    query.addBindValue(orderId);
+
+    if (!query.exec()) {
+        qDebug() << "Error updating order status:" << query.lastError().text();
+        return false;
+    }
+
+    if (query.numRowsAffected() == 0) {
+        qDebug() << "No rows were updated. Possible wrong orderId.";
+        return false;
+    }
+
+    return true;
+}
+
+
+int DatabaseManager::getCustomerIdByOrderId(int orderId)
+{
+    QSqlQuery query;
+    query.prepare("SELECT customer_id FROM orders WHERE id = ?");
+    query.addBindValue(orderId);
+
+    if (query.exec() && query.next()) {
+        return query.value(0).toInt();
+    }
+    return -1; // پیدا نشد
+}
+DatabaseManager::OrderData DatabaseManager::getLastOrderForCustomer(int customerId)
+{
+    OrderData order;
+
+    QSqlQuery query;
+    query.prepare("SELECT id, restaurant_id, total_price, status, created_at FROM orders WHERE customer_id = ? ORDER BY created_at DESC LIMIT 1");
+    query.addBindValue(customerId);
+
+    if (query.exec() && query.next()) {
+        order.orderId     = query.value(0).toInt();
+        order.restaurantId = query.value(1).toInt();
+        order.customerId   = customerId;
+        order.totalPrice   = query.value(2).toDouble();
+        order.status       = query.value(3).toString();
+        order.createdAt    = query.value(4).toString();
+
+        QSqlQuery itemsQuery;
+        itemsQuery.prepare("SELECT food_name, quantity, unit_price FROM order_items WHERE order_id = ?");
+        itemsQuery.addBindValue(order.orderId);
+
+        if (itemsQuery.exec()) {
+            while (itemsQuery.next()) {
+                TempOrderItem item;
+                item.restaurantId = order.restaurantId;  // چون جدول آیتم‌ها رستوران آیدی ندارن، دستی ستش می‌کنیم
+                item.foodName     = itemsQuery.value(0).toString();
+                item.quantity     = itemsQuery.value(1).toInt();
+                item.unitPrice    = itemsQuery.value(2).toDouble();
+                order.items.append(item);
+            }
+        }
+    }
+
+    return order;
+}
+

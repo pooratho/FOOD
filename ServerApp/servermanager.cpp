@@ -86,6 +86,62 @@ QString normalizePhoneNumber(const QString& phone) {
     }
     return p;
 }
+void ServerManager::notifyRestaurantNewOrder(int restaurantId, const DatabaseManager::OrderData& order)
+{
+    QString restaurantName = dbManager.getRestaurantNameById(restaurantId);
+    if (!connectedRestaurantSockets.contains(restaurantName)) {
+        qDebug() << "رستوران متصل نیست، نمی‌توان اعلان ارسال کرد:" << restaurantName;
+        return;
+    }
+    QTcpSocket* restSocket = connectedRestaurantSockets[restaurantName];
+
+    QString customerPhone = dbManager.getCustomerPhoneById(order.customerId);
+
+    QString message = "RESTAURANT_ORDER:" +
+                      customerPhone + "#" +
+                      QString::number(order.orderId) + "|" + // حتما orderId رو هم ارسال کن
+                      QString::number(order.totalPrice) + "|" +
+                      order.status + "|" +
+                      order.createdAt;
+
+    for (const auto& item : order.items) {
+        message += "|" + item.foodName + "," +
+                   QString::number(item.quantity) + "," +
+                   QString::number(item.unitPrice);
+    }
+
+    restSocket->write(message.toUtf8() + "\n");
+}
+void ServerManager::notifyCustomerOrderStatusChanged(int orderId, const QString& newStatus)
+{
+    int customerId = dbManager.getCustomerIdByOrderId(orderId);
+    QString customerPhone = dbManager.getCustomerPhoneById(customerId);
+
+    if (!connectedCustomerSockets.contains(customerPhone)) {
+        qDebug() << "مشتری متصل نیست، نمی‌توان اعلان وضعیت ارسال کرد:" << customerPhone;
+        return;
+    }
+
+    QTcpSocket* custSocket = connectedCustomerSockets[customerPhone];
+
+    // پیام شامل شماره سفارش و وضعیت جدید
+    QString message = "ORDER_STATUS_CHANGED:" + QString::number(orderId) + "#" + newStatus;
+
+    custSocket->write(message.toUtf8() + "\n");
+}
+
+void ServerManager::registerCustomerSocket(int customerId, QTcpSocket* socket) {
+    customerSockets[customerId] = socket;
+    connectedCustomerSockets[QString::number(customerId)] = socket;
+    emit logMessage(QString("Registered customer socket for customerId %1").arg(customerId));
+}
+
+QTcpSocket* ServerManager::findCustomerSocketById(int customerId) {
+    if (customerSockets.contains(customerId)) {
+        return customerSockets[customerId];
+    }
+    return nullptr;  // اگر پیدا نشد
+}
 
 void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 {
@@ -160,6 +216,11 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
                 QString response = QString("LOGIN_OK:%1:%2\n").arg(roleStr).arg(phone);
                 sender->write(response.toUtf8());
                 emit logMessage("✅ ورود موفق: " + firstName + " " + lastName + " (" + roleStr + ")");
+                int customerId = dbManager.getCustomerIdByPhone(phone);
+                if (customerId != -1) {
+                    // سوکت مشتری رو ثبت کن
+                    registerCustomerSocket(customerId, sender);
+                }
             }
             else {
                 // برای سایر نقش‌ها مثل Customer یا Admin فقط نقش بفرست
@@ -192,6 +253,11 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         if (ok) {
             sender->write("SIGNUP_OK:Customer\n");
             emit logMessage("✅ ثبت مشتری جدید: " + firstName + " " + lastName);
+            int customerId = dbManager.getCustomerIdByPhone(phone);
+            if (customerId != -1) {
+                // سوکت مشتری رو ثبت کن
+                registerCustomerSocket(customerId, sender);
+            }
         } else {
             sender->write("SIGNUP_FAIL:Customer\n");
             emit logMessage("❌ ثبت مشتری ناموفق");
@@ -670,6 +736,11 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
             sender->write("SUBMIT_ORDER_FAIL:ثبت سفارش ناموفق\n");
             return;
         }
+        // گرفتن آخرین سفارش ثبت‌شده برای این مشتری
+        DatabaseManager::OrderData newOrder = dbManager.getLastOrderForCustomer(customerId);
+
+        // اطلاع‌رسانی به رستوران
+        notifyRestaurantNewOrder(restaurantId, newOrder);
 
         dbManager.clearCartByCustomerId(customerId);
 
@@ -698,7 +769,6 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
                               QString::number(order.totalPrice) + "|" +
                               order.status + "|" +
                               order.createdAt;
-
             for (const auto& item : order.items) {
                 message += "|" + item.foodName + "," +
                            QString::number(item.quantity) + "," +
@@ -727,10 +797,11 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
 
         for (const DatabaseManager::OrderData& order : orders) {
-           QString customerPhone = dbManager.getCustomerPhoneById(order.customerId);
+            QString customerPhone = dbManager.getCustomerPhoneById(order.customerId);
 
             QString message = "RESTAURANT_ORDER:" +
-                              customerPhone + "#" +                    // اسم مشتری
+                              customerPhone + "#" +                    // شماره مشتری
+                              QString::number(order.orderId) + "|" +  // اینجا orderId اضافه شد
                               QString::number(order.totalPrice) + "|" +
                               order.status + "|" +
                               order.createdAt;
@@ -745,6 +816,38 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         }
 
         sender->write("REST_ORDERS_DONE\n");
+    }
+    else if (msg.startsWith("UPDATE_ORDER_STATUS:")) {
+        QString data = msg.mid(QString("UPDATE_ORDER_STATUS:").length()).trimmed();
+        QStringList parts = data.split("#");
+        if (parts.size() != 2) {
+            sender->write("UPDATE_STATUS_FAIL:فرمت پیام نادرست است\n");
+            return;
+        }
+
+        int orderId = parts[0].toInt();
+        QString newStatus = parts[1];
+
+        qDebug() << "UpdateOrderStatus request received. orderId:" << orderId << "newStatus:" << newStatus;
+
+        bool success = dbManager.updateOrderStatus(orderId, newStatus);
+        if (success) {
+            sender->write("UPDATE_STATUS_OK:\n");
+            notifyCustomerOrderStatusChanged(orderId, newStatus);
+            qDebug() << "Order status updated successfully.";
+
+            // ارسال پیام به مشتری
+            int customerId = dbManager.getCustomerIdByOrderId(orderId);
+            QTcpSocket* customerSocket = findCustomerSocketById(customerId);
+            if (customerSocket) {
+                QString notifyMsg = QString("ORDER_STATUS_UPDATED:%1|%2\n").arg(orderId).arg(newStatus);
+                customerSocket->write(notifyMsg.toUtf8());
+            }
+        }
+      else {
+            sender->write("UPDATE_STATUS_FAIL:به‌روزرسانی وضعیت ناموفق بود\n");
+            qDebug() << "Failed to update order status!";
+        }
     }
 
 
