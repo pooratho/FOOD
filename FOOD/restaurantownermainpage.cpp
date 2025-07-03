@@ -154,22 +154,13 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
         QString createdAt = orderParts[3];
 
         int norderId = orderId.toInt();
-        if (norderId > lastOrderId) {
-            lastOrderId = norderId;
 
-            // نمایش نوتیف برای سفارش جدید
-            notificationLabel->show();
-
-            // پنهان کردن نوتیف بعد از چند ثانیه
-            QTimer::singleShot(5000, this, [=]() {
-                notificationLabel->hide();
-            });
-        }
         if (shownOrderIds.contains(norderId)) {
             qDebug() << "❗ سفارش تکراری نادیده گرفته شد:" << norderId;
             return;
         }
         shownOrderIds.insert(norderId);
+        showNewOrderNotification("سفارش جدید از شماره " + customerPhone + " دریافت شد!");
 
         QString foodDetails;
         for (int i = 3; i < orderParts.size(); ++i) {
@@ -321,4 +312,15 @@ void RestaurantOwnerMainPage::clearOrderListWidget()
         }
     }
 }
+
+void RestaurantOwnerMainPage::showNewOrderNotification(const QString& msg)
+{
+    notificationLabel->setText("سفارش جدید دریافت شد!");
+    notificationLabel->show();
+    QTimer::singleShot(5000, this, [=]() {
+        notificationLabel->hide();
+    });
+}
+
+
 

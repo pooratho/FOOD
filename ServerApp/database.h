@@ -120,6 +120,7 @@ public:
     QList<DatabaseManager::CartItem> getCartItemsByCustomerId(int customerId) ;
 
 
+    OrderData getLastOrderForCustomer(int customerId);
 
 
     bool submitSplitOrder(int customerId, double totalPrice, const QList<TempCartItem>& items);

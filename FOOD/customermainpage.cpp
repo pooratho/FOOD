@@ -165,6 +165,16 @@ void CustomerMainPage::handleServerMessage(const QString& msg)
     else if (msg.startsWith("ORDER_ITEM:")) {
         handleIncomingOrderItem(msg);
     }
+    else if (msg.startsWith("ORDER_STATUS_UPDATE:")) {
+        QString data = msg.mid(QString("ORDER_STATUS_UPDATE:").length());
+        QStringList parts = data.split("|");
+        if (parts.size() == 2) {
+            int orderId = parts[0].toInt();
+            QString newStatus = parts[1];
+            showOrderStatusNotification(orderId, newStatus); // تابع نوتیف نمایش
+        }
+    }
+
 
 
     else {
@@ -474,3 +484,11 @@ void CustomerMainPage::refreshOrders()
     QString msg = "GET_CUSTOMER_ORDERS:" + customer->getPhone();
     clientSocket->sendMessage(msg);
 }
+
+
+void CustomerMainPage::showOrderStatusNotification(int orderId, const QString& newStatus)
+{
+    QMessageBox::information(this, "به‌روزرسانی سفارش",
+                             QString("وضعیت سفارش شماره %1 تغییر کرد به:\n%2").arg(orderId).arg(newStatus));
+}
+

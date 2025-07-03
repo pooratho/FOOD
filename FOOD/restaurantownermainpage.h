@@ -47,6 +47,7 @@ QVector<QPair<QListWidget*, QWidget*>> pendingDeletions;
 void populateMenuItems(const QStringList& items);
     void clearListWidgetCompletely(QListWidget* listWidget);
 void clearOrderListWidget();
+    void showNewOrderNotification(const QString& msg);
 };
 
 #endif // RESTAURANTOWNERMAINPAGE_H

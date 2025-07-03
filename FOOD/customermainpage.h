@@ -59,6 +59,7 @@ private:
     void clearOrderWidgets();
     void refreshOrders();
      QSet<int> shownOrderIds;
+    void showOrderStatusNotification(int orderId, const QString& newStatus);
 };
 
 #endif // CUSTOMERMAINPAGE_H
