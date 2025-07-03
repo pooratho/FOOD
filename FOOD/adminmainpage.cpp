@@ -50,6 +50,19 @@ AdminMainPage::AdminMainPage(QWidget *parent)
         clientSocket->sendMessage("GET_ALL_USERS\n");
     });
 
+    connect(ui->pushButton, &QPushButton::clicked, this, [this]() {
+        if (!tableWin) {
+
+            tableWin = new RestaurantTableWidget(clientSocket);
+            tableWin->setAttribute(Qt::WA_DeleteOnClose);
+            connect(tableWin, &QObject::destroyed, this, [this]() { tableWin = nullptr; });
+            tableWin->setWindowTitle("لیست رستوران‌ها");
+        }
+        tableWin->show();
+        tableWin->raise();
+        clientSocket->sendMessage("GET_ALL_RESTAURANTS\n");
+    });
+
     connect(ui->pushButton_3, &QPushButton::clicked, this, [this]() {
         if (!ordersTableWin) {
             ordersTableWin = new OrdersTableWidget(nullptr);
