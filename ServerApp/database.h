@@ -61,10 +61,12 @@ public:
 
     struct TempOrderItem {
         int restaurantId;
+        QString restaurantName;
         QString foodName;
         int quantity;
         double unitPrice;
     };
+
     struct OrderData {
         int orderId;
         int restaurantId;
@@ -126,6 +128,7 @@ public:
 
     bool submitSplitOrder(int customerId, double totalPrice, const QList<TempCartItem>& items);
     bool clearCartByCustomerId(int customerId);
+    QList<DatabaseManager::OrderData> getAllOrders();
 
 private:
     QSqlDatabase db;

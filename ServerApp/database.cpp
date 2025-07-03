@@ -153,21 +153,7 @@ void DatabaseManager::createTables() {
 }
 
 
-// void DatabaseManager::creatRestaurantTable() {
-//     QSqlQuery query(db);
-//     bool success = query.exec(
-//         "CREATE TABLE IF NOT EXISTS customers ("
-//         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-//         "firstname TEXT NOT NULL, "
-//         "lastname TEXT NOT NULL, "
-//         "phone TEXT NOT NULL, "
-//         "password TEXT NOT NULL)"
-//         );
 
-//     if (!success) {
-//         qDebug() << "Create table error:" << query.lastError().text();
-//     }
-// }
 
 
 bool DatabaseManager::insertCustomer(const QString& firstName, const QString& lastName, const QString& phone, const QString& password) {
@@ -718,4 +704,64 @@ QString DatabaseManager::getPhoneByCustomerId(int customerId)
         return query.value(0).toString();
     }
     return ""; // یا هر مقدار پیش‌فرض
+}
+
+QList<DatabaseManager::OrderData> DatabaseManager::getAllOrders() {
+    QList<OrderData> result;
+
+    QSqlQuery query;
+    QString queryStr =
+        "SELECT o.id, o.customer_id, o.total_price, o.status, o.created_at, "
+        "oi.restaurant_id,r.restaurant_name AS restaurant_name, "
+        "oi.food_name, oi.quantity, oi.unit_price "
+        "FROM orders o "
+        "JOIN order_items oi ON o.id = oi.order_id "
+        "JOIN restaurants r ON oi.restaurant_id = r.id "
+        "ORDER BY o.created_at DESC";
+
+    if (!query.exec(queryStr)) {
+        qDebug() << "getAllOrders error:" << query.lastError().text();
+        return result;
+    }
+
+    QMap<int, OrderData> orderMap;
+
+    while (query.next()) {
+        qDebug() << "Found orderId:" << query.value(0).toInt();
+
+        int orderId = query.value(0).toInt();
+        int customerId = query.value(1).toInt();
+        double totalPrice = query.value(2).toDouble();
+        QString status = query.value(3).toString();
+        QString createdAt = query.value(4).toString();
+        int restaurantId = query.value(5).toInt();
+        QString restaurantName = query.value(6).toString();
+        QString foodName = query.value(7).toString();
+        int quantity = query.value(8).toInt();
+        double unitPrice = query.value(9).toDouble();
+
+        if (!orderMap.contains(orderId)) {
+            OrderData od;
+            od.orderId = orderId;
+            od.restaurantId = restaurantId; // اولین آیتم رو در نظر می‌گیریم
+            od.customerId = customerId;
+            od.totalPrice = totalPrice;
+            od.status = status;
+            od.createdAt = createdAt;
+            orderMap[orderId] = od;
+        }
+        qDebug() << "getAllOrders: row found with orderId=" << orderId;
+
+
+        TempOrderItem item;
+        item.restaurantId = restaurantId;
+        item.restaurantName = restaurantName; // باید به ساختار اضافه شده باشه
+        item.foodName = foodName;
+        item.quantity = quantity;
+        item.unitPrice = unitPrice;
+
+        orderMap[orderId].items.append(item);
+    }
+
+    return orderMap.values();
 }

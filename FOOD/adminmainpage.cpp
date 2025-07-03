@@ -59,6 +59,7 @@ AdminMainPage::AdminMainPage(QWidget *parent)
     });
 }
 
+static QList<QStringList> tempOrderRows;
 void AdminMainPage::handleServerMessage(const QString &msg)
 {
     qDebug() << "Message from server:" << msg;
@@ -129,42 +130,61 @@ void AdminMainPage::handleServerMessage(const QString &msg)
         }
     }
 
-    if (msg == "ORDER_LIST:EMPTY") {
-        QMessageBox::information(this, u"اطلاع"_qs, u"هیچ سفارشی ثبت نشده است."_qs);
-        return;
+
+    if (msg.startsWith("ALL_ORDER:")) {
+        QString data = msg.mid(QString("ALL_ORDER:").length()).trimmed();
+
+        // مثلا: 0912...#12|52000|ثبت شده|2025-07-03 12:00:00|رستورانX,کباب,2,25000|رستورانX,نوشابه,1,2000
+        QStringList sections = data.split('|', Qt::SkipEmptyParts);
+        if (sections.size() < 4) return;
+
+        QStringList idAndPhone = sections[0].split('#');
+        if (idAndPhone.size() < 3) return;
+
+        QString phone = idAndPhone[0];
+        QString customerName = idAndPhone[1];
+
+        QString orderId = idAndPhone[1];
+        QString totalPrice = sections[1];
+        QString status = sections[2];
+
+        // شروع از index 3 به بعد آیتم‌ها هستن
+        for (int i = 3; i < sections.size(); ++i) {
+            QStringList itemParts = sections[i].split(',');
+            if (itemParts.size() != 4) continue;
+
+            QString restaurantName = itemParts[0];
+            QString foodName = itemParts[1];
+            QString quantity = itemParts[3]; // چون ترتیب: name, food, price, quantity
+            QString unitPrice = itemParts[2];
+
+            QStringList row;
+            row << restaurantName << foodName << unitPrice << quantity << customerName << status;
+            tempOrderRows.append(row);
+        }
     }
-
-    if (msg == "ORDER_LIST_FAIL") {
-        QMessageBox::warning(this, u"خطا"_qs, u"دریافت فهرست سفارش‌ها ناموفق بود."_qs);
-        return;
-    }
-
-    if (msg.startsWith("ORDER_LIST:")) {
-        QString data = msg.mid(QStringLiteral("ORDER_LIST:").size()).trimmed();
-        QStringList rows = data.split(';', Qt::SkipEmptyParts);
-
+    else if (msg == "ALL_ORDERS_DONE") {
         if (!ordersTableWin) return;
+
         QTableWidget *tbl = ordersTableWin->findChild<QTableWidget*>("tableWidget");
         if (!tbl) return;
 
         tbl->clearContents();
-        tbl->setRowCount(rows.size());
+        tbl->setRowCount(tempOrderRows.size());
 
-        for (int r = 0; r < rows.size(); ++r) {
-            QStringList parts = rows[r].split('|');
-            if (parts.size() < 6) continue;
-
-            QString phone = parts[1];
-            QString customerName = userPhoneToName.value(phone, u"نامشخص"_qs);
-
-            tbl->setItem(r, 0, new QTableWidgetItem(customerName));
-            tbl->setItem(r, 1, new QTableWidgetItem(phone));
-            tbl->setItem(r, 2, new QTableWidgetItem(parts[2]));
-            tbl->setItem(r, 3, new QTableWidgetItem(parts[3]));
-            tbl->setItem(r, 4, new QTableWidgetItem(parts[4]));
-            tbl->setItem(r, 5, new QTableWidgetItem(parts[5]));
+        for (int r = 0; r < tempOrderRows.size(); ++r) {
+            const QStringList& row = tempOrderRows[r];
+            for (int c = 0; c < row.size(); ++c) {
+                tbl->setItem(r, c, new QTableWidgetItem(row[c]));
+            }
         }
+
+        tempOrderRows.clear();
     }
+    else if (msg.startsWith("ALL_ORDERS_EMPTY:")) {
+        QMessageBox::information(this, u"اطلاع"_qs, msg.section(':', 1));
+    }
+
 }
 
 AdminMainPage::~AdminMainPage()

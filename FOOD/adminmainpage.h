@@ -32,7 +32,6 @@ private:
     RestaurantTableWidget *tableWin = nullptr;
     UserTableWidget* userTableWin = nullptr;
     OrdersTableWidget *ordersTableWin = nullptr;
-    QMap<QString, QString> userPhoneToName;
 
 };
 #endif // ADMINMAINPAGE_H
