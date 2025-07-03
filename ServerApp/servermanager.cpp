@@ -921,18 +921,18 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
     }
 
     else if (msg == "GET_ALL_USERS") {
-
-        /* 1‑a) کوئری ترکیبی از هر دو جدول */
         QSqlQuery q;
         q.prepare(R"(
         SELECT firstname || ' ' || lastname  AS full_name,
                phone,
-               'مشتری'                   AS role
+               'مشتری'                   AS role,
+               is_blocked
         FROM   customers
         UNION ALL
         SELECT owner_firstname || ' ' || owner_lastname,
                phone,
-               'رستوران دار'
+               'رستوران دار',
+               is_blocked
         FROM   restaurants
     )");
 
@@ -941,13 +941,15 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
             return;
         }
 
-        /* 1‑b) رشتهٔ پاسخ را می‌سازیم */
         QStringList lines;
         while (q.next()) {
-            QString name  = q.value(0).toString();
-            QString phone = q.value(1).toString();
-            QString role  = q.value(2).toString();
-            lines << name + "|" + phone + "|" + role;
+            QString name   = q.value(0).toString();
+            QString phone  = q.value(1).toString();
+            QString role   = q.value(2).toString();
+            int isBlocked  = q.value(3).toInt();
+
+            QString status = (isBlocked == 1) ? "مسدود" : "فعال";
+            lines << name + "|" + phone + "|" + role + "|" + status;
         }
 
         QString resp = lines.isEmpty()
@@ -957,6 +959,8 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         qDebug() << "→" << resp;
         sender->write(resp.toUtf8());
     }
+
+
     else if (msg == "GET_ALL_ORDERS") {
         QList<DatabaseManager::OrderData> orders = dbManager.getAllOrders();
 

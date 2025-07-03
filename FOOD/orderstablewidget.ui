@@ -38,7 +38,8 @@
     <enum>Qt::LayoutDirection::RightToLeft</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">color: rgb(255, 85, 0);
+font: 10pt &quot;B Farnaz&quot;;</string>
    </property>
    <property name="lineWidth">
     <number>1</number>

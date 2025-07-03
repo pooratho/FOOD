@@ -68,6 +68,11 @@ font: 12pt &quot;B Farnaz&quot;;</string>
      <string>نقش</string>
     </property>
    </column>
+   <column>
+    <property name="text">
+     <string>وضعیت</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>

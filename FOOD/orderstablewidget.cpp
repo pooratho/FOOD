@@ -16,7 +16,7 @@ OrdersTableWidget::OrdersTableWidget(QWidget *parent)
     ui->tableWidget->setColumnWidth(0, 120);
     ui->tableWidget->setColumnWidth(1, 150);
     ui->tableWidget->setColumnWidth(2, 100);
-    ui->tableWidget->setColumnWidth(3, 100);
+    ui->tableWidget->setColumnWidth(3, 80);
     ui->tableWidget->setColumnWidth(4, 150);
     ui->tableWidget->setColumnWidth(5, 120);
 

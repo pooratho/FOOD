@@ -96,39 +96,45 @@ void AdminMainPage::handleServerMessage(const QString &msg)
     }
 
     if (msg == "USER_LIST:EMPTY") {
-        QMessageBox::information(this, u"اطلاع"_qs, u"کاربری ثبت نشده است."_qs);
+        QMessageBox::information(this, u"اطلاع"_qs,
+                                 u"کاربری ثبت نشده است."_qs);
         return;
     }
+
     if (msg == "USER_LIST_FAIL") {
-        QMessageBox::warning(this, u"خطا"_qs, u"دریافت فهرست کاربران ناموفق بود."_qs);
+        QMessageBox::warning(this, u"خطا"_qs,
+                             u"دریافت فهرست کاربران ناموفق بود."_qs);
         return;
     }
 
     if (msg.startsWith("USER_LIST:")) {
+
         QString data = msg.mid(QStringLiteral("USER_LIST:").size()).trimmed();
         QStringList rows = data.split(';', Qt::SkipEmptyParts);
 
-        userPhoneToName.clear();
-
         if (!userTableWin) return;
-        QTableWidget *tbl = userTableWin->findChild<QTableWidget*>("tableWidget");
+        QTableWidget* tbl = userTableWin->findChild<QTableWidget*>("tableWidget");
         if (!tbl) return;
 
         tbl->clearContents();
+        tbl->setColumnCount(4);                          // ➊ چهار ستون
+        tbl->setHorizontalHeaderLabels(
+            {u"نام"_qs, u"تلفن"_qs, u"نقش"_qs, u"وضعیت"_qs});
+
         tbl->setRowCount(rows.size());
 
         for (int r = 0; r < rows.size(); ++r) {
             QStringList p = rows[r].split('|');
-            if (p.size() != 3) continue;
+            if (p.size() != 4) continue;                 // ➋ حالا باید 4 بخش باشد
 
-            userPhoneToName[p[1]] = p[0];
 
-            tbl->setItem(r, 0, new QTableWidgetItem(p[0]));
-            tbl->setItem(r, 1, new QTableWidgetItem(p[1]));
-            tbl->setItem(r, 2, new QTableWidgetItem(p[2]));
-            tbl->setItem(r, 3, new QTableWidgetItem(""));
+            tbl->setItem(r, 0, new QTableWidgetItem(p[0])); // نام
+            tbl->setItem(r, 1, new QTableWidgetItem(p[1])); // تلفن
+            tbl->setItem(r, 2, new QTableWidgetItem(p[2])); // نقش
+            tbl->setItem(r, 3, new QTableWidgetItem(p[3])); // وضعیت (Active/Blocked)
         }
     }
+
 
 
     if (msg.startsWith("ALL_ORDER:")) {

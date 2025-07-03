@@ -12,9 +12,10 @@ UserTableWidget::UserTableWidget(QWidget *parent)
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 
-    ui->tableWidget->setColumnWidth(0, 200);  // ستون اول
-    ui->tableWidget->setColumnWidth(1, 200);  // ستون دوم
-    ui->tableWidget->setColumnWidth(2, 187);  // ستون سوم
+    ui->tableWidget->setColumnWidth(0, 150);  // ستون اول
+    ui->tableWidget->setColumnWidth(1, 150);  // ستون دوم
+    ui->tableWidget->setColumnWidth(2, 150);  // ستون سوم
+    ui->tableWidget->setColumnWidth(3, 137);  // ستون اول
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 }
