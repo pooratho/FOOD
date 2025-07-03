@@ -858,37 +858,38 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
     }
 
     else if (msg == "GET_ALL_RESTAURANTS") {
-        QSqlQuery query;
-        query.prepare("SELECT restaurant_name, restaurant_type, province, city, is_blocked FROM restaurants");
 
-        if (query.exec()) {
-            QStringList restaurantLines;
-            while (query.next()) {
-                QString name = query.value(0).toString();
-                QString type = query.value(1).toString();
-                QString province = query.value(2).toString();
-                QString city = query.value(3).toString();
-                bool isBlocked = query.value(4).toBool();
+        QSqlQuery q;
+        q.prepare(R"(SELECT restaurant_name,
+                        owner_firstname || ' ' || owner_lastname AS owner_full,
+                        province || ' - ' || city               AS full_address,
+                        is_blocked
+                 FROM   restaurants)");
 
-                QString fullAddress = province + " - " + city;
-                QString status = isBlocked ? "Blocked" : "Active";
-
-                restaurantLines << name + "|" + type + "|" + fullAddress + "|" + status;
-            }
-
-            if (!restaurantLines.isEmpty()) {
-                QString response = "RESTAURANT_LIST_ALL:" + restaurantLines.join(";") + "\n";
-                sender->write(response.toUtf8());
-                sender->flush();
-            } else {
-                sender->write("RESTAURANT_LIST_ALL:EMPTY\n");
-                sender->flush();
-            }
-        } else {
+        if (!q.exec()) {
             sender->write("RESTAURANT_LIST_ALL_FAIL\n");
-            sender->flush();
+            return;
         }
+
+        QStringList lines;
+        while (q.next()) {
+            QString name   = q.value(0).toString();
+            QString owner  = q.value(1).toString();
+            QString addr   = q.value(2).toString();
+            bool    block  = q.value(3).toInt();
+            QString status = block ? "Blocked" : "Active";
+
+            // چهار فیلد با | و هر رستوران با ;
+            lines << name + "|" + owner + "|" + addr + "|" + status;
+        }
+
+        if (lines.isEmpty())
+            sender->write("RESTAURANT_LIST_ALL:EMPTY\n");
+        else
+            sender->write(("RESTAURANT_LIST_ALL:" + lines.join(";") + "\n").toUtf8());
     }
+
+
 
 
 

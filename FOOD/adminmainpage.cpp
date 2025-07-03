@@ -69,15 +69,15 @@ void AdminMainPage::handleServerMessage(const QString &msg)
 
         for (int r = 0; r < rows.size(); ++r) {
             QStringList parts = rows[r].split('|');
-            if (parts.size() != 4) continue; // حالا 4 قسمت داریم
+            if (parts.size() != 4) continue;
 
-            table->setItem(r, 0, new QTableWidgetItem(QString::number(r + 1))); // شماره ردیف
-            table->setItem(r, 1, new QTableWidgetItem(parts[0]));               // نام رستوران
-            table->setItem(r, 2, new QTableWidgetItem(parts[1]));               // نوع رستوران
-            table->setItem(r, 3, new QTableWidgetItem(parts[2]));               // آدرس کامل
-            table->setItem(r, 4, new QTableWidgetItem(parts[3]));               // وضعیت (Blocked/Active)
+            table->setItem(r, 0, new QTableWidgetItem(parts[0])); // نام رستوران
+            table->setItem(r, 1, new QTableWidgetItem(parts[1])); // نام مالک
+            table->setItem(r, 2, new QTableWidgetItem(parts[2])); // آدرس
+            table->setItem(r, 3, new QTableWidgetItem(parts[3])); // وضعیت
         }
     }
+
 
 }
 
