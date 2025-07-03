@@ -31,7 +31,7 @@
      <x>0</x>
      <y>0</y>
      <width>601</width>
-     <height>451</height>
+     <height>400</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -43,13 +43,13 @@
    <property name="minimumSize">
     <size>
      <width>601</width>
-     <height>451</height>
+     <height>400</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
      <width>601</width>
-     <height>451</height>
+     <height>400</height>
     </size>
    </property>
    <property name="layoutDirection">
@@ -91,6 +91,30 @@ font: 11pt &quot;B Farnaz&quot;;</string>
      <string>     وضعیت     </string>
     </property>
    </column>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>400</y>
+     <width>231</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 85, 0);
+color: rgb(255, 255, 255);
+font: 10pt &quot;B Farnaz&quot;;</string>
+      </property>
+      <property name="text">
+       <string>مسدود</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
