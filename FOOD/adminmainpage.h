@@ -33,6 +33,7 @@ private:
     UserTableWidget* userTableWin = nullptr;
     OrdersTableWidget *ordersTableWin = nullptr;
     QMap<QString, QString> userPhoneToName;
+    QString exportDestination;
 
 };
 #endif // ADMINMAINPAGE_H

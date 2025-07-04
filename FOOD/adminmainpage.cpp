@@ -5,6 +5,7 @@
 
 #include <QTableWidget>
 #include <QMessageBox>
+#include <QFileDialog>
 
 
 AdminMainPage::AdminMainPage(QWidget *parent)
@@ -19,22 +20,6 @@ AdminMainPage::AdminMainPage(QWidget *parent)
             this, &AdminMainPage::handleServerMessage);
 
     clientSocket->connectToServer("127.0.0.1", 1234);
-
-    connect(ui->pushButton, &QPushButton::clicked, this, [this]() {
-        if (!tableWin) {
-            tableWin = new RestaurantTableWidget(nullptr);  // یا اگر نیاز به clientSocket داشت، آن را هم بدهید
-            tableWin->setAttribute(Qt::WA_DeleteOnClose);
-            connect(tableWin, &QObject::destroyed, this, [this]() {
-                tableWin = nullptr;
-            });
-            tableWin->setWindowTitle("جدول رستوران‌ها");
-        }
-        tableWin->show();
-        tableWin->raise();
-
-        // ارسال درخواست به سرور
-        clientSocket->sendMessage("RESTAURANT_LIST_ALL\n");
-    });
 
     connect(ui->pushButton_2, &QPushButton::clicked, this, [this]() {
         if (!userTableWin) {
@@ -76,6 +61,17 @@ AdminMainPage::AdminMainPage(QWidget *parent)
         ordersTableWin->raise();
         clientSocket->sendMessage("GET_ALL_ORDERS\n");
     });
+
+    connect(ui->pushButton_4, &QPushButton::clicked, this, [this]() {
+
+        QString folder = QFileDialog::getExistingDirectory(
+            this, QStringLiteral("انتخاب محل ذخیره‌سازی"));
+        if (folder.isEmpty()) return;               // کاربر منصرف شد
+        exportDestination = folder;                 // متغیر عضو کلاس
+
+        clientSocket->sendMessage("EXPORT_DB\n");   // یا EXPORT_XLS
+    });
+
 }
 
 static QList<QStringList> tempOrderRows;
