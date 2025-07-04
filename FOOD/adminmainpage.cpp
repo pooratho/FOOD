@@ -5,7 +5,7 @@
 
 #include <QTableWidget>
 #include <QMessageBox>
-
+#include <QFileDialog>
 
 AdminMainPage::AdminMainPage(QWidget *parent)
     : QWidget(parent)
@@ -60,6 +60,47 @@ AdminMainPage::AdminMainPage(QWidget *parent)
         ordersTableWin->raise();
         clientSocket->sendMessage("GET_ALL_ORDERS\n");
     });
+
+    connect(ui->pushButton_4, &QPushButton::clicked, this, [this]() {
+        // 1. انتخاب پوشه مقصد
+        QString folderPath = QFileDialog::getExistingDirectory(this, u"انتخاب محل ذخیره‌سازی"_qs);
+        if (folderPath.isEmpty()) return;
+
+        // 2. کپی کردن فایل دیتابیس
+        QString sourcePath = "mydatabase.db";  // مسیر فایل اصلی دیتابیس
+        QString dbCopyPath = folderPath + "/mydatabase_backup.db";
+
+        if (!QFile::copy(sourcePath, dbCopyPath)) {
+            QMessageBox::warning(this, QStringLiteral("خطا"), QStringLiteral("کپی فایل دیتابیس ناموفق بود."));
+            return;
+        }
+
+        // 3. ساخت فایل CSV از جدول رستوران‌ها
+        QString csvPath = folderPath + "/restaurants.csv";
+        if (tableWin) {
+            QTableWidget* table = tableWin->findChild<QTableWidget*>("tableWidget");
+            if (table) {
+                QFile file(csvPath);
+                if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+                    QTextStream out(&file);
+                    for (int row = 0; row < table->rowCount(); ++row) {
+                        QStringList rowContents;
+                        for (int col = 0; col < table->columnCount(); ++col) {
+                            auto item = table->item(row, col);
+                            rowContents << (item ? item->text() : "");
+                        }
+                        out << rowContents.join(",") << "\n";
+                    }
+                    file.close();
+                }
+            }
+        }
+
+        QMessageBox::information(this,
+                                 QStringLiteral("ذخیره موفق"),
+                                 QStringLiteral("فایل دیتابیس و خروجی CSV با موفقیت ذخیره شدند."));
+    });
+
 }
 
 static QList<QStringList> tempOrderRows;
