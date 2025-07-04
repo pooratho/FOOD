@@ -150,6 +150,9 @@ font: 12pt &quot;B Farnaz&quot;;</string>
        <height>41</height>
       </rect>
      </property>
+     <property name="echoMode">
+      <enum>QLineEdit::EchoMode::Password</enum>
+     </property>
     </widget>
    </widget>
    <widget class="QPushButton" name="pushButton">
