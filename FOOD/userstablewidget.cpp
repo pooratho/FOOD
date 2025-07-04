@@ -56,10 +56,9 @@ void UserTableWidget::on_pushButton_2_clicked()
 
     int row = selected.first().topRow();
 
-    QString phone = normalizePhoneNumber(table->item(row, 1)->text());
+QString phone = table->item(row, 1)->text().trimmed();
     qDebug()<< "phone "<<phone;
-    if (phone.startsWith("+"))
-        phone = phone.mid(1);
+
     QString status = table->item(row, 3)->text().toLower();
 
     QString newStatus;

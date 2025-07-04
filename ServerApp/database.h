@@ -138,6 +138,7 @@ public:
     bool setRestaurantBlockedStatus(int restaurantId, int isBlocked);
     QString getAllUsersFormattedString();
     bool setUserBlockedStatusByPhone(const QString& phone, int isBlocked);
+    QString normalizePhone(const QString& phone);
 private:
     QSqlDatabase db;
 

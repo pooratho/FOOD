@@ -807,29 +807,28 @@ QString DatabaseManager::getAllRestaurantsFormattedString()
 
 bool DatabaseManager::setUserBlockedStatusByPhone(const QString& phone, int block)
 {
+    QString normalizedPhone = normalizePhone(phone);
     QSqlQuery query(db);
 
     // اول تلاش برای به روزرسانی در customers
     query.prepare("UPDATE customers SET is_blocked = :block WHERE phone = :phone");
     query.bindValue(":block", block);
-    query.bindValue(":phone", phone);
+    query.bindValue(":phone", normalizedPhone);
     if (query.exec() && query.numRowsAffected() > 0) {
         return true;
     }
 
-    // اگر در customers نبود، تلاش در restaurants
+    // سپس تلاش در restaurants
     query.prepare("UPDATE restaurants SET is_blocked = :block WHERE phone = :phone");
     query.bindValue(":block", block);
-    query.bindValue(":phone", phone);
+    query.bindValue(":phone", normalizedPhone);
     if (query.exec() && query.numRowsAffected() > 0) {
         return true;
     }
 
-    // اگر در هیچکدام نبود، خطا
-    qDebug() << "Phone not found in customers or restaurants for blocking:" << phone;
+    qDebug() << "Phone not found in customers or restaurants for blocking:" << normalizedPhone;
     return false;
 }
-
 QString DatabaseManager::getAllUsersFormattedString()
 {
     QStringList rows;
@@ -881,4 +880,15 @@ QString DatabaseManager::getAllUsersFormattedString()
     }
 
     return rows.join(";");
+}
+QString DatabaseManager::normalizePhone(const QString& phone) {
+    QString p = phone.trimmed();
+    if (!p.startsWith("+98")) {
+        if (p.startsWith("0")) {
+            p = "+98" + p.mid(1);
+        } else if (!p.startsWith("+")) {
+            p = "+98" + p;
+        }
+    }
+    return p;
 }
