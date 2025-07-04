@@ -708,3 +708,14 @@ DatabaseManager::OrderData DatabaseManager::getLastOrderForCustomer(int customer
     return order;
 }
 
+QString DatabaseManager::getPhoneByCustomerId(int customerId)
+{
+    QSqlQuery query;
+    query.prepare("SELECT phone FROM customers WHERE id = ?");
+    query.addBindValue(customerId);
+
+    if (query.exec() && query.next()) {
+        return query.value(0).toString();
+    }
+    return ""; // یا هر مقدار پیش‌فرض
+}

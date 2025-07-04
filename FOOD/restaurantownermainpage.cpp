@@ -12,18 +12,6 @@ RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget
     clientSocket(new ClientSocketManager(this))
 {
     ui->setupUi(this);
-    // notificationLabel = new QLabel("🔔 سفارش جدید دریافت شد!", this);
-    // notificationLabel->setStyleSheet(
-    //     "background-color: orange; "
-    //     "color: black; "
-    //     "font-weight: bold; "
-    //     "padding: 6px; "
-    //     "border-radius: 8px;"
-    //     );
-    // notificationLabel->setAlignment(Qt::AlignCenter);
-    // notificationLabel->setFixedSize(200, 40);
-    // notificationLabel->move(width() - 220, height() - 60);  // گوشه پایین راست
-    // notificationLabel->hide();
 
     QString restaurantName = currentOwner->getRestaurant().getName();
     ui->label_10->setText("رستوران:  " + restaurantName);
@@ -39,9 +27,13 @@ RestaurantOwnerMainPage::RestaurantOwnerMainPage(RestaurantOwner* owner, QWidget
         qDebug() << "Connected to server, sending REGISTER_RESTAURANT_SOCKET";
         qDebug() << "Registering restaurant name:" << currentOwner->getRestaurant().getName();
 
-        // ارسال پیام ثبت نام رستوران به سرور
         clientSocket->sendMessage("REGISTER_RESTAURANT_SOCKET:" + currentOwner->getRestaurant().getName());
-        // حذف ارسال GET_MENU از اینجا، بعد از دریافت REGISTER_OK ارسال می‌کنیم
+
+        QString loginMsg = QString("LOGIN:restaurant:%1:%2:%3")
+                               .arg(currentOwner->getFirstName())
+                               .arg(currentOwner->getLastName())
+                               .arg(currentOwner->getPassword());
+        clientSocket->sendMessage(loginMsg);
     });
 
     clientSocket->connectToServer("127.0.0.1", 1234);
@@ -160,7 +152,8 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
             return;
         }
         shownOrderIds.insert(norderId);
-        //showNewOrderNotification("سفارش جدید از شماره " + customerPhone + " دریافت شد!");
+
+
 
         QString foodDetails;
         for (int i = 3; i < orderParts.size(); ++i) {
@@ -211,7 +204,17 @@ void RestaurantOwnerMainPage::handleServerMessage(const QString& msg)
                 ui->label_11->setVisible(ui->orderListWidget->count() == 0);
             }
         });
+
+
     }
+    else if (msg.startsWith("NEW_ORDER_ALERT")) {
+        showNewOrderNotification("📦 سفارش جدیدی ثبت شد!");
+    }
+
+    else {
+        qDebug() << "پیام ناشناخته از سرور دریافت شد:" << msg;
+    }
+
 
     // به‌روزرسانی نمایش برچسب‌ها
     ui->label_5->setVisible(ui->listWidgetMain->count() == 0);
@@ -329,14 +332,11 @@ void RestaurantOwnerMainPage::clearOrderListWidget()
     }
 }
 
-// void RestaurantOwnerMainPage::showNewOrderNotification(const QString& msg)
-// {
-//     notificationLabel->setText("سفارش جدید دریافت شد!");
-//     notificationLabel->show();
-//     QTimer::singleShot(5000, this, [=]() {
-//         notificationLabel->hide();
-//     });
-// }
+void RestaurantOwnerMainPage::showNewOrderNotification(const QString& msg)
+{
+    QMessageBox::information(this, "سفارش جدید", msg);
+}
+
 
 
 
