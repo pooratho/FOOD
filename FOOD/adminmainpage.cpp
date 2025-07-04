@@ -5,7 +5,6 @@
 
 #include <QTableWidget>
 #include <QMessageBox>
-#include <QFileDialog>
 
 
 AdminMainPage::AdminMainPage(QWidget *parent)
@@ -61,17 +60,6 @@ AdminMainPage::AdminMainPage(QWidget *parent)
         ordersTableWin->raise();
         clientSocket->sendMessage("GET_ALL_ORDERS\n");
     });
-
-    connect(ui->pushButton_4, &QPushButton::clicked, this, [this]() {
-
-        QString folder = QFileDialog::getExistingDirectory(
-            this, QStringLiteral("انتخاب محل ذخیره‌سازی"));
-        if (folder.isEmpty()) return;               // کاربر منصرف شد
-        exportDestination = folder;                 // متغیر عضو کلاس
-
-        clientSocket->sendMessage("EXPORT_DB\n");   // یا EXPORT_XLS
-    });
-
 }
 
 static QList<QStringList> tempOrderRows;

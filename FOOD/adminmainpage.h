@@ -8,6 +8,7 @@
 #include "orderstablewidget.h"
 
 #include <QMap>
+#include <QFile>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class AdminMainPage; }
@@ -34,6 +35,13 @@ private:
     OrdersTableWidget *ordersTableWin = nullptr;
     QMap<QString, QString> userPhoneToName;
     QString exportDestination;
+    QFile     receivingFile;              // فایلی که روی دیسک می‌نویسیم
+    qint64    expectedBytes{0};           // حجمی که سرور اعلام می‌کند
+    qint64    receivedBytes{0};           // حجمِ دریافت‌شده تا این لحظه
+    enum ReceivingState { None, ReceivingDb } receivingState{None};
+
+    QString pendingSavePath;          // جایی که کاربر می‌خواهد فایل را ذخیره کند
+    bool    waitingForDump {false};   // آیا در حال انتظار برای دیتاست؟
 
 };
 #endif // ADMINMAINPAGE_H
