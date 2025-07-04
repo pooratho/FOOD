@@ -4,3 +4,5 @@ ServerApp/build/
 *.db
 *.pdb
 *.obj
+ServerApp/build/
+FOOD/build/
