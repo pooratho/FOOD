@@ -1,1 +1,6 @@
 *.pro.user
+ServerApp/build/
+*.exe
+*.db
+*.pdb
+*.obj
