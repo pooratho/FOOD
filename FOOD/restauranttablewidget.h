@@ -21,7 +21,7 @@ private slots:
 
 private:
     Ui::restauranttablewidget *ui;  // ✅ مطمئن شو این دقیقاً همین نام باشه
-     ClientSocketManager* clientSocket = nullptr;
+    ClientSocketManager* clientSocket = nullptr;
 };
 
 #endif // RESTAURANTTABLEWIDGET_H

@@ -1,6 +1,7 @@
 #ifndef USERSTABLEWIDGET_H
 #define USERSTABLEWIDGET_H
 
+#include "clientsocketmanager.h"
 #include <QWidget>
 
 namespace Ui {
@@ -12,11 +13,16 @@ class UserTableWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit UserTableWidget(QWidget *parent = nullptr);
+    UserTableWidget(ClientSocketManager* socketManager, QWidget *parent = nullptr);
+
     ~UserTableWidget();
+
+private slots:
+    void on_pushButton_2_clicked();
 
 private:
     Ui::usertablewidget *ui;    // اشاره‌گر به شیء تولیدی uic
+    ClientSocketManager* clientSocket = nullptr;
 };
 
 #endif // USERSTABLEWIDGET_H

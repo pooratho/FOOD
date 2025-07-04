@@ -1,6 +1,7 @@
 #include "adminmainpage.h"
 #include "ui_adminmainpage.h"
 #include "restauranttablewidget.h"
+#include "userstablewidget.h"
 
 #include <QTableWidget>
 #include <QMessageBox>
@@ -19,19 +20,19 @@ AdminMainPage::AdminMainPage(QWidget *parent)
 
     clientSocket->connectToServer("127.0.0.1", 1234);
 
-    connect(ui->pushButton, &QPushButton::clicked, this, [this]() {
-        if (!tableWin) {
-
-            tableWin = new RestaurantTableWidget(clientSocket);
-            tableWin->setAttribute(Qt::WA_DeleteOnClose);
-            connect(tableWin, &QObject::destroyed, this, [this]() { tableWin = nullptr; });
-            tableWin->setWindowTitle("لیست رستوران‌ها");
+    connect(ui->pushButton_2, &QPushButton::clicked, this, [this]() {
+        if (!userTableWin) {
+            userTableWin = new UserTableWidget(clientSocket);
+            userTableWin->setAttribute(Qt::WA_DeleteOnClose);
+            connect(userTableWin, &QObject::destroyed, this, [this]() {
+                userTableWin = nullptr;
+            });
+            userTableWin->setWindowTitle("جدول کاربران");
         }
-        tableWin->show();
-        tableWin->raise();
-        clientSocket->sendMessage("GET_ALL_RESTAURANTS\n");
+        userTableWin->show();
+        userTableWin->raise();
+        clientSocket->sendMessage("GET_ALL_USERS\n");
     });
-
     connect(ui->pushButton_2, &QPushButton::clicked, this, [this]() {
         if (!userTableWin) {
             userTableWin = new UserTableWidget(nullptr);

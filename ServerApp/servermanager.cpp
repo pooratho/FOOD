@@ -105,6 +105,7 @@ QString normalizePhoneNumber(const QString& phone) {
     }
     return p;
 }
+
 QTcpSocket* ServerManager::findRestaurantSocketById(int restaurantId) {
     for (auto it = restaurantSocketMap.begin(); it != restaurantSocketMap.end(); ++it) {
         if (it.value() == restaurantId) {
@@ -1041,6 +1042,42 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
             }
         } else {
             sender->write("TOGGLE_RESTAURANT_STATUS_FAIL:خطای پایگاه داده\n");
+        }
+    }
+    if (msg.startsWith("TOGGLE_USER_STATUS:")) {
+        QStringList parts = msg.trimmed().split(":");
+        if (parts.size() != 3) {
+            sender->write("TOGGLE_USER_STATUS_FAIL:فرمت پیام اشتباه است\n");
+            return;
+        }
+
+        QString phone = normalizePhoneNumber(parts[1]);
+        qDebug()<< "phone "<<phone;
+        QString newStatus = parts[2].toLower();
+
+        int block;
+        if (newStatus == "blocked" || newStatus == "بلاک") {
+            block = 1;
+        } else if (newStatus == "active" || newStatus == "فعال") {
+            block = 0;
+        } else {
+            sender->write("TOGGLE_USER_STATUS_FAIL:وضعیت نامعتبر است\n");
+            return;
+        }
+
+        bool ok = dbManager.setUserBlockedStatusByPhone(phone, block);
+        if (ok) {
+            sender->write("TOGGLE_USER_STATUS_OK\n");
+
+            // ارسال لیست کاربران آپدیت‌شده
+            QString userList = dbManager.getAllUsersFormattedString();
+            if (userList.isEmpty()) {
+                sender->write("USER_LIST:EMPTY\n");
+            } else {
+                sender->write("USER_LIST:" + userList.toUtf8() + "\n");
+            }
+        } else {
+            sender->write("TOGGLE_USER_STATUS_FAIL:خطا در پایگاه داده\n");
         }
     }
 

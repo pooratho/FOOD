@@ -805,3 +805,80 @@ QString DatabaseManager::getAllRestaurantsFormattedString()
     return lines.join(";");
 }
 
+bool DatabaseManager::setUserBlockedStatusByPhone(const QString& phone, int block)
+{
+    QSqlQuery query(db);
+
+    // اول تلاش برای به روزرسانی در customers
+    query.prepare("UPDATE customers SET is_blocked = :block WHERE phone = :phone");
+    query.bindValue(":block", block);
+    query.bindValue(":phone", phone);
+    if (query.exec() && query.numRowsAffected() > 0) {
+        return true;
+    }
+
+    // اگر در customers نبود، تلاش در restaurants
+    query.prepare("UPDATE restaurants SET is_blocked = :block WHERE phone = :phone");
+    query.bindValue(":block", block);
+    query.bindValue(":phone", phone);
+    if (query.exec() && query.numRowsAffected() > 0) {
+        return true;
+    }
+
+    // اگر در هیچکدام نبود، خطا
+    qDebug() << "Phone not found in customers or restaurants for blocking:" << phone;
+    return false;
+}
+
+QString DatabaseManager::getAllUsersFormattedString()
+{
+    QStringList rows;
+
+    // مشتری‌ها
+    {
+        QSqlQuery q(db);
+        q.prepare(R"(SELECT firstname || ' ' || lastname,
+                            phone,
+                            'مشتری' AS role,
+                            CASE is_blocked WHEN 1 THEN 'Blocked' ELSE 'Active' END
+                     FROM customers)");
+
+        if (q.exec()) {
+            while (q.next()) {
+                QString name = q.value(0).toString();
+                QString phone = q.value(1).toString();
+                QString role = q.value(2).toString();
+                QString status = q.value(3).toString();
+
+                rows << name + "|" + phone + "|" + role + "|" + status;
+            }
+        } else {
+            qDebug() << "Error reading customers:" << q.lastError().text();
+        }
+    }
+
+    // رستوران‌ها
+    {
+        QSqlQuery q(db);
+        q.prepare(R"(SELECT owner_firstname || ' ' || owner_lastname,
+                            phone,
+                            'رستوران دار' AS role,
+                            CASE is_blocked WHEN 1 THEN 'Blocked' ELSE 'Active' END
+                     FROM restaurants)");
+
+        if (q.exec()) {
+            while (q.next()) {
+                QString name = q.value(0).toString();
+                QString phone = q.value(1).toString();
+                QString role = q.value(2).toString();
+                QString status = q.value(3).toString();
+
+                rows << name + "|" + phone + "|" + role + "|" + status;
+            }
+        } else {
+            qDebug() << "Error reading restaurants:" << q.lastError().text();
+        }
+    }
+
+    return rows.join(";");
+}

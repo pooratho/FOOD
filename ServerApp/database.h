@@ -136,7 +136,8 @@ public:
 
     QString getAllRestaurantsFormattedString();
     bool setRestaurantBlockedStatus(int restaurantId, int isBlocked);
-
+    QString getAllUsersFormattedString();
+    bool setUserBlockedStatusByPhone(const QString& phone, int isBlocked);
 private:
     QSqlDatabase db;
 
