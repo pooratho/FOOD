@@ -5,6 +5,7 @@
 #include <QTableWidget>
 #include <QMessageBox>
 
+
 AdminMainPage::AdminMainPage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::AdminMainPage)
@@ -20,7 +21,8 @@ AdminMainPage::AdminMainPage(QWidget *parent)
 
     connect(ui->pushButton, &QPushButton::clicked, this, [this]() {
         if (!tableWin) {
-            tableWin = new RestaurantTableWidget(nullptr);
+
+            tableWin = new RestaurantTableWidget(clientSocket);
             tableWin->setAttribute(Qt::WA_DeleteOnClose);
             connect(tableWin, &QObject::destroyed, this, [this]() { tableWin = nullptr; });
             tableWin->setWindowTitle("لیست رستوران‌ها");
@@ -84,16 +86,23 @@ void AdminMainPage::handleServerMessage(const QString &msg)
         table->clearContents();
         table->setRowCount(rows.size());
 
+        // چون حالا 5 ستون داریم
+        table->setColumnCount(5);
+        table->setHorizontalHeaderLabels({"ID", "نام رستوران", "نام مالک", "آدرس", "وضعیت"});
+
         for (int r = 0; r < rows.size(); ++r) {
             QStringList parts = rows[r].split('|');
-            if (parts.size() != 4) continue;
+            if (parts.size() != 5) continue;  // الان انتظار 5 فیلد هست
 
-            table->setItem(r, 0, new QTableWidgetItem(parts[0]));
-            table->setItem(r, 1, new QTableWidgetItem(parts[1]));
-            table->setItem(r, 2, new QTableWidgetItem(parts[2]));
-            table->setItem(r, 3, new QTableWidgetItem(parts[3]));
+            // مقداردهی سلول‌ها
+            table->setItem(r, 0, new QTableWidgetItem(parts[0])); // id
+            table->setItem(r, 1, new QTableWidgetItem(parts[1])); // نام رستوران
+            table->setItem(r, 2, new QTableWidgetItem(parts[2])); // نام مالک
+            table->setItem(r, 3, new QTableWidgetItem(parts[3])); // آدرس
+            table->setItem(r, 4, new QTableWidgetItem(parts[4])); // وضعیت
         }
     }
+
 
     if (msg == "USER_LIST:EMPTY") {
         QMessageBox::information(this, u"اطلاع"_qs,

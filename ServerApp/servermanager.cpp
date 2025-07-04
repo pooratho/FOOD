@@ -174,27 +174,40 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 {
     if (msg.startsWith("LOGIN:")) {
         QStringList parts = msg.split(":");
-        if(parts.size() != 5) {
+        if (parts.size() != 5) {
             sender->write("LOGIN_FAIL:فرمت اشتباه\n");
             return;
         }
 
-        QString role       = parts[1].trimmed().toLower();  // نقش انتخاب‌شده توسط کاربر
-        QString firstName  = parts[2].trimmed();
-        QString lastName   = parts[3].trimmed();
-        QString password   = parts[4].trimmed();
+        QString role      = parts[1].trimmed().toLower();
+        QString firstName = parts[2].trimmed();
+        QString lastName  = parts[3].trimmed();
+        QString password  = parts[4].trimmed();
 
-        auto dbRole = dbManager.checkUserLogin(firstName, lastName, password);  // نقش واقعی در دیتابیس
-
+        DatabaseManager::UserRole dbRole = dbManager.checkUserLogin(firstName, lastName, password);
         bool matched = false;
         QString roleStr;
 
-        if (dbRole == DatabaseManager::UserRole::None) {
-            sender->write("LOGIN_FAIL:کاربر بلاک شده یا اطلاعات نادرست است\n");
-            emit logMessage("❌ ورود ناموفق یا بلاک برای: " + firstName + " " + lastName);
+        // بررسی وضعیت‌های خاص
+        if (dbRole == DatabaseManager::UserRole::BlockedCustomer) {
+            sender->write("LOGIN_FAIL:اکانت شما مسدود شده است\n");
+            emit logMessage("⛔ مشتری بلاک شده: " + firstName + " " + lastName);
             return;
         }
 
+        if (dbRole == DatabaseManager::UserRole::InactiveRestaurant) {
+            sender->write("LOGIN_FAIL:رستوران شما غیرفعال شده است\n");
+            emit logMessage("⛔ رستوران غیرفعال: " + firstName + " " + lastName);
+            return;
+        }
+
+        if (dbRole == DatabaseManager::UserRole::None) {
+            sender->write("LOGIN_FAIL:نام کاربری یا رمز عبور اشتباه است\n");
+            emit logMessage("❌ ورود ناموفق برای: " + firstName + " " + lastName);
+            return;
+        }
+
+        // بررسی تطابق نقش انتخابی کاربر
         switch (dbRole) {
         case DatabaseManager::UserRole::Customer:
             matched = (role == "customer");
@@ -208,58 +221,49 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
             matched = (role == "admin");
             roleStr = "Admin";
             break;
-
         default:
             matched = false;
         }
 
         if (matched) {
-
             if (dbRole == DatabaseManager::UserRole::Restaurant) {
                 int restaurantId = dbManager.getRestaurantId(firstName, lastName, password);
-
                 if (restaurantId == -1) {
-                    qDebug() << "❌ رستوران یافت نشد برای نام و پسورد داده شده.";
+                    qDebug() << "❌ رستوران یافت نشد.";
                     sender->write("LOGIN_FAIL:شناسه رستوران یافت نشد\n");
                     return;
                 }
 
-                // ثبت سوکت
                 registerRestaurantSocket(restaurantId, sender);
-                qDebug() << "✅ رستوران لاگین کرد، ID:" << restaurantId;
-
                 QString restaurantName = dbManager.getRestaurantNameById(restaurantId);
-                QString response = QString("LOGIN_OK:%1:%2\n").arg(roleStr).arg(restaurantName);
-                sender->write(response.toUtf8());
+                sender->write(QString("LOGIN_OK:%1:%2\n").arg(roleStr).arg(restaurantName).toUtf8());
 
-                emit logMessage("🍽️ سوکت رستوران ثبت شد: " + QString::number(restaurantId) + " / " + restaurantName);
+                emit logMessage("🍽️ رستوران وارد شد: " + QString::number(restaurantId) + " / " + restaurantName);
             }
 
             else if (dbRole == DatabaseManager::UserRole::Customer) {
                 QString phone = dbManager.getPhoneByName(firstName, lastName);
-          qDebug ()<<"رر"<<phone;
-                QString response = QString("LOGIN_OK:%1:%2\n").arg(roleStr).arg(phone);
-                sender->write(response.toUtf8());
-                emit logMessage("✅ ورود موفق: " + firstName + " " + lastName + " (" + roleStr + ")");
+                sender->write(QString("LOGIN_OK:%1:%2\n").arg(roleStr).arg(phone).toUtf8());
+                emit logMessage("✅ ورود موفق مشتری: " + firstName + " " + lastName);
+
                 int customerId = dbManager.getCustomerIdByPhone(phone);
-                if (customerId != -1) {
-                    // سوکت مشتری رو ثبت کن
+                if (customerId != -1)
                     registerCustomerSocket(customerId, sender);
-                }
             }
+
             else {
-                // برای سایر نقش‌ها مثل Customer یا Admin فقط نقش بفرست
+                // ادمین
                 sender->write(("LOGIN_OK:" + roleStr + "\n").toUtf8());
-                emit logMessage("✅ ورود موفق: " + firstName + " " + lastName + " (" + roleStr + ")");
+                emit logMessage("✅ ورود موفق ادمین: " + firstName + " " + lastName);
             }
         }
-
 
         else {
             sender->write("LOGIN_FAIL:نقش اشتباه یا اطلاعات نادرست\n");
-            emit logMessage("❌ ورود ناموفق برای: " + firstName + " " + lastName + " با نقش " + role);
+            emit logMessage("❌ نقش اشتباه یا اطلاعات اشتباه برای: " + firstName + " " + lastName);
         }
     }
+
 
 
     else if (msg.startsWith("SIGNUP_CUSTOMER:")) {
@@ -891,11 +895,12 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
     else if (msg == "GET_ALL_RESTAURANTS") {
 
         QSqlQuery q;
-        q.prepare(R"(SELECT restaurant_name,
-                        owner_firstname || ' ' || owner_lastname AS owner_full,
-                        province || ' - ' || city               AS full_address,
-                        is_blocked
-                 FROM   restaurants)");
+        q.prepare(R"(SELECT id,
+                    restaurant_name,
+                    owner_firstname || ' ' || owner_lastname AS owner_full,
+                    province || ' - ' || city               AS full_address,
+                    is_blocked
+             FROM   restaurants)");
 
         if (!q.exec()) {
             sender->write("RESTAURANT_LIST_ALL_FAIL\n");
@@ -904,14 +909,15 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
 
         QStringList lines;
         while (q.next()) {
-            QString name   = q.value(0).toString();
-            QString owner  = q.value(1).toString();
-            QString addr   = q.value(2).toString();
-            bool    block  = q.value(3).toInt();
+            QString id     = q.value(0).toString();  // شناسه رستوران
+            QString name   = q.value(1).toString();
+            QString owner  = q.value(2).toString();
+            QString addr   = q.value(3).toString();
+            bool    block  = q.value(4).toInt();
             QString status = block ? "Blocked" : "Active";
 
-            // چهار فیلد با | و هر رستوران با ;
-            lines << name + "|" + owner + "|" + addr + "|" + status;
+            // چهار فیلد + شناسه (می‌تونی شناسه رو اول یا آخر بگذاری، فقط هماهنگ باش)
+            lines << id + "|" + name + "|" + owner + "|" + addr + "|" + status;
         }
 
         if (lines.isEmpty())
@@ -995,6 +1001,48 @@ void ServerManager::processMessage(QTcpSocket *sender, const QString &msg)
         sender->write("ALL_ORDERS_DONE\n");
     }
 
+    if (msg.startsWith("TOGGLE_RESTAURANT_STATUS:")) {
+        QStringList parts = msg.trimmed().split(":");
+        if (parts.size() != 3) {
+            sender->write("TOGGLE_RESTAURANT_STATUS_FAIL:فرمت پیام اشتباه است\n");
+            return;
+        }
+
+        bool ok;
+        int restaurantId = parts[1].toInt(&ok);
+        QString newStatus = parts[2].toLower();
+
+        if (!ok) {
+            sender->write("TOGGLE_RESTAURANT_STATUS_FAIL:شناسه نامعتبر است\n");
+            return;
+        }
+
+        int isBlocked;
+        if (newStatus == "inactive" || newStatus == "غیرفعال") {
+            isBlocked = 1;
+        } else if (newStatus == "active" || newStatus == "فعال") {
+            isBlocked = 0;
+        } else {
+            sender->write("TOGGLE_RESTAURANT_STATUS_FAIL:وضعیت نامعتبر است\n");
+            return;
+        }
+
+        bool success = dbManager.setRestaurantBlockedStatus(restaurantId, isBlocked);
+        if (success) {
+            sender->write("TOGGLE_RESTAURANT_STATUS_OK\n");
+
+            // فرستادن لیست رستوران‌ها به‌روزشده به کلاینت:
+            QString restaurantList = dbManager.getAllRestaurantsFormattedString();
+            if (restaurantList.isEmpty()) {
+                sender->write("RESTAURANT_LIST_ALL:EMPTY\n");
+            } else {
+                sender->write(("RESTAURANT_LIST_ALL:" + restaurantList + "\n").toUtf8());
+
+            }
+        } else {
+            sender->write("TOGGLE_RESTAURANT_STATUS_FAIL:خطای پایگاه داده\n");
+        }
+    }
 
     else {
         sender->write("ERROR:فرمان ناشناخته\n");

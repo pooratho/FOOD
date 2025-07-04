@@ -218,31 +218,31 @@ DatabaseManager::UserRole DatabaseManager::checkUserLogin(const QString& firstNa
     QString hashed = hashPassword(password);
     QSqlQuery query(db);
 
-    // بررسی مشتری (و بلاک بودن)
+    // بررسی مشتری
     query.prepare("SELECT is_blocked FROM customers WHERE firstname = :first AND lastname = :last AND password = :pass");
     query.bindValue(":first", firstName);
     query.bindValue(":last", lastName);
     query.bindValue(":pass", hashed);
     if (query.exec() && query.next()) {
-        if (query.value(0).toInt() == 1) {
-            return UserRole::None;
-        }
+        int isBlocked = query.value(0).toInt();
+        if (isBlocked == 1)
+            return UserRole::BlockedCustomer;
         return UserRole::Customer;
     }
 
-    // بررسی رستوران‌دار (و بلاک بودن)
+    // بررسی رستوران
     query.prepare("SELECT is_blocked FROM restaurants WHERE owner_firstname = :first AND owner_lastname = :last AND password = :pass");
     query.bindValue(":first", firstName);
     query.bindValue(":last", lastName);
     query.bindValue(":pass", hashed);
     if (query.exec() && query.next()) {
-        if (query.value(0).toInt() == 1) {
-            return UserRole::None;
-        }
+        int isBlocked = query.value(0).toInt();
+        if (isBlocked == 1)
+            return UserRole::InactiveRestaurant;
         return UserRole::Restaurant;
     }
 
-    // بررسی مدیر
+    // بررسی ادمین
     query.prepare("SELECT COUNT(*) FROM admins WHERE firstname = :first AND lastname = :last AND password = :pass");
     query.bindValue(":first", firstName);
     query.bindValue(":last", lastName);
@@ -253,6 +253,7 @@ DatabaseManager::UserRole DatabaseManager::checkUserLogin(const QString& firstNa
 
     return UserRole::None;
 }
+
 
 int DatabaseManager::getRestaurantId(const QString& firstName, const QString& lastName, const QString& password) {
     QString hashedPass = hashPassword(password);
@@ -765,3 +766,42 @@ QList<DatabaseManager::OrderData> DatabaseManager::getAllOrders() {
 
     return orderMap.values();
 }
+
+bool DatabaseManager::setRestaurantBlockedStatus(int restaurantId, int isBlocked)
+{
+    QSqlQuery query(db);
+    query.prepare("UPDATE restaurants SET is_blocked = :blocked WHERE id = :id");
+    query.bindValue(":blocked", isBlocked);
+    query.bindValue(":id", restaurantId);
+    return query.exec();
+}
+
+QString DatabaseManager::getAllRestaurantsFormattedString()
+{
+    QSqlQuery q(db);
+    q.prepare(R"(SELECT id,
+                        restaurant_name,
+                        owner_firstname || ' ' || owner_lastname AS owner_full,
+                        province || ' - ' || city               AS full_address,
+                        is_blocked
+                 FROM   restaurants)");
+
+    if (!q.exec()) {
+        return "";
+    }
+
+    QStringList lines;
+    while (q.next()) {
+        QString id     = q.value(0).toString();
+        QString name   = q.value(1).toString();
+        QString owner  = q.value(2).toString();
+        QString addr   = q.value(3).toString();
+        bool    block  = q.value(4).toInt();
+        QString status = block ? "Blocked" : "Active";
+
+        lines << id + "|" + name + "|" + owner + "|" + addr + "|" + status;
+    }
+
+    return lines.join(";");
+}
+

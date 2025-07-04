@@ -34,13 +34,15 @@ public:
                           const QString& restaurantType);
 
 
-
     enum class UserRole {
         None,
         Customer,
         Restaurant,
-        Admin
+        Admin,
+        BlockedCustomer,
+        InactiveRestaurant
     };
+
 
     struct CartItem {
         QString foodName;
@@ -76,6 +78,8 @@ public:
         QString createdAt;
         QList<TempOrderItem> items;
     };
+
+
 
     QList<OrderData> getOrdersByCustomerId(int customerId);
     QList<OrderData> getOrdersByRestaurantId(int restaurantId);
@@ -129,6 +133,9 @@ public:
     bool submitSplitOrder(int customerId, double totalPrice, const QList<TempCartItem>& items);
     bool clearCartByCustomerId(int customerId);
     QList<DatabaseManager::OrderData> getAllOrders();
+
+    QString getAllRestaurantsFormattedString();
+    bool setRestaurantBlockedStatus(int restaurantId, int isBlocked);
 
 private:
     QSqlDatabase db;
